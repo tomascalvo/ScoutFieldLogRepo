@@ -4,17 +4,25 @@
     ViewData["Title"] = "ScoutForm";
 }
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+function onSubmit(token) {
+    document.scoutForm.token.value = token;
+    document.scoutForm.submit();
+}
+</script>
+
 <h1>ScoutForm</h1>
 
 <h4>StartUp</h4>
-    @if (ViewBag.message != null)
-    {
+@if (ViewBag.message != null)
+{
     @ViewBag.message
-    }
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ScoutForm">
+        <form name="scoutForm" asp-action="ScoutForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
@@ -102,7 +110,8 @@
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button class="g-recaptcha" data-sitekey="6LdZRqQZAAAAAAMeZscU9p_QkWA-pylAne2c07Q9" data-callback='onSubmit'>Create</button>
+                <input type="hidden" name="token" />
             </div>
         </form>
     </div>
