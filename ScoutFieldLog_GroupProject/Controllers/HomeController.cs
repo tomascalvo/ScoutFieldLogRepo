@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ScoutFieldLogDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ScoutFieldLogDbContext context)
+
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -35,6 +31,21 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ScoutForm()
+        {          
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ScoutForm(StartUp startup)
+        {
+            _context.Add(startup);
+            _context.SaveChanges();
+            ViewBag.message = "Thank you for submitting your startup company!";
             return View();
         }
 
