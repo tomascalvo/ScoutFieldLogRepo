@@ -1,8 +1,56 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model List<StartUp>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="display-4">Welcome to _________ </h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <div>
+            <form method="get">
+                <button type="submit" formaction="/Home/ScoutForm">Go to Scout Form</button>
+            </form>
+            <h5>You are logged as @User.Identity.Name</h5>
+            <form method="post">
+                <button formaction="/Home/Logout">Logout</button>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <div>
+            <form method="get">
+                <button type="submit" formaction="/Home/ScoutForm">Go to Scout Form</button>
+            </form>
+            <form method="get">
+                <button formaction="/Identity/Account/Login">Login</button>
+            </form>
+        </div>
+    </div>
+}
+
+<h3>Startups</h3>
+<div id="search-form">
+    <form action="/Home/StartupSearch" method="post">
+        <input type="text" name="CompanyName" value="" />
+        <input type="submit" value="Search" />
+    </form>
 </div>
+
+@if (Model != null)
+{
+<div>
+    @foreach(var startup in Model)
+    {
+        <p>@startup.CompanyName</p>
+    }
+</div>
+}
