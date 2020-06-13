@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ScoutFieldLog_GroupProject.Models;
 
@@ -18,14 +19,22 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
-        
-        public IActionResult CompanyDetails(Startup company)
+
+        public IActionResult CompanyDetails(int companyId)
         {
             return View(company);
         }
-
-        public IActionResult CompanyEdit(Startup company)
+        [HttpGet]
+        public IActionResult CompanyEdit(StartUp company)
         {
+            return View(company);
+        }
+        [HttpPut]
+        public IActionResult CompanyEdit(StartUp company)
+        {
+            var existingCompany = _context.StartUp.Where(c => c.Id == company.Id);
+            _context.Update(company);
+            _context.SaveChanges();
             return View(company);
         }
 

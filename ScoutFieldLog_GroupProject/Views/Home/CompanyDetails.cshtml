@@ -1,7 +1,29 @@
-﻿@model Startup
+﻿@model StartUp
 <h2>Company Details</h2>
-<img href="@Startup.Image" width:"33%"/>
-<p>Company Name: @Startup.CompanyName</p>
-<p>Source: @Startup.Source</p>
-<p>Location: @Startup.City, @Startup.Region, @Startup.Country</p>
-<p>Date Added: @Startup.DateAdded</p>
+<img href="@Model.Image" />
+@if (Model.Status == "Lead")
+{
+    <p>Company Name: @Model.CompanyName</p>
+    <p>Source: @Model.Source</p>
+    <p>Date Added: @Model.DateAdded</p>
+    <p>Company Website: @Model.CompanyWebsite</p>
+    <p>Location: @Model.City, @Model.StateProvince, @Model.Country</p>
+    <p>Two-Line Summary: @Model.TwoLineSummary</p>
+    <p>Contact: @Model.ContactId</p>
+}
+else
+{
+    <p>Company Name: @Model.CompanyName</p>
+    <p>Source: @Model.Source</p>
+    <p>Date Added: @Model.DateAdded</p>
+    <p>Company Website: @Model.CompanyWebsite</p>
+    <p>Location: @Model.City, @Model.StateProvince, @Model.Country</p>
+    <p>Two-Line Summary: @Model.TwoLineSummary</p>
+    <p>Contact: @Model.ContactId</p>
+    <p>Themes: @Model.Themes</p>
+    <p>Landscapes: @Model.Landscapes</p>
+    <p>Technology Areas: @Model.TechnologyAreas</p>
+    <p>Alignments: @Model.Alignments</p>
+    <p>Status: @Model.Status</p>
+}
+<button type="button">Edit @Model.Status Record</button>
