@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ScoutFieldLog_GroupProject.Models;
@@ -20,14 +21,23 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
-        public IActionResult CompanyDetails(int companyId)
+        public IActionResult CompanyDetails(int? companyId)
         {
+            if (companyId == null)
+            {
+                throw new System.Exception("Company ID is needed to view company details.");
+            }
+            StartUp company = _context.StartUp.Find(companyId);
+            if(company == null)
+            {
+                throw new Exception("There is no record of a company with that ID number.");
+            }
             return View(company);
         }
         [HttpGet]
-        public IActionResult CompanyEdit(StartUp company)
+        public IActionResult CompanyEdit()
         {
-            return View(company);
+            return View();
         }
         [HttpPut]
         public IActionResult CompanyEdit(StartUp company)
