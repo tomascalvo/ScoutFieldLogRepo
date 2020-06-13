@@ -1,0 +1,41 @@
+﻿@model StartUp
+<h2>Company Details</h2>
+<img href="@Model.Image" />
+<form method="POST">
+    <label for="CompanyName">Company Name:</label>
+    <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" />
+    <br />
+    <p>Source: @Model.Source</p>
+    <br />
+    <label for="City">City:</label>
+    <input type="text" id="City" name="City" placeholder="@Model.City" />
+    <label for="StateProvince">State/Province:</label>
+    <input type="text" id="StateProvince" name="StateProvince" placeholder="@Model.StateProvince" />
+    <label for="Country">Country:</label>
+    <input type="text" id="Country" name="Country" placeholder="@Model.Country" />
+    <br />
+    <p>Date Added: @Model.DateAdded</p>
+    @if (Model.Status != "Lead")
+    {
+        <label for="Themes">Themes:</label>
+        <input type="text" id="Themes" name="Themes" placeholder="@Model.Themes" />
+        <br />
+        <label for="Landscapes">Landscapes:</label>
+        <input type="text" id="Landscapes" name="Landscapes" placeholder="@Model.Landscapes" />
+        <br />
+        <label for="TechnologyAreas">Technology Areas:</label>
+        <input type="text" id="TechnologyAreas" name="TechnologyAreas" placeholder="@Model.TechnologyAreas" />
+        <br />
+        <label for="Alignments">Alignments:</label>
+        <input type="text" id="Alignments" name="Alignments" placeholder="@Model.Alignments" />
+        <br />
+    }
+    @if (Model.Status == "Lead")
+    {
+        <input type="radio" id="Lead" name="Status" value="Lead" checked/>
+        <label for="Lead">Lead</label><br />
+        <input type="radio" id="Startup" name="Status" value="Startup" />
+        <label for="Startup">Startup</label><br />
+    }
+    <input type="submit" value="Submit" />
+</form>

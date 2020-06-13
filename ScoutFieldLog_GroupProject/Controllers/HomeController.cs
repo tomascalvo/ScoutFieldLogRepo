@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using ScoutFieldLog_GroupProject.Data;
 using ScoutFieldLog_GroupProject.Models;
@@ -46,6 +47,33 @@ namespace ScoutFieldLog_GroupProject.Controllers
                startups = _context.StartUp.Where(x => x.CompanyName.Contains(CompanyName)).ToList();
             }
             return View("Index", startups);
+        }
+
+        public IActionResult CompanyDetails(int? companyId)
+        {
+            if (companyId == null)
+            {
+                throw new System.Exception("Company ID is needed to view company details.");
+            }
+            StartUp company = _context.StartUp.Find(companyId);
+            if(company == null)
+            {
+                throw new Exception("There is no record of a company with that ID number.");
+            }
+            return View(company);
+        }
+        [HttpGet]
+        public IActionResult CompanyEdit()
+        {
+            return View();
+        }
+        [HttpPut]
+        public IActionResult CompanyEdit(StartUp company)
+        {
+            var existingCompany = _context.StartUp.Where(c => c.Id == company.Id);
+            _context.Update(company);
+            _context.SaveChanges();
+            return View(company);
         }
 
         public IActionResult Privacy()

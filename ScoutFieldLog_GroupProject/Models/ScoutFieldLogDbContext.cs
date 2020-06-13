@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
@@ -177,5 +178,9 @@ namespace ScoutFieldLog_GroupProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<ScoutFieldLog_GroupProject.Models.Item> Item { get; set; }
+
+        public DbSet<ScoutFieldLog_GroupProject.Models.LeadSearch> StartupSearch { get; set; }
     }
 }
