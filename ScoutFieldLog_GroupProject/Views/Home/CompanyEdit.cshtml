@@ -1,0 +1,10 @@
+﻿@model Startup
+<h2>Company Details</h2>
+<form>
+    <label for="CompanyName">Company Name:</label>
+    <input type="text" id="CompanyName" name="CompanyName" /><br />
+    <p>Source: @Startup.Source</p><br />
+    <label for="City">City:</label><input type="text" id="City" name="City" /><label for="Region">Region:</label><input type="text" id="Region" name="Region" /><label for="Country">Country:</label><input type="text" id="Country" name="Country" /><br />
+    <p>Date Added: @Startup.DateAdded</p>
+    <input type="submit" value="Submit" />
+</form>

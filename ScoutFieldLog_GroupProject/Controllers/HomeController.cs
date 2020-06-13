@@ -22,6 +22,16 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
+        
+        public IActionResult CompanyDetails(Startup company)
+        {
+            return View(company);
+        }
+
+        public IActionResult CompanyEdit(Startup company)
+        {
+            return View(company);
+        }
 
         public IActionResult Privacy()
         {
