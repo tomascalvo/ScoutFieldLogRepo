@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ScoutFieldLog_GroupProject.Models
 {
     public partial class StartUp
-    {       
+    {
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public DateTime? DateAdded { get; set; }
