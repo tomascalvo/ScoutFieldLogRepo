@@ -4,7 +4,8 @@
   },
   "APIKeys": {
     "SeamlessAPIKey": "keyq75vxussUBTrbm",
-    "StartupSearchAPIKey": "AIzaSyC-R_jQFQ6YQh8CSdH8RciCWVvgvvwoII"
+    "StartupSearchAPIKey": "AIzaSyC-R_jQFQ6YQh8CSdH8RciCWVvgvvwoII",
+    "reCAPTCHA": "6LdZRqQZAAAAAKCi7xJLjjbL-towJgXXmhij3Xor"
   },
   "Logging": {
     "LogLevel": {

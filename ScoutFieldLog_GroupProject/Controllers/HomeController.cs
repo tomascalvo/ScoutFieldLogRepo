@@ -21,6 +21,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        public IActionResult CompanyList()
+        {
+            var companies = _context.StartUp.ToList();
+            return View(companies);
+        }
+
         public IActionResult CompanyDetails(int? companyId)
         {
             if (companyId == null)
