@@ -1,0 +1,107 @@
+﻿@model StartUp
+@if (@Model == null)
+{
+    <h2>Company Details</h2>
+    <p>No company record found.</p>
+}
+else
+{
+    <img src="@Model.Image" alt="Company Logo" width="500" />
+    <h2>@Model.CompanyName</h2>
+    <table class="table">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.DateAdded)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.DateAdded)
+            </td>
+        </tr>
+        @if (Model.Source != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Source)
+                <td>
+                    @Html.DisplayFor(c => c.Source)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.CompanyWebsite)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.CompanyWebsite)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.City)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.City)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.StateProvince)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.StateProvince)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Country)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.TwoLineSummary)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.TwoLineSummary)
+            </td>
+        </tr>
+        @if(Model.ContactId != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.ContactId)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.ContactId)
+                </td>
+            </tr>
+        }
+        @if (Model.Status == "Lead")
+        {
+
+        }
+        else
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TwoLineSummary)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.TwoLineSummary)
+                </td>
+            </tr>
+            <p>Themes: @Model.Themes</p>
+            <p>Landscapes: @Model.Landscapes</p>
+            <p>Technology Areas: @Model.TechnologyAreas</p>
+            <p>Alignments: @Model.Alignments</p>
+            <p>Status: @Model.Status</p>
+        }
+    </table>
+}
+<div>
+    @Html.ActionLink("Edit", "EditCompany", new { companyId = Model.Id }) |
+    @Html.ActionLink("Delete", "DeleteCompany", new { companyId = Model.Id }) |
+    @Html.ActionLink("Search Startup Company Database", "Index")
+</div>

@@ -37,7 +37,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
-        public IActionResult CompanyList()
+        public IActionResult ListCompanies()
         {
             var companies = _context.StartUp.ToList();
             return View(companies);
@@ -58,38 +58,26 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View("Index", startups);
         }
 
-        public IActionResult CompanyDetails(int? companyId)
+        [HttpGet]
+        public IActionResult DetailsCompany(int companyId)
         {
-            if (companyId == null)
-            {
-                throw new System.Exception("Company ID is needed to view company details.");
-            }
-            StartUp company = _context.StartUp.Find(companyId);
-            if(company == null)
-            {
-                throw new Exception("There is no record of a company with that ID number.");
-            }
+            var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
-        [HttpGet]
-        public IActionResult CompanyEdit()
+        public IActionResult EditCompany(int companyId)
         {
-            return View();
+            var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId); ;
+            return View(company);
         }
         [HttpPut]
-        public IActionResult CompanyEdit(int? companyId)
+        public IActionResult EditCompany(StartUp company)
         {
-            if (companyId == null)
+            if (ModelState.IsValid)
             {
-                throw new System.Exception("Company ID is needed to edit company details.");
+                _context.Update(company);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            var company = _context.StartUp.Where(c => c.Id == companyId);
-            if(company == null)
-            {
-                throw new System.Exception("No company with that ID exists.");
-            }
-            _context.Update(company);
-            _context.SaveChanges();
             return View(company);
         }
 

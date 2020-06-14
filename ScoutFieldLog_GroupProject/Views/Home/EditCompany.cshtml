@@ -1,0 +1,90 @@
+﻿@model StartUp
+<h2>Company Details</h2>
+<img href="@Model.Image" />
+<form method="POST">
+    <label for="CompanyName">Company Name:</label>
+    <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" />
+    <br />
+    <p>Source: @Model.Source</p>
+    <br />
+    <label for="City">City:</label>
+    <input type="text" id="City" name="City" placeholder="@Model.City" />
+    <label for="StateProvince">State/Province:</label>
+    <input type="text" id="StateProvince" name="StateProvince" placeholder="@Model.StateProvince" />
+    <label for="Country">Country:</label>
+    <input type="text" id="Country" name="Country" placeholder="@Model.Country" />
+    <br />
+    <p>Date Added: @Model.DateAdded</p>
+    @if (Model.Status != "Lead")
+    {
+        // Checkbox Inputs: Themes
+        <input type="checkbox" id="theme1" name="theme1" value="The Good Life" />
+        <label for="theme1">The Good Life</label><br />
+        
+        <input type="checkbox" id="theme2" name="theme2" value="Health Beyond the Hospital" />
+        <label for="theme2">Health Beyond the Hospital</label><br />
+        
+        <input type="checkbox" id="theme3" name="theme3" value="Robust Future" />
+        <label for="theme3">Robust Future</label><br />
+        <input type="checkbox" id="theme4" name="theme4" value="Convenience & Productivity" />
+        <label for="theme4">Convenience & Productivity</label><br />
+
+        // Checkbox Inputs: Landscapes
+        <input type="checkbox" id="landscape1" name="landscape1" value="Good Habits" />
+        <label for="landscape1">Good Habits</label><br />
+        
+        <input type="checkbox" id="landscape2" name="landscape2" value="Personalized Wellness" />
+        <label for="landscape2">Personalized Wellness</label><br />
+        
+        <input type="checkbox" id="landscape3" name="landscape3" value="Automation & Robotics" />
+        <label for="landscape3">Automation & Robotics</label>
+        
+        <input type="checkbox" id="landscape4" name="landscape4" value="Safe Shared Spaces" />
+        <label for="landscape4">Safe Shared Spaces</label>
+        
+        <input type="checkbox" id="landscape5" name="landscape5" value="Clinic in a Box" />
+        <label for="landscape5">Aging in Place</label>
+        
+        <input type="checkbox" id="landscape6" name="landscape6" value="Air Quality" />
+        <label for="landscape6">Air Quality</label>
+        
+        <input type="checkbox" id="landscape7" name="landscape7" value="ResponsiveSpaces" />
+        <label for="landscape7">Responsive Spaces</label>
+        
+        <input type="checkbox" id="landscape8" name="landscape8" value="Clinic in a Box" />
+        <label for="landscape8">Clinic in a Box</label>
+        
+        <input type="checkbox" id="landscape9" name="landscape9" value="Wireless Power" />
+        <label for="landscape9">Wireless Power</label>
+
+        // Checkbox Inputs: TechnologyAreas
+        @*@Html.CheckBox("technologyArea1", false)
+        @Html.CheckBoxFor(c => c.TechnologyAreas.AI)*@
+
+        // Checkbox Inputs: Alignments
+
+        @*// Text Input: Themes
+        <input type="text" id="Themes" name="Themes" placeholder="@Model.Themes" />
+        <br />
+        <label for="Landscapes">Landscapes:</label>
+        // Text Input: Landscapes
+        <input type="text" id="Landscapes" name="Landscapes" placeholder="@Model.Landscapes" />
+        <br />
+        <label for="TechnologyAreas">Technology Areas:</label>
+        // Text Input: Technology Areas
+        <input type="text" id="TechnologyAreas" name="TechnologyAreas" placeholder="@Model.TechnologyAreas" />
+        <br />
+        <label for="Alignments">Alignments:</label>
+        // Text Input: Alignments
+        <input type="text" id="Alignments" name="Alignments" placeholder="@Model.Alignments" />
+        <br />*@
+    }
+    @if (Model.Status == "Lead")
+    {
+        <input type="radio" id="Lead" name="Status" value="Lead" checked />
+        <label for="Lead">Lead</label><br />
+        <input type="radio" id="Startup" name="Status" value="Startup" />
+        <label for="Startup">Startup</label><br />
+    }
+    <input type="submit" value="Submit" />
+</form>
