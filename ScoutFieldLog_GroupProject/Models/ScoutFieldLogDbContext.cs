@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
-using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
@@ -31,6 +30,7 @@ namespace ScoutFieldLog_GroupProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
@@ -178,9 +178,5 @@ namespace ScoutFieldLog_GroupProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<ScoutFieldLog_GroupProject.Models.Item> Item { get; set; }
-
-        public DbSet<ScoutFieldLog_GroupProject.Models.LeadSearch> StartupSearch { get; set; }
     }
 }

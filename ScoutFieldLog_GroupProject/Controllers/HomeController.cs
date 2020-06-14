@@ -37,6 +37,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
+        public IActionResult CompanyList()
+        {
+            var companies = _context.StartUp.ToList();
+            return View(companies);
+        }
+
         [HttpPost]
         public IActionResult StartupSearch(string CompanyName)
         {
@@ -50,12 +56,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
                startups = _context.StartUp.Where(x => x.CompanyName.Contains(CompanyName)).ToList();
             }
             return View("Index", startups);
-        }
-
-        public IActionResult CompanyList()
-        {
-            var companies = _context.StartUp.ToList();
-            return View(companies);
         }
 
         public IActionResult CompanyDetails(int? companyId)
@@ -77,9 +77,17 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
         [HttpPut]
-        public IActionResult CompanyEdit(StartUp company)
+        public IActionResult CompanyEdit(int? companyId)
         {
-            var existingCompany = _context.StartUp.Where(c => c.Id == company.Id);
+            if (companyId == null)
+            {
+                throw new System.Exception("Company ID is needed to edit company details.");
+            }
+            var company = _context.StartUp.Where(c => c.Id == companyId);
+            if(company == null)
+            {
+                throw new System.Exception("No company with that ID exists.");
+            }
             _context.Update(company);
             _context.SaveChanges();
             return View(company);
