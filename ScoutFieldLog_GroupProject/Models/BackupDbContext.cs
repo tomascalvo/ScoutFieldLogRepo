@@ -1,14 +1,14 @@
 ﻿//using System;
 //using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Metadata;
-//using Microsoft.Extensions.Configuration;
+// 1 using Microsoft.Extensions.Configuration;
 
 //namespace ScoutFieldLog_GroupProject.Models
 //{
 //    public partial class ScoutFieldLogDbContext : DbContext
 //    {
 //        //This was added
-//        public IConfiguration Configuration { get; }
+//  2      public IConfiguration Configuration { get; }
 //        public ScoutFieldLogDbContext()
 //        {
 //        }
@@ -23,7 +23,7 @@
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //            //this was added
-//                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+//   3             optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 //            }
 //        }
 

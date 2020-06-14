@@ -48,9 +48,9 @@ else
 @if (Model != null)
 {
 <div>
-    @foreach(var startup in Model)
+    @foreach (var startup in Model)
     {
-        <p>@startup.CompanyName</p>
+        <p><a href="/Home/CompanyDetails?companyId=@startup.Id">@startup.CompanyName</a></p>
     }
 </div>
 }
