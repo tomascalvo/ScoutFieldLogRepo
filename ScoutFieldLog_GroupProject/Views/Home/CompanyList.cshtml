@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUp>
+@{
+    ViewBag.Title = "Company List";
+}
+<h2>Company List</h2>
+<h3>Leads</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(x => x.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.DateAdded)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.TwoLineSummary)
+        </th>
+    </tr>
+    @foreach (var company in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(x => company.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.DateAdded)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.TwoLineSummary)
+            </td>
+        </tr>
+    }
+</table>
+<h3>Startups (Pre-Evaluation)</h3>
+<h3>Startups (Evaluated)</h3>
+<h3>Startups (Reviewed)</h3>
