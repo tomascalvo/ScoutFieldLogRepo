@@ -66,19 +66,16 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
         public IActionResult EditCompany(int companyId)
         {
-            var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId); ;
+            var company = _context.StartUp.Find(companyId);
             return View(company);
         }
-        [HttpPut]
+        [HttpPost]
         public IActionResult EditCompany(StartUp company)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Update(company);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(company);
+            _context.Update(company);
+            _context.SaveChanges();
+            //ViewBag.message = "Company record updated.";
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
