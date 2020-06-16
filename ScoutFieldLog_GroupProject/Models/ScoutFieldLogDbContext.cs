@@ -1,13 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
     public partial class ScoutFieldLogDbContext : DbContext
     {
-        public IConfiguration Configuration { get; }
         public ScoutFieldLogDbContext()
         {
         }
@@ -32,7 +30,7 @@ namespace ScoutFieldLog_GroupProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseSqlServer("Server=scoutfieldlogserver.database.windows.net;Database=ScoutFieldLogDb;MultipleActiveResultSets=true;User ID=ScoutFieldLogAdmin;Password=TinaTurner!;");
             }
         }
 

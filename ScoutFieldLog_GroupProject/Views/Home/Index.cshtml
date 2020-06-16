@@ -2,7 +2,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-@model List<StartUp>
+@model List<StartUpCompanies>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -87,10 +87,7 @@ else
                     @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
                 </td>
                 <td>
-                    @Html.DisplayFor(x => company.DateAdded)
-                </td>
-                <td>
-                    @Html.DisplayFor(x => company.Source)
+                    @Html.DisplayFor(x => company.DateAssigned)
                 </td>
                 <td>
                     @if (company.Image != null)
