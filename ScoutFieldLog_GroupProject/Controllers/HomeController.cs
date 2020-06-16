@@ -60,34 +60,40 @@ namespace ScoutFieldLog_GroupProject.Controllers
         //    return new JsonResult(company);
         //}
 
-        // End leads display page for connectors.___________________
+        public IActionResult ConnectorView()
+        {
+            List<StartUp> searchResults;
+            searchResults = _context.StartUp.Where(c => c.Status.Equals("Lead")).ToList();
+            return View(searchResults);
+        }
+
+        //public IActionResult OnGetPartial() =>
+        //    Partial("_ListCompaniesPartialRP");
 
         // Company CRUD
 
         [HttpPost]
-        public IActionResult StartupSearch(string CompanyName)
+        public IActionResult StartupSearch(string searchString)
         {
-            List<StartUp> startups;
-            if (CompanyName is null || CompanyName == "")
+            List<StartUp> searchResults;
+            if (searchString is null || searchString == "")
             {
-               startups = _context.StartUp.ToList();
+                searchResults = _context.StartUp.ToList();
             }
             else
             {
-               startups = _context.StartUp.Where(x => x.CompanyName.Contains(CompanyName)).ToList();
+                searchResults = _context.StartUp.Where(x => x.CompanyName.Contains(searchString)).ToList();
+                // Search Parameters
+                var twoLineSummaryMatches = _context.StartUp.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                //searchResults = searchResults.Add(twoLineSummaryMatches);
             }
-            return View("Index", startups);
+            return View("Index", searchResults);
         }
 
         public IActionResult ListCompanies()
         {
             var companies = _context.StartUp.ToList();
             return View(companies);
-        }
-
-        public IActionResult SearchCompanies()
-        {
-            return View();
         }
 
         [Route("Home/CompanyDetails/companyId={companyId}")]
