@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using ScoutFieldLog_GroupProject.Models;
+using ScoutFieldLog_GroupProject.Models;
+
 
 namespace TextMatch
 {
@@ -11,6 +12,7 @@ namespace TextMatch
         public static string replacePunctuation(string inputString)
         {
             var sb = new StringBuilder();
+            
             foreach (char c in inputString) {
                 if (!char.IsPunctuation(c)) {
                     sb.Append(c);
@@ -22,39 +24,77 @@ namespace TextMatch
         }
         public static IEnumerable<string> getKeywords(string twolineSummary)
         {
-            twolineSummary = replacePunctuation(twolineSummary);
+            if (null == twolineSummary || "".Equals(twolineSummary) )
+            {
+                return null;
+            }
+            twolineSummary = replacePunctuation(twolineSummary);         
             string[] words = twolineSummary.Split(" ");
             List<string> wordList = words.ToList<string>();
+
+            wordList = wordList.ConvertAll(d => d.ToLower().Trim() );
+            
             return wordList.Except( excludedKeywords ); ;
         }
 
         static IEnumerable<string> getSimilarCompanies(string companyName)
         {
-            return new string[] { "Startup 23", "Startup 25"};
-        }
+            string newStartupString;
+            if (!existingCompanies.TryGetValue(companyName, out newStartupString)) {
+                return null;
+            }
 
-        private static readonly List<string> excludedKeywords = 
-            new List<string> { "and", "the", "that", "help", "", null };
+            IEnumerable<string> newStartupKeywords = getKeywords(newStartupString);
+            List<string> companiesThatMatch = new List<string>();
 
-        static void Main(string[] args)
-        {
-            string newStartupString = "sounds/music that help people focus and relax.";
-            IEnumerable<string> newStartupKeywords = getKeywords( newStartupString );
-
-            foreach (KeyValuePair<string,string> kvp in existingCompanies)
+            foreach (KeyValuePair<string, string> kvp in existingCompanies)
             {
-                string companyName = kvp.Key;
+                string existingCompanyName = kvp.Key;
+                if (existingCompanyName.Equals(companyName))
+                    continue;
                 string twoLineString = kvp.Value;
-                IEnumerable<string> companyKeywords = getKeywords( twoLineString );
-                IEnumerable<string> matches = 
+                IEnumerable<string> companyKeywords = getKeywords(twoLineString);
+                IEnumerable<string> matches =
                     companyKeywords.AsQueryable().Intersect(newStartupKeywords);
                 int matchCount = matches.Count();
                 if (matchCount > 0)
-                    Console.Write("\nCompany "+ companyName + 
+                    Console.Write("\nCompany " + existingCompanyName +
                     " has " + matches.Count() + " keyword matches: ");
                 foreach (string m in matches)
                 {
-                    Console.Write( m + ", ");
+                    Console.Write(m + ", ");
+                }
+                companiesThatMatch.Add(existingCompanyName);
+            }
+            return companiesThatMatch;
+        }
+
+        private static readonly List<string> excludedKeywords = 
+            new List<string> { null, "",
+                "a", "an", "and", "any", "are", "at",
+                "for", "from",
+                "help",
+                "i", "in", "into", "is",
+                "of", "on",
+                "the", "that", "to",
+                "using",
+                "with",
+                "your",
+            };
+
+        static void Main(string[] args)
+        {
+            IEnumerable<string> matches = new List<string>();
+
+            foreach (KeyValuePair<string, string> kvp in existingCompanies)
+            {
+                string existingCompanyName = kvp.Key;
+                Console.WriteLine("\n\n-----------------------------------------");
+                Console.WriteLine("Checking company: " + existingCompanyName);
+                matches = getSimilarCompanies(existingCompanyName);
+                if (matches == null || matches.Count() == 0)
+                {
+                    Console.WriteLine("no matches found");
                 }
             }
         }// end main
