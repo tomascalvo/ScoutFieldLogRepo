@@ -22,6 +22,10 @@ namespace TextMatch
         }
         static IEnumerable<string> getKeywords(string twolineSummary)
         {
+            if (null == twolineSummary || "".Equals(twolineSummary) )
+            {
+                return null;
+            }
             twolineSummary = replacePunctuation(twolineSummary);         
             string[] words = twolineSummary.Split(" ");
             List<string> wordList = words.ToList<string>();
