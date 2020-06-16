@@ -25,11 +25,13 @@ namespace ScoutFieldLog_GroupProject.Models
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<StartUp> StartUp { get; set; }
+        public virtual DbSet<StartUpCompanies> StartUpCompanies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
@@ -159,6 +161,45 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.Landscapes).HasMaxLength(100);
 
                 entity.Property(e => e.Source).HasMaxLength(100);
+
+                entity.Property(e => e.StateProvince)
+                    .HasColumnName("State_Province")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+
+                entity.Property(e => e.TechnologyAreas).HasMaxLength(100);
+
+                entity.Property(e => e.Themes).HasMaxLength(100);
+
+                entity.Property(e => e.TwoLineSummary).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<StartUpCompanies>(entity =>
+            {
+                entity.Property(e => e.Alignments).HasMaxLength(100);
+
+                entity.Property(e => e.City).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyContactName).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyContactPhoneNumber).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyName).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyWebsite).HasMaxLength(100);
+
+                entity.Property(e => e.Country).HasMaxLength(100);
+
+                entity.Property(e => e.DateAssigned).HasColumnType("date");
+
+                entity.Property(e => e.DateReviewed).HasColumnType("date");
+
+                entity.Property(e => e.Image).HasMaxLength(100);
+
+                entity.Property(e => e.Landscapes).HasMaxLength(100);
+
+                entity.Property(e => e.ScoutName).HasMaxLength(100);
 
                 entity.Property(e => e.StateProvince)
                     .HasColumnName("State_Province")
