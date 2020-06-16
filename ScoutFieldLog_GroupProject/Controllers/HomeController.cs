@@ -60,7 +60,15 @@ namespace ScoutFieldLog_GroupProject.Controllers
         //    return new JsonResult(company);
         //}
 
-        // End leads display page for connectors.___________________
+        public IActionResult ConnectorView()
+        {
+            List<StartUp> searchResults;
+            searchResults = _context.StartUp.Where(c => c.Status.Equals("Lead")).ToList();
+            return View(searchResults);
+        }
+
+        //public IActionResult OnGetPartial() =>
+        //    Partial("_ListCompaniesPartialRP");
 
         // Company CRUD
 
@@ -129,8 +137,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             //ViewBag.message = "Company review added."
             return RedirectToAction("Index");
         }
-
-
 
         public IActionResult Privacy()
         {
