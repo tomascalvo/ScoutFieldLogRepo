@@ -26,6 +26,25 @@ else
                 <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
             </td>
         </tr>
+        @*Edit PartnerCompany
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.PartnerCompany)
+            </td>
+            <td>
+                <select name="PartnerCompany" id="PartnerCompany">
+                    <option value="Amway">Amway</option>
+                    <option value="Bissell">Bissell</option>
+                    <option value="Emergent">Emergent</option>
+                    <option value="Faurecia">Faurecia</option>
+                    <option value="Priority">Priority</option>
+                    <option value="Steelcase">Steelcase</option>
+                    <option value="Trinity">Trinity</option>
+                    <option value="Wakestream">Wakestream</option>
+                    <option value="Whirlpool">Whirlpool</option>
+                </select>
+            </td>
+        </tr>*@
         <tr>
             <td>
                 @Html.DisplayNameFor(c => c.CompanyWebsite)
@@ -108,7 +127,7 @@ else
                 @*<input type="text" id="Image" name="Image" placeholder="@Model.Image" value="@Model.Image" maxlength="250" />*@
             </td>
         </tr>
-        @if (Model.Status == "Lead")
+        @if (Model.Status != "Lead")
         {
             // Checkbox Inputs: Themes
             <tr>
@@ -162,16 +181,12 @@ else
                     <label for="landscape7">Responsive Spaces</label>
                     <br />
 
-                    <input type="checkbox" id="landscape8" name="landscape8" value="Clinic in a Box" />
-                    <label for="landscape8">Clinic in a Box</label>
+                    <input type="checkbox" id="landscape8" name="landscape8" value="Wireless Power" />
+                    <label for="landscape8">Wireless Power</label>
                     <br />
 
-                    <input type="checkbox" id="landscape9" name="landscape9" value="Wireless Power" />
-                    <label for="landscape9">Wireless Power</label>
-                    <br />
-
-                    <input type="checkbox" id="landscape1" name="landscape1" value="Good Habits" />
-                    <label for="landscape1">Good Habits</label>
+                    <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
+                    <label for="landscape9">Good Habits</label>
                 </td>
             </tr>
             // Checkbox Inputs: TechnologyAreas
@@ -215,7 +230,7 @@ else
                     <input type="checkbox" id="alignment3" name="alignment3" value="Emergent" />
                     <label for="alignment3">Emergent</label>
                     <br />
-                    <input type="checkbox" id="alignment4" name="alignment4" value="Fauerecia" />
+                    <input type="checkbox" id="alignment4" name="alignment4" value="Faurecia" />
                     <label for="alignment4">Faurecia</label>
                     <br />
                     <input type="checkbox" id="alignment5" name="alignment5" value="Priority" />

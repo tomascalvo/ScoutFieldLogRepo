@@ -1,0 +1,52 @@
+﻿<head>
+    @{ 
+        ViewBag.Title = "Leads Display";
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Lead List AJAX
+            $('#buttonListLeads').click(function () {
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/ListLeads',
+            //    success: function (result) {
+            //        $('#leadListDiv').html(result);
+            //    }
+            //});
+                $("#buttonListLeads").click(function () {
+                    $("#divListLeads").load("/LeadsDisplay?handler=Partial");
+                });
+        });
+
+            // Lead Details AJAX
+            $('#buttonLeadDetails').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/LeadDetails/' + companyId,
+                    success: function (result) {
+                        $('#result2').html(result);
+                    }
+                });
+            });
+    </script>
+</head>
+<body>
+    @*Lead List*@
+    <fieldset>
+        <legend>List Leads</legend>
+        <input type="button" value="List Leads" id="buttonListLeads" />
+        <br />
+        <div id="divListLeads"></div>
+    </fieldset>
+
+    @* Lead Details *@
+    <fieldset>
+        <legend>Lead Details</legend>
+        <input type="button" value="LeadDetails" id="buttonLeadDetails" />
+        <br />
+        <span id="result2"></span>
+    </fieldset>
+</body>
+
