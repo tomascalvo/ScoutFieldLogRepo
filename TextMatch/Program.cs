@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TextMatch
 {
-        public class Program
+    public class Program
     {
         public static string replacePunctuation(string inputString)
         {
@@ -22,10 +22,21 @@ namespace TextMatch
             return sb.ToString();
         }
 
+        public static string getKeywordString(string twolineSummary)
+        {
+            IEnumerable<string> kws = getKeywords( twolineSummary );
+            StringBuilder sb = new StringBuilder();
+            foreach (string s in kws)
+            {
+                sb.Append(" ");
+                sb.Append(s);
+            }
+            return sb.ToString();
+        }
 
-        //1. before you save the lead to db, call this method to get the keywords from the 2 line summary and save them, to a keywords column(still has to be created).
-        public static IEnumerable<string> getKeywords(string twolineSummary)
 
+            //1. before you save the lead to db, call this method to get the keywords from the 2 line summary and save them, to a keywords column(still has to be created).
+            public static IEnumerable<string> getKeywords(string twolineSummary)
         {
             if (null == twolineSummary || "".Equals(twolineSummary) )
             {
