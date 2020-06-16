@@ -65,29 +65,27 @@ namespace ScoutFieldLog_GroupProject.Controllers
         // Company CRUD
 
         [HttpPost]
-        public IActionResult StartupSearch(string CompanyName)
+        public IActionResult StartupSearch(string searchString)
         {
-            List<StartUp> startups;
-            if (CompanyName is null || CompanyName == "")
+            List<StartUp> searchResults;
+            if (searchString is null || searchString == "")
             {
-               startups = _context.StartUp.ToList();
+                searchResults = _context.StartUp.ToList();
             }
             else
             {
-               startups = _context.StartUp.Where(x => x.CompanyName.Contains(CompanyName)).ToList();
+                searchResults = _context.StartUp.Where(x => x.CompanyName.Contains(searchString)).ToList();
+                // Search Parameters
+                var twoLineSummaryMatches = _context.StartUp.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                //searchResults = searchResults.Add(twoLineSummaryMatches);
             }
-            return View("Index", startups);
+            return View("Index", searchResults);
         }
 
         public IActionResult ListCompanies()
         {
             var companies = _context.StartUp.ToList();
             return View(companies);
-        }
-
-        public IActionResult SearchCompanies()
-        {
-            return View();
         }
 
         [Route("Home/CompanyDetails/companyId={companyId}")]
@@ -131,6 +129,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
             //ViewBag.message = "Company review added."
             return RedirectToAction("Index");
         }
+
+
 
         public IActionResult Privacy()
         {

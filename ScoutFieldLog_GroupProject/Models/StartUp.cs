@@ -36,6 +36,8 @@ namespace ScoutFieldLog_GroupProject.Models
         public DateTime? DateSaved { get; set; }
         public string Status { get; set; }
         public List<Evaluation> Evaluations { get; set; }
+        //[DisplayName("Partner Company")]
+        //public string PartnerCompany { get; set; }
     }
     public class Evaluation
     {
