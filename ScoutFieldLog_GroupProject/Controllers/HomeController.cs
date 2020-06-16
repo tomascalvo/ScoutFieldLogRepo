@@ -37,11 +37,32 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
-        public IActionResult ListCompanies()
-        {
-            var companies = _context.StartUp.ToList();
-            return View(companies);
-        }
+
+        // Leads display page for connectors. Has a list of leads and lead details using AJAX.______________________________
+
+        //public IActionResult LeadsDisplay()
+        //{
+        //    var companies = _context.StartUp.ToList();
+        //    return View(companies);
+        //}
+
+        //[Route("ListLeads")]
+        //public IActionResult ListLeads()
+        //{
+        //    var companies = _context.StartUp.ToList();
+        //    return PartialView("ListLeads",companies);
+        //}
+        
+        //[Route("LeadDetails/{companyId}")]
+        //public IActionResult LeadDetails(int companyId)
+        //{
+        //    var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId);
+        //    return new JsonResult(company);
+        //}
+
+        // End leads display page for connectors.___________________
+
+        // Company CRUD
 
         [HttpPost]
         public IActionResult StartupSearch(string CompanyName)
@@ -58,23 +79,56 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View("Index", startups);
         }
 
-        [HttpGet]
-        public IActionResult DetailsCompany(int companyId)
+        public IActionResult ListCompanies()
+        {
+            var companies = _context.StartUp.ToList();
+            return View(companies);
+        }
+
+        public IActionResult SearchCompanies()
+        {
+            return View();
+        }
+
+        [Route("Home/CompanyDetails/companyId={companyId}")]
+        public IActionResult CompanyDetails(int companyId)
         {
             var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
+
+        [Route("Home/EditCompany/companyId={companyId}")]
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUp.Find(companyId);
             return View(company);
         }
+
         [HttpPost]
         public IActionResult EditCompany(StartUp company)
         {
             _context.Update(company);
             _context.SaveChanges();
             //ViewBag.message = "Company record updated.";
+            return RedirectToAction("Index");
+        }
+
+        // Evaluation CRUD
+
+        [HttpGet]
+        public IActionResult CreateEvaluation(int companyId)
+        {
+            var company = _context.StartUp.Find(companyId);
+            return View(company);
+        }
+
+        [HttpPost]
+        public IActionResult CreateEvaluation(StartUp company, Evaluation evaluation)
+        {
+            company.Evaluations.Add(evaluation);
+            _context.Update(company);
+            _context.SaveChanges();
+            //ViewBag.message = "Company review added."
             return RedirectToAction("Index");
         }
 
