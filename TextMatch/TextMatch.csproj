@@ -5,8 +5,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ScoutFieldLog_GroupProject\ScoutFieldLog_GroupProject.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-﻿@model StartUp
+﻿@model StartUpCompanies
 @if (@Model == null)
 {
     <h2>Lead Details</h2>
@@ -51,24 +51,14 @@ else
                 </td>
             </tr>
         }
-        @if (Model.Source != null)
+        @if (Model.DateReviewed != null)
         {
             <tr>
                 <td>
-                    @Html.DisplayNameFor(c => c.Source)
-                <td>
-                    @Html.DisplayFor(c => c.Source), @Html.DisplayFor(c => c.DateAdded)
-                </td>
-            </tr>
-        }
-        @if (Model.DateSaved != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.DateSaved)
+                    @Html.DisplayNameFor(c => c.DateReviewed)
                 </td>
                 <td>
-                    @Html.DisplayFor(c => c.DateSaved)
+                    @Html.DisplayFor(c => c.DateReviewed)
                 </td>
             </tr>
         }
@@ -80,17 +70,6 @@ else
                 @Html.DisplayFor(c => c.City), @Html.DisplayFor(c => c.StateProvince), @Html.DisplayFor(c => c.Country)
             </td>
         </tr>
-        @if (Model.ContactId != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.ContactId)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.ContactId)
-                </td>
-            </tr>
-        }
         @if (Model.Themes != null)
         {
             <tr>

@@ -62,29 +62,31 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult ConnectorView()
         {
-            List<StartUp> searchResults;
-            searchResults = _context.StartUp.Where(c => c.Status.Equals("Lead")).ToList();
-            return View(searchResults);
+            var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
+            // Fresh Leads
+            var freshCutoffDay = DateTime.Today.AddDays(-7);
+            var freshLeads = searchResults.Where(f => f.DateAssigned > freshCutoffDay); 
+            // Recommended Leads
+            string keyword = "medical";
+            var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
+            return View(recommendations);
         }
-
-        //public IActionResult OnGetPartial() =>
-        //    Partial("_ListCompaniesPartialRP");
 
         // Company CRUD
 
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
-            List<StartUp> searchResults;
+            List<StartUpCompanies> searchResults;
             if (searchString is null || searchString == "")
             {
-                searchResults = _context.StartUp.ToList();
+                searchResults = _context.StartUpCompanies.ToList();
             }
             else
             {
-                searchResults = _context.StartUp.Where(x => x.CompanyName.Contains(searchString)).ToList();
+                searchResults = _context.StartUpCompanies.Where(x => x.CompanyName.Contains(searchString)).ToList();
                 // Search Parameters
-                var twoLineSummaryMatches = _context.StartUp.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
                 //searchResults = searchResults.Add(twoLineSummaryMatches);
             }
             return View("Index", searchResults);
@@ -92,26 +94,26 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult ListCompanies()
         {
-            var companies = _context.StartUp.ToList();
+            var companies = _context.StartUpCompanies.ToList();
             return View(companies);
         }
 
         [Route("Home/CompanyDetails/companyId={companyId}")]
         public IActionResult CompanyDetails(int companyId)
         {
-            var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId);
+            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
 
         [Route("Home/EditCompany/companyId={companyId}")]
         public IActionResult EditCompany(int companyId)
         {
-            var company = _context.StartUp.Find(companyId);
+            var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
 
         [HttpPost]
-        public IActionResult EditCompany(StartUp company)
+        public IActionResult EditCompany(StartUpCompanies company)
         {
             _context.Update(company);
             _context.SaveChanges();
@@ -121,22 +123,22 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         // Evaluation CRUD
 
-        [HttpGet]
-        public IActionResult CreateEvaluation(int companyId)
-        {
-            var company = _context.StartUp.Find(companyId);
-            return View(company);
-        }
+        //[HttpGet]
+        //public IActionResult CreateEvaluation(int companyId)
+        //{
+        //    var company = _context.StartUpCompanies.Find(companyId);
+        //    return View(company);
+        //}
 
-        [HttpPost]
-        public IActionResult CreateEvaluation(StartUp company, Evaluation evaluation)
-        {
-            company.Evaluations.Add(evaluation);
-            _context.Update(company);
-            _context.SaveChanges();
-            //ViewBag.message = "Company review added."
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public IActionResult CreateEvaluation(StartUpCompanies company, Evaluation evaluation)
+        //{
+        //    company.Evaluations.Add(evaluation);
+        //    _context.Update(company);
+        //    _context.SaveChanges();
+        //    //ViewBag.message = "Company review added."
+        //    return RedirectToAction("Index");
+        //}
 
         public IActionResult Privacy()
         {
@@ -150,7 +152,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ScoutForm(StartUp startup, string token)
+        public async Task<IActionResult> ScoutForm(StartUpCompanies startup, string token)
         {
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB

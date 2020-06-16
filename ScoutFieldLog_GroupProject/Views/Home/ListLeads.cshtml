@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUp>
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
 @{
     ViewBag.Title = "Leads List";
 }
@@ -11,11 +11,8 @@
             @Html.DisplayNameFor(x => x.CompanyName)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.DateAdded)
+            @Html.DisplayNameFor(x => x.DateAssigned)
             <br />
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Source)
         </th>
         <th>
             @Html.DisplayNameFor(x => x.Image)
@@ -32,10 +29,7 @@
                 @Html.ActionLink(@company.CompanyName, "DetailsCompany", new { companyid = company.Id })
             </td>
             <td>
-                @Html.DisplayFor(x => company.DateAdded)
-            </td>
-            <td>
-                @Html.DisplayFor(x => company.Source)
+                @Html.DisplayFor(x => company.DateAssigned)
             </td>
             <td>
                 @if (company.Image != null)

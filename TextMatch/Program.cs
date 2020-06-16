@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScoutFieldLog_GroupProject.Models;
+//using ScoutFieldLog_GroupProject.Models;
 
 namespace TextMatch
 {
-    class Program
+        public class Program
     {
-        static string replacePunctuation(string inputString)
+        public static string replacePunctuation(string inputString)
         {
             var sb = new StringBuilder();
             foreach (char c in inputString) {
@@ -20,7 +20,7 @@ namespace TextMatch
             }
             return sb.ToString();
         }
-        static IEnumerable<string> getKeywords(string twolineSummary)
+        public static IEnumerable<string> getKeywords(string twolineSummary)
         {
             twolineSummary = replacePunctuation(twolineSummary);
             string[] words = twolineSummary.Split(" ");

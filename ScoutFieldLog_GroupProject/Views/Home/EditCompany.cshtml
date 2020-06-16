@@ -1,4 +1,4 @@
-﻿@model StartUp
+﻿@model StartUpCompanies
 @{
     ViewBag.Title = "Edit Company";
 }
@@ -79,18 +79,10 @@ else
         }
         <tr>
             <td>
-                @Html.DisplayNameFor(c => c.Source)
+                @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                <input type="text" id="Source" name="Source" placeholder="@Model.Source" value="@Model.Source" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.DateAdded)
-            </td>
-            <td>
-                <input type="text" id="DateAdded" name="DateAdded" placeholder="@Model.DateAdded" value="@Model.DateAdded" />
+                <input type="text" id="DateAdded" name="DateAdded" placeholder="@Model.DateAssigned" value="@Model.DateAssigned" />
             </td>
         </tr>
         <tr>
