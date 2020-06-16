@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScoutFieldLog_GroupProject.Models;
 
 namespace TextMatch
 {
