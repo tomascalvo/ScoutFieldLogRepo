@@ -31,6 +31,7 @@ namespace ScoutFieldLog_GroupProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
@@ -137,8 +138,6 @@ namespace ScoutFieldLog_GroupProject.Models
 
             modelBuilder.Entity<StartUp>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.Property(e => e.Alignments).HasMaxLength(100);
 
                 entity.Property(e => e.City).HasMaxLength(100);
@@ -156,8 +155,6 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.DateAssigned).HasMaxLength(100);
 
                 entity.Property(e => e.DateSaved).HasColumnType("date");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Image).HasMaxLength(100);
 

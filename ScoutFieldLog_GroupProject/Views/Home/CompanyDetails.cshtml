@@ -1,0 +1,145 @@
+﻿@model StartUp
+@if (@Model == null)
+{
+    <h2>Company Details</h2>
+    <p>No company record found.</p>
+}
+else
+{
+    @if (Model.Status == "Lead")
+    {
+        <h2>Lead Details</h2>
+    }
+    else
+    {
+        <h2>Startup Details</h2>
+    }
+    @if (ViewBag.message != null)
+    {
+        @ViewBag.message
+    }
+    @if (Model.Image != null)
+    {
+        <img src="@Model.Image" alt="Company Logo" width="500" />
+    }
+    <h3>@Model.CompanyName</h3>
+    <table class="table">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.CompanyWebsite)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.CompanyWebsite)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.TwoLineSummary)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.TwoLineSummary)
+            </td>
+        </tr>
+        @if (Model.Status != "Lead")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Status)
+                </td>
+            </tr>
+        }
+        @if (Model.Source != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Source)
+                <td>
+                    @Html.DisplayFor(c => c.Source), @Html.DisplayFor(c => c.DateAdded)
+                </td>
+            </tr>
+        }
+        @if (Model.DateSaved != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.DateSaved)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.DateSaved)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                Location
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.City), @Html.DisplayFor(c => c.StateProvince), @Html.DisplayFor(c => c.Country)
+            </td>
+        </tr>
+        @if (Model.ContactId != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.ContactId)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.ContactId)
+                </td>
+            </tr>
+        }
+        @if (Model.Themes != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Themes)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Themes)
+                </td>
+            </tr>
+        }
+        @if (Model.Landscapes != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Landscapes)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Landscapes)
+                </td>
+            </tr>
+        }
+        @if (Model.TechnologyAreas != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TechnologyAreas)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.TechnologyAreas)
+                </td>
+            </tr>
+        }
+        @if (Model.Alignments != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Alignments)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Alignments)
+                </td>
+            </tr>
+        }
+    </table>
+}
+<div>
+    @*@Html.ActionLink("Save", "PromoteLead", new { company = Model }) |*@
+    @Html.ActionLink("Edit", "EditCompany", new { companyId = Model.Id }) |
+    @*@Html.ActionLink("Delete", "DeleteCompany", new { companyId = Model.Id }) |*@
+    @Html.ActionLink("Search Startup Company Database", "Index")
+</div>

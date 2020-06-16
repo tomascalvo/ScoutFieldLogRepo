@@ -1,0 +1,246 @@
+﻿@model StartUp
+@{
+    ViewBag.Title = "Edit Company";
+}
+@if (Model.Status == "Lead")
+{
+    <h2>Edit Lead</h2>
+}
+else
+{
+    <h2>Edit Startup</h2>
+}
+@if (Model.Image != null)
+{
+    <img src="@Model.Image" alt="Company Logo" width="500" />
+}
+<h3>@Model.CompanyName</h3>
+<form method="POST">
+    @Html.HiddenFor(model => model.Id)
+    <table class="table">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.CompanyName)
+            </td>
+            <td>
+                <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.CompanyWebsite)
+            </td>
+            <td>
+                <input type="text" id="CompanyWebsite" name="CompanyWebsite" placeholder="@Model.CompanyWebsite" value="@Model.CompanyWebsite" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.TwoLineSummary)
+            </td>
+            <td>
+                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength=250, placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
+            </td>
+        </tr>
+        @if (Model.Status == "Lead")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Status)
+                </td>
+                <td>
+                    <input type="radio" id="Lead" name="Status" value="Lead" checked />
+                    <label for="Lead">Lead</label>
+                    <br />
+                    <input type="radio" id="Startup" name="Status" value="Pre-Evaluation" />
+                    <label for="Startup">Startup</label>
+                    <br />
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Source)
+            </td>
+            <td>
+                <input type="text" id="Source" name="Source" placeholder="@Model.Source" value="@Model.Source" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.DateAdded)
+            </td>
+            <td>
+                <input type="text" id="DateAdded" name="DateAdded" placeholder="@Model.DateAdded" value="@Model.DateAdded" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.City)
+            </td>
+            <td>
+                <input type="text" id="City" name="City" placeholder="@Model.City" value="@Model.City" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.StateProvince)
+            </td>
+            <td>
+                <input type="text" id="StateProvince" name="StateProvince" placeholder="@Model.StateProvince" value="@Model.StateProvince" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Country)
+            </td>
+            <td>
+                <input type="text" id="Country" name="Country" placeholder="@Model.Country" value="@Model.Country" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Image)
+            </td>
+            <td>
+                <textarea rows=3 cols=50 name="Image" id="Image" maxlength=500, placeholder="@Model.Image" value="@Model.Image" wrap="hard">@Model.Image</textarea>
+
+                @*<input type="text" id="Image" name="Image" placeholder="@Model.Image" value="@Model.Image" maxlength="250" />*@
+            </td>
+        </tr>
+        @if (Model.Status == "Lead")
+        {
+            // Checkbox Inputs: Themes
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Themes)
+                </td>
+                <td>
+                    <input type="checkbox" id="theme1" name="theme1" value="The Good Life" />
+                    <label for="theme1">The Good Life</label>
+                    <br />
+
+                    <input type="checkbox" id="theme2" name="theme2" value="Health Beyond the Hospital" />
+                    <label for="theme2">Health Beyond the Hospital</label>
+                    <br />
+
+                    <input type="checkbox" id="theme3" name="theme3" value="Robust Future" />
+                    <label for="theme3">Robust Future</label>
+                    <br />
+
+                    <input type="checkbox" id="theme4" name="theme4" value="Convenience & Productivity" />
+                    <label for="theme4">Convenience & Productivity</label>
+                </td>
+            </tr>
+            // Checkbox Inputs: Landscapes
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Landscapes)
+                </td>
+                <td>
+                    <input type="checkbox" id="landscape2" name="landscape2" value="Personalized Wellness" />
+                    <label for="landscape2">Personalized Wellness</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape3" name="landscape3" value="Automation & Robotics" />
+                    <label for="landscape3">Automation & Robotics</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape4" name="landscape4" value="Safe Shared Spaces" />
+                    <label for="landscape4">Safe Shared Spaces</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape5" name="landscape5" value="Clinic in a Box" />
+                    <label for="landscape5">Aging in Place</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape6" name="landscape6" value="Air Quality" />
+                    <label for="landscape6">Air Quality</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape7" name="landscape7" value="ResponsiveSpaces" />
+                    <label for="landscape7">Responsive Spaces</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape8" name="landscape8" value="Wireless Power" />
+                    <label for="landscape8">Wireless Power</label>
+                    <br />
+
+                    <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
+                    <label for="landscape9">Good Habits</label>
+                </td>
+            </tr>
+            // Checkbox Inputs: TechnologyAreas
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TechnologyAreas)
+                </td>
+                <td>
+                    <input type="checkbox" id="technologyArea1" name="technologyArea1" value="Software / AI" />
+                    <label for="technologyArea1">Software / AI</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea2" name="technologyArea2" value="Sensing" />
+                    <label for="technologyArea2">Sensing</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea3" name="technologyArea3" value="Robotics" />
+                    <label for="technologyArea3">Robotics</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea4" name="technologyArea4" value="Advanced Materials" />
+                    <label for="technologyArea4">Advanced Materials</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea5" name="technologyArea5" value="Products" />
+                    <label for="technologyArea5">Products</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea6" name="technologyArea6" value="Business Process" />
+                    <label for="technologyArea6">Business Process</label>
+                    <br />
+                </td>
+            </tr>
+            // Checkbox Inputs: Alignments
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Alignments)
+                </td>
+                <td>
+                    <input type="checkbox" id="alignment1" name="alignment1" value="Amway" />
+                    <label for="alignment1">Amway</label>
+                    <br />
+                    <input type="checkbox" id="alignment2" name="alignment2" value="Bissell" />
+                    <label for="alignment2">Bissell</label>
+                    <br />
+                    <input type="checkbox" id="alignment3" name="alignment3" value="Emergent" />
+                    <label for="alignment3">Emergent</label>
+                    <br />
+                    <input type="checkbox" id="alignment4" name="alignment4" value="Fauerecia" />
+                    <label for="alignment4">Faurecia</label>
+                    <br />
+                    <input type="checkbox" id="alignment5" name="alignment5" value="Priority" />
+                    <label for="alignment5">Priority</label>
+                    <br />
+                    <input type="checkbox" id="alignment6" name="alignment6" value="Steelcase" />
+                    <label for="alignment6">Steelcase</label>
+                    <br />
+                    <input type="checkbox" id="alignment7" name="alignment7" value="Trinity" />
+                    <label for="alignment7">Trinity</label>
+                    <br />
+                    <input type="checkbox" id="alignment8" name="alignment8" value="Wakestream" />
+                    <label for="alignment8">Wakestream</label>
+                    <br />
+                    <input type="checkbox" id="alignment9" name="alignment9" value="Whirlpool" />
+                    <label for="alignment9">Whirlpool</label>
+                    <br />
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <input type="reset" value="Reset" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+</form>

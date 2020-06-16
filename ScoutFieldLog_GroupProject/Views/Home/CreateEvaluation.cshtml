@@ -1,0 +1,22 @@
+﻿@*@model CreateEvaluationModel
+@{
+    ViewBag.Title = "Create Evaluation";
+}
+<h2>Create Evaluation</h2>
+@if (Model.StartUp.Image != null)
+{
+    <img src="@Model.StartUp.Image" alt="Company Logo" width="500" />
+}
+<h3>@Model.StartUp.CompanyName</h3>
+<form method="POST">
+    <table class="table">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Model.Evaluation.PartnerName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(c => c.Evaluations.Alignments.Score)
+            </td>
+        </tr>
+    </table>
+</form>*@
