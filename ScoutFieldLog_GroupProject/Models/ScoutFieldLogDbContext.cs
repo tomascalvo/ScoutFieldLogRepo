@@ -24,6 +24,7 @@ namespace ScoutFieldLog_GroupProject.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Keywords> Keywords { get; set; }
         public virtual DbSet<StartUp> StartUp { get; set; }
         public virtual DbSet<StartUpCompanies> StartUpCompanies { get; set; }
 
@@ -31,7 +32,6 @@ namespace ScoutFieldLog_GroupProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
@@ -134,6 +134,11 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<Keywords>(entity =>
+            {
+                entity.Property(e => e.Word).HasMaxLength(100);
             });
 
             modelBuilder.Entity<StartUp>(entity =>

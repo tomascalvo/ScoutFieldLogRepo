@@ -128,15 +128,15 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(company);
         }
 
-        [HttpPost]
-        public IActionResult CreateEvaluation(StartUp company, Evaluation evaluation)
-        {
-            company.Evaluations.Add(evaluation);
-            _context.Update(company);
-            _context.SaveChanges();
-            //ViewBag.message = "Company review added."
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public IActionResult CreateEvaluation(StartUp company, Evaluation evaluation)
+        //{
+        //    company.Evaluations.Add(evaluation);
+        //    _context.Update(company);
+        //    _context.SaveChanges();
+        //    //ViewBag.message = "Company review added."
+        //    return RedirectToAction("Index");
+        //}
 
         public IActionResult Privacy()
         {

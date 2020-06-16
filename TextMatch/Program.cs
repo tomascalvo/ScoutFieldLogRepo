@@ -20,6 +20,8 @@ namespace TextMatch
             }
             return sb.ToString();
         }
+
+        //1. before you save the lead to db, call this method to get the keywords from the 2 line summary and save them, to a keywords column(still has to be created).
         static IEnumerable<string> getKeywords(string twolineSummary)
         {
             twolineSummary = replacePunctuation(twolineSummary);

@@ -26,5 +26,6 @@ namespace ScoutFieldLog_GroupProject.Models
         public int? Team { get; set; }
         public int? Raised { get; set; }
         public string Status { get; set; }
+        public string Keywords { get; set; }
     }
 }
