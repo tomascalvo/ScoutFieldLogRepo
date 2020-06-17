@@ -17,6 +17,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
         private readonly ScoutFieldLogDbContext _context;
         private SeamlessDAL DAL;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private StartupMatch startupMatch;
 
         public HomeController(IConfiguration iconfig, ApplicationDbContext identityContext, ScoutFieldLogDbContext context, SignInManager<IdentityUser> signInManager)
         {
@@ -24,6 +25,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
+            startupMatch = new StartupMatch( _context );
+            //startupMatch.refreshKeywords();
         }
 
         [HttpPost]
