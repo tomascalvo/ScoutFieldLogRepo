@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
+@{
+    ViewBag.Title = "Similar Startups";
+}
+<h3>Similar Startups</h3>
+<table class="table">
+    <tr>
+        <th>
+            Freshness
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.TechnologyAreas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.DateAssigned)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.TwoLineSummary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Alignments)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var company in Model)
+    {
+        <tr>
+            <td class="freshness">
+                @* Freshness Icon *@
+                @if (company.DateAssigned > DateTime.Today.AddDays(-7))
+                {
+                    <p>New</p>
+                }
+            </td>
+            <td>
+                @*CompanyName*@
+                @*Link to Company Details View*@
+                @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
+            </td>
+            <td>
+                @if (company.Image != null)
+                {
+                    <img src="@company.Image" alt="Company Logo" width="300" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.TechnologyAreas)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.DateAssigned)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.TwoLineSummary)
+            </td>
+            <td>
+                @Html.DisplayFor(x => company.Alignments)
+            </td>
+        </tr>
+    }
+</table>
+

@@ -41,30 +41,35 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult ConnectorView()
         {
             // Leads Displays
-                var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
-                // Fresh Leads
-                var freshCutoffDay = DateTime.Today.AddDays(-7);
-                var freshLeads = searchResults.Where(f => f.DateAssigned > freshCutoffDay); 
-                // Recommended Leads
-                string keyword = "medical";
-                var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
-                return View(searchResults);
+            // All Records
+            var allRecords = _context.StartUpCompanies.ToList();
+            // Just Leads w/ Summaries
+            var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
+            // Fresh Leads
+            var freshCutoffDay = DateTime.Today.AddDays(-7);
+            var freshLeads = allRecords.Where(f => f.DateAssigned > freshCutoffDay); 
+            // Recommended Leads
+            string keyword = "medical";
+            var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
+            return View(allRecords);
         }
 
-        //[Route("ListLeads")]
-        public IActionResult _LeadsList(IEnumerable<StartUpCompanies> companies)
+        public IActionResult _LeadDetails(int companyId)
         {
+            if(companyId == null)
+            {
+                var firstResult = _context.StartUpCompanies.FirstOrDefault();
+                return PartialView(firstResult);
+            }
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
 
+        public IActionResult _SimilarStartupsPartialView()
+        {
+            var companies = _context.StartUpCompanies.ToList();
             return PartialView(companies);
         }
-
-        //[Route("LeadDetails/{companyId}")]
-        //public IActionResult LeadDetails(int companyId)
-        //{
-        //    var company = _context.StartUp.SingleOrDefault(c => c.Id == companyId);
-        //    return new JsonResult(company);
-        //}
-
 
         // Company CRUD
 
@@ -92,14 +97,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(companies);
         }
 
-        [Route("Home/CompanyDetails/companyId={companyId}")]
+
         public IActionResult CompanyDetails(int companyId)
         {
             var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
 
-        [Route("Home/EditCompany/companyId={companyId}")]
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
@@ -114,25 +118,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             //ViewBag.message = "Company record updated.";
             return RedirectToAction("Index");
         }
-
-        // Evaluation CRUD
-
-        //[HttpGet]
-        //public IActionResult CreateEvaluation(int companyId)
-        //{
-        //    var company = _context.StartUpCompanies.Find(companyId);
-        //    return View(company);
-        //}
-
-        //[HttpPost]
-        //public IActionResult CreateEvaluation(StartUpCompanies company, Evaluation evaluation)
-        //{
-        //    company.Evaluations.Add(evaluation);
-        //    _context.Update(company);
-        //    _context.SaveChanges();
-        //    //ViewBag.message = "Company review added."
-        //    return RedirectToAction("Index");
-        //}
 
         public IActionResult Privacy()
         {

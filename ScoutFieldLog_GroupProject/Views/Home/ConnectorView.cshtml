@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
-
 @{
     ViewBag.Title = "Connector View";
 }
@@ -9,15 +8,23 @@
         Html.RenderPartial("_LeadsList", Model);
     }
 </div>
+<br />
 <div id="leadDetails">
     @{
         StartUpCompanies firstCompany = Model.First<StartUpCompanies>();
         Html.RenderPartial("_LeadDetails", firstCompany);
     }
 </div>
-<script>
-        //document.getElementsByClassName("selectCompany").onclick = function () { displayExample() };
-        function displayLead() {
-            $("#details2").load("@Html.Raw(Url.Action("_LeadDetails", "Home")) ");
-        }
-    </script>
+<br />
+<div id="similarStartups">
+    @{ 
+        int companyId = 1;
+        Html.RenderPartial("_SimilarStartupsPartialView");
+    }
+</div>
+@*<script>
+    document.getElementsByClassName("leadDetailsButton").onclick = function{displayDetails()}
+    function displayDetails() {
+        document.getElementById("leadDetails").load("@Html.Raw(Url.Action("_LeadDetails")) ");
+    }
+</script>*@
