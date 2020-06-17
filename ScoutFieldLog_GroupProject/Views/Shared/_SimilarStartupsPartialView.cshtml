@@ -42,9 +42,6 @@
                 @*CompanyName*@
                 @*Link to Company Details View*@
                 @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
-                <br />
-                @*Button to render _LeadDetails within current view.*@
-                <input type="button" class="selectLead" value="@Html.DisplayFor(c => company.CompanyName)" onclick="displayLead(@company.Id)" />
             </td>
             <td>
                 @if (company.Image != null)

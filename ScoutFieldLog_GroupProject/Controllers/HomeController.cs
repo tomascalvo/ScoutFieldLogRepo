@@ -54,6 +54,17 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(allRecords);
         }
 
+        public IActionResult _LeadDetails(int companyId)
+        {
+            if(companyId == null)
+            {
+                var firstResult = _context.StartUpCompanies.FirstOrDefault();
+                return PartialView(firstResult);
+            }
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
+
         public IActionResult _SimilarStartupsPartialView()
         {
             var companies = _context.StartUpCompanies.ToList();
@@ -94,14 +105,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(companies);
         }
 
-        [Route("Home/CompanyDetails/companyId={companyId}")]
+
         public IActionResult CompanyDetails(int companyId)
         {
             var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
 
-        [Route("Home/EditCompany/companyId={companyId}")]
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
