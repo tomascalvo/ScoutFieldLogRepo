@@ -29,16 +29,22 @@ namespace ScoutFieldLog_GroupProject.Models
         public static string getKeywordString(string twolineSummary)
         {
             IEnumerable<string> kws = getKeywords(twolineSummary);
-            return convertListToString(kws, ", ");
+            return convertListToString(kws, ",");
         }
 
         public static string convertListToString(IEnumerable<string> kws, string separator)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (string s in kws)
+            String[] kwsArray = kws.ToArray();
+
+            if (kwsArray.Length >= 1)
             {
-                sb.Append( separator );
-                sb.Append(s);
+                sb.Append( kwsArray[0] );
+            }
+            for (int i=1; i < kwsArray.Length; i++)
+            {
+                sb.Append(separator);
+                sb.Append(kwsArray[i]);
             }
             return sb.ToString();
         }
@@ -62,7 +68,7 @@ namespace ScoutFieldLog_GroupProject.Models
         public static List<string> getCompanyKeywords(string companyName)
         {
             string companyKeywordString = null;
-            
+
             for (int i = 0; i < existingCompanies.Count(); i++)
             {
                 if (existingCompanies[i].CompanyName == companyName)
@@ -94,9 +100,20 @@ namespace ScoutFieldLog_GroupProject.Models
             }
         }
 
+        public void refreshKeywords()
+        {
+            List<StartUpCompanies> sc = _dbContext.StartUpCompanies.ToList();
+            foreach (StartUpCompanies s in sc)
+            {
+                s.Keywords = getKeywordString(s.TwoLineSummary);
+                _dbContext.Update(s);
+                _dbContext.SaveChanges();
+            }
+        }
+
         static List<RecommendedAlignment> getSimilarCompanies(string companyName)
         {
-            List<string> companyKeywords = getCompanyKeywords( companyName );
+            List<string> companyKeywords = getCompanyKeywords(companyName);
             if (companyKeywords == null || companyKeywords.Count == 0)
             {
                 return null;
@@ -108,7 +125,7 @@ namespace ScoutFieldLog_GroupProject.Models
             {
                 if (existingCompanies[i].CompanyName != companyName)
                 {
-                    List<string> otherCompanyKeywords = 
+                    List<string> otherCompanyKeywords =
                         convertKeywordsToList(existingCompanies[i].Keywords);
                     IEnumerable<string> matches =
     companyKeywords.AsQueryable().Intersect(otherCompanyKeywords);
@@ -117,7 +134,7 @@ namespace ScoutFieldLog_GroupProject.Models
                     if (matchCount > 0)
                     {
                         string matchedWords = convertListToString(matches, ", ");
-                        
+
                         RecommendedAlignment ra = new RecommendedAlignment();
                         ra.CompanyName = existingCompanies[i].CompanyName;
                         ra.KeywordsMatched = matchedWords;
@@ -159,11 +176,10 @@ namespace ScoutFieldLog_GroupProject.Models
 
     public class RecommendedAlignment
     {
-            public string CompanyName { get; set; }
-            public string TwoLineSummary { get; set; }
-            public string KeywordsMatched { get; set; }
-            public string PartnerAlignment { get; set; }
-        }
-
+        public string CompanyName { get; set; }
+        public string TwoLineSummary { get; set; }
+        public string KeywordsMatched { get; set; }
+        public string PartnerAlignment { get; set; }
     }
+
 }
