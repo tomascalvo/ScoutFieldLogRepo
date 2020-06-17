@@ -118,7 +118,12 @@ else
 }
 <div>
     @*@Html.ActionLink("Save", "PromoteLead", new { company = Model }) |*@
-    @Html.ActionLink("Edit", "EditCompany", new { companyId = Model.Id }) |
-    @*@Html.ActionLink("Delete", "DeleteCompany", new { companyId = Model.Id }) |*@
+    <form action="EditCompany">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Edit Company" />
+    </form>
     @Html.ActionLink("Search Startup Company Database", "Index")
 </div>
