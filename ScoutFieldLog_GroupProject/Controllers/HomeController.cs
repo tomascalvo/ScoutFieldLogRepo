@@ -38,21 +38,26 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
-        // Leads display page for connectors. Has a list of leads and lead details using AJAX.______________________________
-
-        //public IActionResult LeadsDisplay()
-        //{
-        //    var companies = _context.StartUp.ToList();
-        //    return View(companies);
-        //}
+        public IActionResult ConnectorView()
+        {
+            // Leads Displays
+                var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
+                // Fresh Leads
+                var freshCutoffDay = DateTime.Today.AddDays(-7);
+                var freshLeads = searchResults.Where(f => f.DateAssigned > freshCutoffDay); 
+                // Recommended Leads
+                string keyword = "medical";
+                var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
+                return View(searchResults);
+        }
 
         //[Route("ListLeads")]
-        //public IActionResult ListLeads()
-        //{
-        //    var companies = _context.StartUp.ToList();
-        //    return PartialView("ListLeads",companies);
-        //}
-        
+        public IActionResult _LeadsList(IEnumerable<StartUpCompanies> companies)
+        {
+
+            return PartialView(companies);
+        }
+
         //[Route("LeadDetails/{companyId}")]
         //public IActionResult LeadDetails(int companyId)
         //{
@@ -60,17 +65,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
         //    return new JsonResult(company);
         //}
 
-        public IActionResult ConnectorView()
-        {
-            var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
-            // Fresh Leads
-            var freshCutoffDay = DateTime.Today.AddDays(-7);
-            var freshLeads = searchResults.Where(f => f.DateAssigned > freshCutoffDay); 
-            // Recommended Leads
-            string keyword = "medical";
-            var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
-            return View(recommendations);
-        }
 
         // Company CRUD
 

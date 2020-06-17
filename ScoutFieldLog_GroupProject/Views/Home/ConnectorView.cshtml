@@ -1,50 +1,23 @@
 ﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
 
 @{
-    ViewBag.Title = "Company List";
+    ViewBag.Title = "Connector View";
 }
 <h2>Connector View</h2>
-<h3>Recommended Leads</h3>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(x => x.CompanyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.DateAssigned)
-            <br />
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Image)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.TwoLineSummary)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var company in Model)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
-            </td>
-            <td>
-                @Html.DisplayFor(x => company.DateReviewed)
-            </td>
-            <td>
-                @if (company.Image != null)
-                {
-                    <img src="@company.Image" alt="Company Logo" width="300" />
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(x => company.TwoLineSummary)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "CompanyDetails", new { companyId = company.Id })
-                @Html.ActionLink("Edit", "EditCompany", new { companyId = company.Id })
-                @*@Html.ActionLink("Delete", "DeleteCompany", new { companyId = company.Id})*@
-            </td>
-        </tr>
+<div id="leadsList">
+    @{
+        Html.RenderPartial("_LeadsList", Model);
     }
-</table>
+</div>
+<div id="leadDetails">
+    @{
+        StartUpCompanies firstCompany = Model.First<StartUpCompanies>();
+        Html.RenderPartial("_LeadDetails", firstCompany);
+    }
+</div>
+<script>
+        //document.getElementsByClassName("selectCompany").onclick = function () { displayExample() };
+        function displayLead() {
+            $("#details2").load("@Html.Raw(Url.Action("_LeadDetails", "Home")) ");
+        }
+    </script>
