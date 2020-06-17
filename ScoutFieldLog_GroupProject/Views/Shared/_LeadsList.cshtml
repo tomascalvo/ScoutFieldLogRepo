@@ -57,16 +57,17 @@
                            name="companyId"
                            value="@company.Id" />
                     <input type="submit"
-                           value="View Details" 
-                           class="leadDetailsButton"/>
+                           value="View Details in New Page"
+                           class="leadDetailsButton" />
                 </form>
+                <button class="leadDetailsButton">View Details on This Page</button>
                 <form action="_SimilarStartupsPartialView">
                     <input type="hidden"
                            name="companyId"
                            value="@company.Id" />
                     <input type="submit"
-                           value="Suggest Similar"
-                           class="suggestSimilarButton"/>
+                           value="Suggest Similar in New Page"
+                           class="suggestSimilarButton" />
                 </form>
                 <form action="EditCompany">
                     <input type="hidden"
@@ -79,8 +80,3 @@
         </tr>
      }
 </table>
-<script type="text/javascript">
-    document.getElementById("editButton").onclick = function () {
-        location.href = "EditCompany/companyId={companyId}"
-    }
-</script>

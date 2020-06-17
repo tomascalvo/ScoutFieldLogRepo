@@ -94,19 +94,27 @@ else
                     {
                         <img src="@company.Image" alt="Company Logo" width="300" />
                     }
+                    else
+                    {
+                        <form action="EditCompany">
+                            <input type="hidden"
+                                   name="companyId"
+                                   value="@company.Id" />
+                            <input type="submit"
+                                   value="Add Image" />
+                        </form>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(x => company.TwoLineSummary)
                 </td>
                 <td>
-                    <form method="get">
-                        <button type="submit" formaction="CompanyDetails/companyId=@company.Id">Details</button>
-                    </form>
-                    <form method="get">
-                        <button type="submit" formaction="EditCompany/companyId=@company.Id">Edit</button>
-                    </form>
-                    <form method="get">
-                        <button type="submit" formaction="DeleteCompany/companyId=@company.Id">Delete</button>
+                    <form action="EditCompany">
+                        <input type="hidden"
+                               name="companyId"
+                               value="@company.Id" />
+                        <input type="submit"
+                               value="Edit Company" />
                     </form>
                 </td>
             </tr>
