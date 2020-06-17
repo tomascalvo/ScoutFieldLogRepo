@@ -2,16 +2,20 @@
 @{
     ViewBag.Title = "Company List";
 }
-@*<p>@Html.ActionLink("Create New", "CreateCompany")</p>*@
 <h3>Leads</h3>
 @*Display Fresh Leads*@
 <table class="table">
     <tr>
+        <th ="freshnessTableHeading">
+        </th>
         <th>
             @Html.DisplayNameFor(x => x.CompanyName)
         </th>
         <th>
             @Html.DisplayNameFor(x => x.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.DateAssigned)
         </th>
         <th>
             @Html.DisplayNameFor(x => x.TwoLineSummary)
@@ -21,12 +25,17 @@
     @foreach (var company in Model)
     {
 <tr>
-    <td>
-        @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
-        <input type="button" class="selectLead" value="@Html.DisplayFor(c => company.CompanyName)" onclick="displayLead(@company)" />
+    <td class="freshness">
+        @* Freshness Icon *@
+        @if (company.DateAssigned > DateTime.Today.AddDays(-7))
+        {
+        <p>New</p>
+        }
     </td>
     <td>
-        @Html.DisplayFor(x => company.DateReviewed)
+        @*Link to Company Details View*@
+        @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
+        <br />
     </td>
     <td>
         @if (company.Image != null)
@@ -35,15 +44,22 @@
         }
     </td>
     <td>
+        @Html.DisplayFor(x => company.DateAssigned)
+    </td>
+    <td>
         @Html.DisplayFor(x => company.TwoLineSummary)
     </td>
     <td>
         @Html.ActionLink("Details", "CompanyDetails", new { companyId = company.Id })
         @Html.ActionLink("Edit", "EditCompany", new { companyId = company.Id })
-        @*@Html.ActionLink("Delete", "DeleteCompany", new { companyId = company.Id})*@
+        <button id="editButton">Edit</button>
+        <input type="button" class="selectSimilar" value="Similar" onclick="displaySimilar(@company)" />
     </td>
 </tr>
     }
 </table>
-
-@*Selected Lead Details*@
+<script type="text/javascript">
+    document.getElementById("editButton").onclick = function () {
+        location.href = "EditCompany/companyId={companyId}"
+    }
+</script>
