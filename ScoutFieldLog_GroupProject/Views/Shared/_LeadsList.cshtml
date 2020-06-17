@@ -35,7 +35,6 @@
             <td>
                 @*Link to Company Details View*@
                 @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
-                <br />
             </td>
             <td>
                 @if (company.Image != null)

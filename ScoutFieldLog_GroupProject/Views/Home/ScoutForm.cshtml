@@ -35,7 +35,7 @@ function onSubmit(token) {
             @*Company Name*@
             <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" />
+                <input required asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
 
@@ -47,11 +47,12 @@ function onSubmit(token) {
             </div>
 
             @*TwoLineSummary*@
-            <div class="form-group">
-                <label asp-for="TwoLineSummary" class="control-label"></label>
-                <input asp-for="TwoLineSummary" class="form-control" />
-                <span asp-validation-for="TwoLineSummary" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <label asp-for="TwoLineSummary" class="control-label"></label>
+            <textarea required asp-for="TwoLineSummary" class="form-control" rows="4" cols="50">
+            </textarea>
+            <span asp-validation-for="TwoLineSummary" class="text-danger"></span>
+        </div>
 
             @*Technology Area*@
             <div class="form-group">
@@ -417,7 +418,7 @@ function onSubmit(token) {
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="Ukraine">Ukraine</option>
                     <option value="United Arab Erimates">United Arab Emirates</option>
-                    <option value="United States of America">United States of America</option>
+                    <option value="United States of America" selected>United States of America</option>
                     <option value="Uraguay">Uruguay</option>
                     <option value="Uzbekistan">Uzbekistan</option>
                     <option value="Vanuatu">Vanuatu</option>
