@@ -119,10 +119,16 @@
         </table>
     }
 </div>
-<div class="buttons">
+@*<div class="buttons">
     <input type="button" class="promote" value="Promote" onclick="promote()" />
     <input type="button" class="snooze" value="Snooze" onclick="snooze()" />
     <input type="button" class="edit" value="Edit" onclick="edit()" />
-    @Html.ActionLink("Edit", "EditCompany", new { companyId = Model.Id })
+    <form action="EditCompany">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Edit Company" />
+    </form>
     <input type="button" class="selectSimilar" value="Similar" onclick="displaySimilar()" />
-</div>
+</div>*@
