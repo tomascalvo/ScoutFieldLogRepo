@@ -104,9 +104,9 @@ namespace ScoutFieldLog_GroupProject.Controllers
             else
             {
                 searchResults = _context.StartUpCompanies.Where(x => x.CompanyName.Contains(searchString)).ToList();
-                // Search Parameters
-                var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
-                //searchResults = searchResults.Add(twoLineSummaryMatches);
+                var twoLineSummaryMatches =
+                    _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                searchResults.AddRange(twoLineSummaryMatches);
             }
             return View(searchResults);
         }
