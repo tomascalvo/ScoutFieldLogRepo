@@ -19,13 +19,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private StartupMatch startupMatch;
 
-        public HomeController(IConfiguration iconfig, ApplicationDbContext identityContext, ScoutFieldLogDbContext context, SignInManager<IdentityUser> signInManager)
+        public HomeController(IConfiguration iconfig, ApplicationDbContext identityContext, ScoutFieldLogDbContext context, StartupMatchDbContext smDBcontext, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
-            //startupMatch = new StartupMatch( _context );
+            startupMatch = new StartupMatch( smDBcontext );
         }
 
         [HttpPost]
@@ -40,6 +40,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        // ConnectorView
         public IActionResult ConnectorView()
         {
             // Leads Displays
@@ -55,7 +56,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
             return View(allRecords);
         }
-
+        // ConnectorView Partial Views
         public IActionResult _LeadDetails(int companyId)
         {
             if(companyId == null)
@@ -67,7 +68,9 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return PartialView(company);
         }
 
+
         public IActionResult _SimilarStartupsPartialView(int companyId)
+
         {
             var company = _context.StartUpCompanies.Find(companyId);
             ViewBag.CompanyId = companyId;
@@ -90,7 +93,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         // Company CRUD
-
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
@@ -108,7 +110,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return View(searchResults);
         }
-
         public IActionResult ListCompanies()
         {
             var companies = _context.StartUpCompanies.ToList();
@@ -121,31 +122,24 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
-
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
-
         [HttpPost]
+
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
         {
             company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
-            
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
 
             _context.Update(company);
             _context.SaveChanges();
-            //startupMatch.refreshCompanyCache();
+            startupMatch.refreshCompanyCache();
             //ViewBag.message = "Company record updated.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [HttpGet]
@@ -170,6 +164,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
             {
                 ViewBag.message = "Token not valid";
             }
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
             return View();
         }
         

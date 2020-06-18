@@ -6,6 +6,7 @@
 }
 else
 {
+    // Page Title
     @if (Model.Status == "Lead")
     {
         <h2>Lead Details</h2>
@@ -14,10 +15,12 @@ else
     {
         <h2>Startup Details</h2>
     }
+    // Message
     @if (ViewBag.message != null)
     {
         @ViewBag.message
     }
+    // Company Image
     @if (Model.Image != null)
     {
         <img src="@Model.Image" alt="Company Logo" width="500" />
@@ -34,34 +37,71 @@ else
         </tr>
         <tr>
             <td>
+                @Html.DisplayNameFor(c => c.CompanyContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.CompanyContactName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.CompanyContactPhoneNumber)
+            </td>
+        </tr>
+        <tr>
+            <td>
                 @Html.DisplayNameFor(c => c.TwoLineSummary)
             </td>
             <td>
                 @Html.DisplayFor(c => c.TwoLineSummary)
             </td>
         </tr>
-        @if (Model.Status != "Lead")
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.Status)
-                </td>
-            </tr>
-        }
-        @if (Model.DateReviewed != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.DateReviewed)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.DateReviewed)
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Status)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Raised)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Raised)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.DateAssigned)
+            </td>
+            <td>
+                @if(@Model.DateAssigned != null)
+                {
+                    @Model.DateAssigned.Value.Date
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.ScoutName)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.ScoutName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.DateReviewed)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.DateReviewed)
+            </td>
+        </tr>
         <tr>
             <td>
                 Location
@@ -70,50 +110,54 @@ else
                 @Html.DisplayFor(c => c.City), @Html.DisplayFor(c => c.StateProvince), @Html.DisplayFor(c => c.Country)
             </td>
         </tr>
-        @if (Model.Themes != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.Themes)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.Themes)
-                </td>
-            </tr>
-        }
-        @if (Model.Landscapes != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.Landscapes)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.Landscapes)
-                </td>
-            </tr>
-        }
-        @if (Model.TechnologyAreas != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.TechnologyAreas)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.TechnologyAreas)
-                </td>
-            </tr>
-        }
-        @if (Model.Alignments != null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.Alignments)
-                </td>
-                <td>
-                    @Html.DisplayFor(c => c.Alignments)
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Themes)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Themes)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Landscapes)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Landscapes)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.TechnologyAreas)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.TechnologyAreas)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Alignments)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Alignments)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Uniqueness)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Uniqueness)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.Team)
+            </td>
+            <td>
+                @Html.DisplayFor(c => c.Team)
+            </td>
+        </tr>
     </table>
 }
 <div>

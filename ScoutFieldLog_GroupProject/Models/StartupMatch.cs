@@ -185,9 +185,9 @@ namespace ScoutFieldLog_GroupProject.Models
 
         private static List<StartUpCompanies> existingCompanies = new List<StartUpCompanies>();
 
-        private static ScoutFieldLogDbContext _dbContext;
+        private static StartupMatchDbContext _dbContext;
 
-        public StartupMatch(ScoutFieldLogDbContext dbContext)
+        public StartupMatch(StartupMatchDbContext dbContext)
         {
             _dbContext = dbContext;
             refreshCompanyCache();

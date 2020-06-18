@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
     public partial class StartUpCompanies
     {
+        //[Required(ErrorMessage = "The StartUpCompanies ID must be submitted.")]
         public int Id { get; set; }
         public string ScoutName { get; set; }
         public string CompanyName { get; set; }
