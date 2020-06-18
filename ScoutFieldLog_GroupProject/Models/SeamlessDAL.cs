@@ -58,5 +58,24 @@ namespace ScoutFieldLog_GroupProject.Models
             SeamlessMasterList masterlistRoot = System.Text.Json.JsonSerializer.Deserialize<SeamlessMasterList>(seamlessMasterRootJSON);
             return masterlistRoot;
         }
+        public async Task<SeamlessProjectList> GetProjects()
+        {
+            string resource = $"/v0/appFo187B73tuYhyg/Projects";
+            var client = GetClient();
+            var response = await client.GetAsync(resource);
+            var seamlessProjectsJSON = await response.Content.ReadAsStringAsync();
+            var result = System.Text.Json.JsonSerializer.Deserialize<SeamlessProjectList>(seamlessProjectsJSON);
+            SeamlessProjectList projectList = result;
+            return projectList;
+        }
+        public async Task<SeamlessFeedbackList> GetFeedback()
+        {
+            string resource = $"/v0/appFo187B73tuYhyg/Feedback";
+            var client = GetClient();
+            var response = await client.GetAsync(resource);
+            var seamlessFeedbackJSON = await response.Content.ReadAsStringAsync();
+            SeamlessFeedbackList feedbackList = System.Text.Json.JsonSerializer.Deserialize<SeamlessFeedbackList>(seamlessFeedbackJSON);
+            return feedbackList;
+        }
     }
 }

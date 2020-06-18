@@ -73,9 +73,7 @@ else
                 @Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)
             </td>
             <td>
-            <td>
                 <input type="number" id="CompanyContactPhoneNumber" name="CompanyContactPhoneNumber" placeholder="@Model.CompanyContactPhoneNumber" value="@Model.CompanyContactPhoneNumber" />
-            </td>
             </td>
         </tr>
         <tr>
@@ -115,16 +113,14 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                @if (Model.DateAssigned != null)
+                @if(@Model.DateAssigned != null)
                 {
-                    <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value='@Model.DateAssigned.Value.ToString("yyyy-MM-dd")' />
+                   <input type="date" id="DateAssigned" name="DateAssigned" placeholder='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' value='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' />
                 }
                 else
                 {
-                    <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" />
-
+                    <input type="date" id="DateAssigned" name="DateAssigned"  />
                 }
-
             </td>
         </tr>
         <tr>
@@ -140,14 +136,13 @@ else
                 @Html.DisplayNameFor(c => c.DateReviewed)
             </td>
             <td>
-                @if (Model.DateReviewed != null)
+                @if(@Model.DateReviewed != null)
                 {
-                    <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value='@Model.DateReviewed.Value.ToString("yyyy-MM-dd")' />
+                <input type="date" id="DateReviewed" name="DateReviewed" placeholder='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' value='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' />
                 }
                 else
                 {
-                    <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" />
-
+                <input type="date" id="DateReviewed" name="DateReviewed" />
                 }
             </td>
         </tr>
@@ -181,8 +176,6 @@ else
             </td>
             <td>
                 <textarea rows=3 cols=50 name="Image" id="Image" maxlength=500, placeholder="@Model.Image" value="@Model.Image" wrap="hard">@Model.Image</textarea>
-
-                @*<input type="text" id="Image" name="Image" placeholder="@Model.Image" value="@Model.Image" maxlength="250" />*@
             </td>
         </tr>
         @*Checkbox Inputs: Themes*@
@@ -199,35 +192,7 @@ else
         </tr>
         @*Checkbox Inputs: Landscapes NEEDS ADJUSTMENTS*@
         <tr>
-
-        @*Checkbox Inputs: TechnologyAreas*@
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.TechnologyAreas)
-            </td>
-            <td>
-                @{
-                    string[] technologyAreasArray = new string[] { "Software / AI", "Sensing", "Robotics", "Advanced Materials", "Products", "Business Process" };
-                    int technologyAreasCounter = 1;
-                    string technologyAreasCheckboxid = "TechnologyAreas" + technologyAreasCounter;
-                    foreach (string technologyArea in technologyAreasArray)
-                    {
-                        if (Model.TechnologyAreas == technologyArea)
-                        {
-                            <input type="checkbox" id="@technologyAreasCheckboxid" name="TechnologyAreas" value="@technologyArea" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="landscapesCheckboxid" name="TechnologyAreas" value="technologyArea" />
-                        }
-                        <label for="@technologyAreasCheckboxid">@technologyArea</label>
-                        <br />
-                        technologyAreasCounter++;
-                    }
-                }
-            </td>
-        </tr>
-        <tr>
+        
             <td>
                 @Html.DisplayNameFor(c => c.Uniqueness)
             </td>
@@ -274,12 +239,6 @@ else
             </td>
         </tr>
         @*Buttons*@
-
-        <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
-        <label for="landscape9">Good Habits</label>
-        </td>
-        </tr>
-        // Checkbox Inputs: TechnologyAreas
         <tr>
             <td>
                 @Html.DisplayNameFor(c => c.TechnologyAreas)
@@ -306,7 +265,6 @@ else
             </td>
         </tr>
         }
-
         <tr>
             <td>
                 <input type="reset" value="Reset" />
