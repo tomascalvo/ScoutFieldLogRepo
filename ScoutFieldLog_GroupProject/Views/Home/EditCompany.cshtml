@@ -30,7 +30,7 @@ else
             </td>
             <td>
                 <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
-               
+
             </td>
         </tr>
 
@@ -115,7 +115,16 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value="@Model.DateAssigned" />
+                @if (Model.DateAssigned != null)
+                {
+                    <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value='@Model.DateAssigned.Value.ToString("yyyy-MM-dd")' />
+                }
+                else
+                {
+                    <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" />
+
+                }
+
             </td>
         </tr>
         <tr>
@@ -131,7 +140,15 @@ else
                 @Html.DisplayNameFor(c => c.DateReviewed)
             </td>
             <td>
-                <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value="@Model.DateReviewed" />
+                @if (Model.DateReviewed != null)
+                {
+                    <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value='@Model.DateReviewed.Value.ToString("yyyy-MM-dd")' />
+                }
+                else
+                {
+                    <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" />
+
+                }
             </td>
         </tr>
         <tr>
@@ -174,54 +191,15 @@ else
                 @Html.DisplayNameFor(c => c.Themes)
             </td>
             <td>
-                @{
-                    string[] themeArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
-                    int themesCounter = 1;
-                    string themesCheckboxid = "Themes" + themesCounter;
-                    foreach (string theme in themeArray)
-                    {
-                        if (Model.Themes == theme)
-                        {
-                            <input type="checkbox" id="@themesCheckboxid" name="Themes" value="@theme" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="@themesCheckboxid" name="Themes" value="@theme" />
-                        }
-                        <label for="@themesCheckboxid">@theme</label>
-                        <br />
-                        themesCounter++;
-                    }
-                }
+                <input type="checkbox" name="Theme" value="The Good Life" >The Good Life < br />
+                <input type="checkbox" name="Theme" value="Health Beyond the Hospital" >Health Beyond the Hospital<br />
+                <input type="checkbox" name="Theme" value="Robust Future" >Robust Future<br />
+                <input type="checkbox" name="Theme" value="Convenience & Productivity" >Convenience & Productivity<br />              
             </td>
         </tr>
-        @*Checkbox Inputs: Landscapes*@
+        @*Checkbox Inputs: Landscapes NEEDS ADJUSTMENTS*@
         <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.Landscapes)
-            </td>
-            <td>
-                @{
-                    string[] landscapesArray = new string[] { "Personalized Wellness", "Automation & Robotics", "Safe Shared Spaces", "Aging in Place", "Air Quality", "Responsive Spaces", "Wireless Power", "Good Habits" };
-                    int landscapesCounter = 1;
-                    string landscapesCheckboxid = "Landscapes" + landscapesCounter;
-                    foreach (string landscape in landscapesArray)
-                    {
-                        if (Model.Landscapes == landscape)
-                        {
-                            <input type="checkbox" id="@landscapesCheckboxid" name="Landscapes" value="@landscape" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="@landscapesCheckboxid" name="Landscapes" value="@landscape" />
-                        }
-                        <label for="@themesCheckboxid">@landscape</label>
-                        <br />
-                        landscapesCounter++;
-                    }
-                }
-            </td>
-        </tr>
+
         @*Checkbox Inputs: TechnologyAreas*@
         <tr>
             <td>
@@ -240,7 +218,7 @@ else
                         }
                         else
                         {
-                            <input type="checkbox" id="@landscapesCheckboxid" name="TechnologyAreas" value="@technologyArea" />
+                            <input type="checkbox" id="landscapesCheckboxid" name="TechnologyAreas" value="technologyArea" />
                         }
                         <label for="@technologyAreasCheckboxid">@technologyArea</label>
                         <br />
@@ -297,36 +275,36 @@ else
         </tr>
         @*Buttons*@
 
-                    <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
-                    <label for="landscape9">Good Habits</label>
-                </td>
-            </tr>
-            // Checkbox Inputs: TechnologyAreas
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.TechnologyAreas)
-                </td>
-                <td>
-                    <input type="checkbox" id="technologyArea1" name="technologyArea1" value="Software / AI" />
-                    <label for="technologyArea1">Software / AI</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea2" name="technologyArea2" value="Sensing" />
-                    <label for="technologyArea2">Sensing</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea3" name="technologyArea3" value="Robotics" />
-                    <label for="technologyArea3">Robotics</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea4" name="technologyArea4" value="Advanced Materials" />
-                    <label for="technologyArea4">Advanced Materials</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea5" name="technologyArea5" value="Products" />
-                    <label for="technologyArea5">Products</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea6" name="technologyArea6" value="Business Process" />
-                    <label for="technologyArea6">Business Process</label>
-                    <br />
-                </td>
-            </tr>
+        <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
+        <label for="landscape9">Good Habits</label>
+        </td>
+        </tr>
+        // Checkbox Inputs: TechnologyAreas
+        <tr>
+            <td>
+                @Html.DisplayNameFor(c => c.TechnologyAreas)
+            </td>
+            <td>
+                <input type="checkbox" id="technologyArea1" name="technologyArea1" value="Software / AI" />
+                <label for="technologyArea1">Software / AI</label>
+                <br />
+                <input type="checkbox" id="technologyArea2" name="technologyArea2" value="Sensing" />
+                <label for="technologyArea2">Sensing</label>
+                <br />
+                <input type="checkbox" id="technologyArea3" name="technologyArea3" value="Robotics" />
+                <label for="technologyArea3">Robotics</label>
+                <br />
+                <input type="checkbox" id="technologyArea4" name="technologyArea4" value="Advanced Materials" />
+                <label for="technologyArea4">Advanced Materials</label>
+                <br />
+                <input type="checkbox" id="technologyArea5" name="technologyArea5" value="Products" />
+                <label for="technologyArea5">Products</label>
+                <br />
+                <input type="checkbox" id="technologyArea6" name="technologyArea6" value="Business Process" />
+                <label for="technologyArea6">Business Process</label>
+                <br />
+            </td>
+        </tr>
         }
 
         <tr>
