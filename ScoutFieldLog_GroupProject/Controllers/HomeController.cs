@@ -73,6 +73,15 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 startupMatch.getSimilarCompanies(companyId, company.Keywords);
             return View(ra);
         }
+        //[Route("Home/ListStartUpProjects/companyName={companyName}")]
+        [HttpGet]
+        public async Task<IActionResult> ListStartUpProjects(string companyName)
+        {
+            SeamlessProjectList spl = await DAL.GetProjects();
+            List<SeamlessProject> results = spl.records.ToList();
+            List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
+            return View(projectList);
+        }
 
         // Company CRUD
         [HttpPost]
@@ -86,9 +95,9 @@ namespace ScoutFieldLog_GroupProject.Controllers
             else
             {
                 searchResults = _context.StartUpCompanies.Where(x => x.CompanyName.Contains(searchString)).ToList();
-                // Search Parameters
-                var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
-                //searchResults = searchResults.Add(twoLineSummaryMatches);
+                var twoLineSummaryMatches =
+                    _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                searchResults.AddRange(twoLineSummaryMatches);
             }
             return View(searchResults);
         }
