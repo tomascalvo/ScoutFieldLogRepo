@@ -25,8 +25,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
-            startupMatch = new StartupMatch( _context );
-            //startupMatch.refreshKeywords();
+            //startupMatch = new StartupMatch( _context );
         }
 
         [HttpPost]
@@ -68,10 +67,17 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return PartialView(company);
         }
 
-        public IActionResult _SimilarStartupsPartialView()
+        public IActionResult _SimilarStartupsPartialView(int companyId)
         {
-            var companies = _context.StartUpCompanies.ToList();
-            return PartialView(companies);
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = companyId;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.TwoLineSummary = company.TwoLineSummary;
+            ViewBag.Keywords = company.Keywords;
+
+            List<RecommendedAlignment> ra = 
+                startupMatch.getSimilarCompanies(companyId, company.Keywords);
+            return PartialView(ra);
         }
         //[Route("Home/ListStartUpProjects/companyName={companyName}")]
         [HttpGet]
@@ -109,10 +115,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(companies);
         }
 
-
         public IActionResult CompanyDetails(int companyId)
         {
-            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
 
@@ -123,12 +129,18 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCompany(StartUpCompanies company)
+        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
         {
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            
+            company.Keywords =
+                StartupMatch.getKeywordString(company.TwoLineSummary);
+
             _context.Update(company);
             _context.SaveChanges();
+            //startupMatch.refreshCompanyCache();
             //ViewBag.message = "Company record updated.";
-            return RedirectToAction("Index");
+            return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
         public IActionResult Privacy()
@@ -147,8 +159,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB
+                startup.Keywords =
+                    StartupMatch.getKeywordString(startup.TwoLineSummary);
                 _context.Add(startup);
                 _context.SaveChanges();
+                token = null;
+                startup = null;
                 ViewBag.message = "Thank you for submitting your startup company!";
             } else
             {
