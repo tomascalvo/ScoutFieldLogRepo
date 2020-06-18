@@ -41,6 +41,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        // ConnectorView
         public IActionResult ConnectorView()
         {
             // Leads Displays
@@ -56,7 +57,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
             return View(allRecords);
         }
-
+        // ConnectorView Partial Views
         public IActionResult _LeadDetails(int companyId)
         {
             if(companyId == null)
@@ -67,7 +68,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);
         }
-
         public IActionResult _SimilarStartupsPartialView()
         {
             var companies = _context.StartUpCompanies.ToList();
@@ -75,7 +75,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         // Company CRUD
-
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
@@ -93,38 +92,62 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return View("Index", searchResults);
         }
-
         public IActionResult ListCompanies()
         {
             var companies = _context.StartUpCompanies.ToList();
             return View(companies);
         }
-
-
         public IActionResult CompanyDetails(int companyId)
         {
             var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
-
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
-
         [HttpPost]
-        public IActionResult EditCompany(StartUpCompanies company)
+        public IActionResult EditCompany(int companyId, StartUpCompanies updatedCompany)
         {
-            _context.Update(company);
-            _context.SaveChanges();
-            //ViewBag.message = "Company record updated.";
-            return RedirectToAction("Index");
-        }
+            try
+            {
+                if (ModelState.IsValid && updatedCompany.CompanyName != null)
+                {
+                    StartUpCompanies companyToUpdate = _context.StartUpCompanies.FirstOrDefault(u => u.Id == companyId);
+                    companyToUpdate.ScoutName = updatedCompany.ScoutName;
+                    companyToUpdate.CompanyName = updatedCompany.CompanyName;
+                    companyToUpdate.CompanyContactName = updatedCompany.CompanyContactName;
+                    companyToUpdate.CompanyContactPhoneNumber = updatedCompany.CompanyContactPhoneNumber;
+                    companyToUpdate.CompanyWebsite = updatedCompany.CompanyWebsite;
+                    companyToUpdate.TwoLineSummary = updatedCompany.TwoLineSummary;
+                    companyToUpdate.TechnologyAreas = updatedCompany.TechnologyAreas;
+                    companyToUpdate.Image = updatedCompany.Image;
+                    companyToUpdate.City = updatedCompany.City;
+                    companyToUpdate.StateProvince = updatedCompany.StateProvince;
+                    companyToUpdate.Country = updatedCompany.Country;
+                    companyToUpdate.Themes = updatedCompany.Themes;
+                    companyToUpdate.Landscapes = updatedCompany.Landscapes;
+                    companyToUpdate.Alignments = updatedCompany.Alignments;
+                    companyToUpdate.DateReviewed = updatedCompany.DateReviewed;
+                    companyToUpdate.DateAssigned = updatedCompany.DateAssigned;
+                    companyToUpdate.Uniqueness = updatedCompany.Uniqueness;
+                    companyToUpdate.Team = updatedCompany.Team;
+                    companyToUpdate.Raised = updatedCompany.Raised;
+                    companyToUpdate.Status = updatedCompany.Status;
 
-        public IActionResult Privacy()
-        {
-            return View();
+                    _context.SaveChanges();
+                    ViewBag.message = "Record updated.";
+                    return RedirectToAction("CompanyDetails", new {companyId});
+                }
+                ViewBag.message = "Record could not be updated.";
+                return View(companyId);
+            }
+            catch 
+            {
+                ViewBag.message = "Record could not be updated.";
+                return View(companyId);
+            }
         }
 
         [HttpGet]
@@ -145,6 +168,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
             {
                 ViewBag.message = "Token not valid";
             }
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
             return View();
         }
         

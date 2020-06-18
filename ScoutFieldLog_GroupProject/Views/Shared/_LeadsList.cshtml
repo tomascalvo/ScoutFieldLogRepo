@@ -6,7 +6,7 @@
 @*Display Fresh Leads*@
 <table class="table">
     <tr>
-        <th ="freshnessTableHeading">
+        <th id="freshnessTableHeading">
         </th>
         <th>
             @Html.DisplayNameFor(x => x.CompanyName)
@@ -50,23 +50,21 @@
                 @Html.DisplayFor(x => company.TwoLineSummary)
             </td>
             <td>
-
-                @*@Html.ActionLink("Edit", "EditCompany", new { companyId = company.Id })*@
-                <form action="_LeadDetails">
+                @* Buttons *@
+                <form action="CompanyDetails">
                     <input type="hidden"
                            name="companyId"
                            value="@company.Id" />
                     <input type="submit"
-                           value="View Details in New Page"
+                           value="View Details"
                            class="leadDetailsButton" />
                 </form>
-                <button class="leadDetailsButton">View Details on This Page</button>
                 <form action="_SimilarStartupsPartialView">
                     <input type="hidden"
                            name="companyId"
                            value="@company.Id" />
                     <input type="submit"
-                           value="Suggest Similar in New Page"
+                           value="Suggest Similar"
                            class="suggestSimilarButton" />
                 </form>
                 <form action="EditCompany">

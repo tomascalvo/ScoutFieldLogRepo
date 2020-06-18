@@ -9,7 +9,7 @@
     }
 </div>
 <br />
-<div id="leadDetails">
+@*<div id="leadDetails">
     @{
         StartUpCompanies firstCompany = Model.First<StartUpCompanies>();
         Html.RenderPartial("_LeadDetails", firstCompany);
@@ -21,7 +21,7 @@
         int companyId = 1;
         Html.RenderPartial("_SimilarStartupsPartialView");
     }
-</div>
+</div>*@
 <script>
     document.getElementsByClassName("leadDetailsButton").onclick = function{displayDetails()}
     function displayDetails() {
