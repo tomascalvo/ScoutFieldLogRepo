@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
@@ -221,5 +222,7 @@ namespace ScoutFieldLog_GroupProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<ScoutFieldLog_GroupProject.Models.RecommendedAlignment> RecommendedAlignment { get; set; }
     }
 }

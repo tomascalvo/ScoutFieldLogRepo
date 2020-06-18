@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.RecommendedAlignment>
+
+@{
+    ViewData["Title"] = "_SimilarStartupsPartialView";
+}
+
+<h3>Similar Startups</h3>
+
+<h6>Company Name: @ViewBag.CompanyName</h6>
+<h6>Two-Line Summary: @ViewBag.TwoLineSummary</h6>
+<h6>Keywords: @ViewBag.Keywords</h6>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TechnologyAreas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeywordsMatched)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TwoLineSummary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alignments)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.ActionLink(@item.CompanyName, "CompanyDetails", new { companyid = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechnologyAreas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordsMatched)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TwoLineSummary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alignments)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
