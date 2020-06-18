@@ -116,6 +116,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
+            if(company.Alignments == null)
+            {
+                company.Alignments = "";
+            }
             return View(company);
         }
         [HttpPost]
