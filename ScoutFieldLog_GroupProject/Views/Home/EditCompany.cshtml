@@ -73,9 +73,7 @@ else
                 @Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)
             </td>
             <td>
-            <td>
                 <input type="number" id="CompanyContactPhoneNumber" name="CompanyContactPhoneNumber" placeholder="@Model.CompanyContactPhoneNumber" value="@Model.CompanyContactPhoneNumber" />
-            </td>
             </td>
         </tr>
         <tr>
@@ -115,7 +113,14 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value="@Model.DateAssigned" />
+                @if(@Model.DateAssigned != null)
+                {
+                   <input type="date" id="DateAssigned" name="DateAssigned" placeholder='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' value='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' />
+                }
+                else
+                {
+                    <input type="date" id="DateAssigned" name="DateAssigned"  />
+                }
             </td>
         </tr>
         <tr>
@@ -131,7 +136,14 @@ else
                 @Html.DisplayNameFor(c => c.DateReviewed)
             </td>
             <td>
-                <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value="@Model.DateReviewed" />
+                @if(@Model.DateReviewed != null)
+                {
+                <input type="date" id="DateReviewed" name="DateReviewed" placeholder='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' value='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' />
+                }
+                else
+                {
+                <input type="date" id="DateReviewed" name="DateReviewed" />
+                }
             </td>
         </tr>
         <tr>
@@ -164,8 +176,6 @@ else
             </td>
             <td>
                 <textarea rows=3 cols=50 name="Image" id="Image" maxlength=500, placeholder="@Model.Image" value="@Model.Image" wrap="hard">@Model.Image</textarea>
-
-                @*<input type="text" id="Image" name="Image" placeholder="@Model.Image" value="@Model.Image" maxlength="250" />*@
             </td>
         </tr>
         @*Checkbox Inputs: Themes*@
@@ -296,39 +306,6 @@ else
             </td>
         </tr>
         @*Buttons*@
-
-                    <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
-                    <label for="landscape9">Good Habits</label>
-                </td>
-            </tr>
-            // Checkbox Inputs: TechnologyAreas
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(c => c.TechnologyAreas)
-                </td>
-                <td>
-                    <input type="checkbox" id="technologyArea1" name="technologyArea1" value="Software / AI" />
-                    <label for="technologyArea1">Software / AI</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea2" name="technologyArea2" value="Sensing" />
-                    <label for="technologyArea2">Sensing</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea3" name="technologyArea3" value="Robotics" />
-                    <label for="technologyArea3">Robotics</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea4" name="technologyArea4" value="Advanced Materials" />
-                    <label for="technologyArea4">Advanced Materials</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea5" name="technologyArea5" value="Products" />
-                    <label for="technologyArea5">Products</label>
-                    <br />
-                    <input type="checkbox" id="technologyArea6" name="technologyArea6" value="Business Process" />
-                    <label for="technologyArea6">Business Process</label>
-                    <br />
-                </td>
-            </tr>
-        }
-
         <tr>
             <td>
                 <input type="reset" value="Reset" />
