@@ -29,7 +29,7 @@ namespace ScoutFieldLog_GroupProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ScoutFieldLogDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging(true));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -25,7 +25,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
-            startupMatch = new StartupMatch( _context );
+            //startupMatch = new StartupMatch( _context );
         }
 
         [HttpPost]
@@ -106,10 +106,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(companies);
         }
 
-
         public IActionResult CompanyDetails(int companyId)
         {
-            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
 
@@ -120,15 +120,18 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCompany(StartUpCompanies company)
+        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
         {
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            
             company.Keywords =
-                startupMatch.getKeywordString(company.TwoLineSummary);
+                StartupMatch.getKeywordString(company.TwoLineSummary);
+
             _context.Update(company);
             _context.SaveChanges();
-            startupMatch.refreshCompanyCache();
+            //startupMatch.refreshCompanyCache();
             //ViewBag.message = "Company record updated.";
-            return RedirectToAction("Index");
+            return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
         public IActionResult Privacy()
@@ -148,7 +151,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB
                 startup.Keywords =
-                    startupMatch.getKeywordString(startup.TwoLineSummary);
+                    StartupMatch.getKeywordString(startup.TwoLineSummary);
                 _context.Add(startup);
                 _context.SaveChanges();
                 token = null;

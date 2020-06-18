@@ -28,7 +28,7 @@ namespace ScoutFieldLog_GroupProject.Models
             return sb.ToString();
         }
 
-        public string getKeywordString(string twolineSummary)
+        public static string getKeywordString(string twolineSummary)
         {
             IEnumerable<string> kws = getKeywords(twolineSummary);
             return convertListToString(kws, ", ");
