@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using ScoutFieldLog_GroupProject.Data;
 using ScoutFieldLog_GroupProject.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ScoutFieldLog_GroupProject.Controllers
 {
@@ -40,20 +41,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
-        // ConnectorView
+        [Authorize]
         public IActionResult ConnectorView()
         {
-            // Leads Displays
-            // All Records
             var allRecords = _context.StartUpCompanies.ToList();
-            // Just Leads w/ Summaries
-            var searchResults = _context.StartUpCompanies.Where(c => c.Status.Equals("Lead") && c.TwoLineSummary != null).ToList();
-            // Fresh Leads
-            var freshCutoffDay = DateTime.Today.AddDays(-7);
-            var freshLeads = allRecords.Where(f => f.DateAssigned > freshCutoffDay); 
-            // Recommended Leads
-            string keyword = "medical";
-            var recommendations = searchResults.Where(r => TextMatch.Program.getKeywords(r.TwoLineSummary).Contains(keyword));
             return View(allRecords);
         }
         // ConnectorView Partial Views
@@ -80,7 +71,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
             List<RecommendedAlignment> ra = 
                 startupMatch.getSimilarCompanies(companyId, company.Keywords);
-            return PartialView(ra);
+            return View(ra);
         }
 
         // Company CRUD
