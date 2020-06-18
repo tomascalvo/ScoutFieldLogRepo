@@ -25,8 +25,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
-            startupMatch = new StartupMatch( _context );
-            //startupMatch.refreshKeywords();
+            //startupMatch = new StartupMatch( _context );
         }
 
         [HttpPost]
@@ -68,10 +67,20 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);
         }
-        public IActionResult _SimilarStartupsPartialView()
+
+
+        public IActionResult _SimilarStartupsPartialView(int companyId)
+
         {
-            var companies = _context.StartUpCompanies.ToList();
-            return PartialView(companies);
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = companyId;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.TwoLineSummary = company.TwoLineSummary;
+            ViewBag.Keywords = company.Keywords;
+
+            List<RecommendedAlignment> ra = 
+                startupMatch.getSimilarCompanies(companyId, company.Keywords);
+            return PartialView(ra);
         }
 
         // Company CRUD
@@ -90,16 +99,18 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
                 //searchResults = searchResults.Add(twoLineSummaryMatches);
             }
-            return View("Index", searchResults);
+            return View(searchResults);
         }
         public IActionResult ListCompanies()
         {
             var companies = _context.StartUpCompanies.ToList();
             return View(companies);
         }
+
         public IActionResult CompanyDetails(int companyId)
         {
-            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
         public IActionResult EditCompany(int companyId)
@@ -108,46 +119,19 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(company);
         }
         [HttpPost]
-        public IActionResult EditCompany(int companyId, StartUpCompanies updatedCompany)
-        {
-            try
-            {
-                if (ModelState.IsValid && updatedCompany.CompanyName != null)
-                {
-                    StartUpCompanies companyToUpdate = _context.StartUpCompanies.FirstOrDefault(u => u.Id == companyId);
-                    companyToUpdate.ScoutName = updatedCompany.ScoutName;
-                    companyToUpdate.CompanyName = updatedCompany.CompanyName;
-                    companyToUpdate.CompanyContactName = updatedCompany.CompanyContactName;
-                    companyToUpdate.CompanyContactPhoneNumber = updatedCompany.CompanyContactPhoneNumber;
-                    companyToUpdate.CompanyWebsite = updatedCompany.CompanyWebsite;
-                    companyToUpdate.TwoLineSummary = updatedCompany.TwoLineSummary;
-                    companyToUpdate.TechnologyAreas = updatedCompany.TechnologyAreas;
-                    companyToUpdate.Image = updatedCompany.Image;
-                    companyToUpdate.City = updatedCompany.City;
-                    companyToUpdate.StateProvince = updatedCompany.StateProvince;
-                    companyToUpdate.Country = updatedCompany.Country;
-                    companyToUpdate.Themes = updatedCompany.Themes;
-                    companyToUpdate.Landscapes = updatedCompany.Landscapes;
-                    companyToUpdate.Alignments = updatedCompany.Alignments;
-                    companyToUpdate.DateReviewed = updatedCompany.DateReviewed;
-                    companyToUpdate.DateAssigned = updatedCompany.DateAssigned;
-                    companyToUpdate.Uniqueness = updatedCompany.Uniqueness;
-                    companyToUpdate.Team = updatedCompany.Team;
-                    companyToUpdate.Raised = updatedCompany.Raised;
-                    companyToUpdate.Status = updatedCompany.Status;
 
-                    _context.SaveChanges();
-                    ViewBag.message = "Record updated.";
-                    return RedirectToAction("CompanyDetails", new {companyId});
-                }
-                ViewBag.message = "Record could not be updated.";
-                return View(companyId);
-            }
-            catch 
-            {
-                ViewBag.message = "Record could not be updated.";
-                return View(companyId);
-            }
+        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
+        {
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            
+            company.Keywords =
+                StartupMatch.getKeywordString(company.TwoLineSummary);
+
+            _context.Update(company);
+            _context.SaveChanges();
+            //startupMatch.refreshCompanyCache();
+            //ViewBag.message = "Company record updated.";
+            return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
         [HttpGet]
@@ -161,8 +145,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB
+                startup.Keywords =
+                    StartupMatch.getKeywordString(startup.TwoLineSummary);
                 _context.Add(startup);
                 _context.SaveChanges();
+                token = null;
+                startup = null;
                 ViewBag.message = "Thank you for submitting your startup company!";
             } else
             {

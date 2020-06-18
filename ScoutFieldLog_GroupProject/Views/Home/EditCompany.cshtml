@@ -20,7 +20,9 @@ else
 }
 <h3>@Model.CompanyName</h3>
 <form method="POST">
-    @*@Html.HiddenFor(model => model.Id)*@
+
+    @html.hiddenfor(model => model.id)
+
     <table class="table">
         <tr>
             <td>
@@ -28,34 +30,26 @@ else
             </td>
             <td>
                 <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
+               
             </td>
         </tr>
+
         @*Edit PartnerCompany*@
+
         <tr>
             <td>
                 @Html.DisplayNameFor(c => c.Alignments)
             </td>
             <td>
-                @{
-                    string[] partnerCompanies = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
-                    int counter = 1;
-                    string checkboxid = "Alignments" + counter;
-                    foreach (string partnerCompany in partnerCompanies)
-                    {
-                        if (Model.Alignments == partnerCompany)
-                        {
-                            <input type="checkbox" id="@checkboxid" name="Alignments" value="@partnerCompany" checked />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="@checkboxid" name="Alignments" value="@partnerCompany" />
-                        }
-                        <label for="@checkboxid">@partnerCompany</label>
-                        <br />
-                        counter++;
-                    }
-                    counter = 1;
-                }
+                <input type="checkbox" name="PartnerCompany" value="Amway" checked='@Model.Alignments.Contains("Amway")'>Amway<br />
+                <input type="checkbox" name="PartnerCompany" value="Bissell" checked='@Model.Alignments.Contains("Bissell")'>Bissell<br />
+                <input type="checkbox" name="PartnerCompany" value="Emergent" checked='@Model.Alignments.Contains("Emergent")'>Emergent<br />
+                <input type="checkbox" name="PartnerCompany" value="Faurecia" checked='@Model.Alignments.Contains("Faurecia")'>Faurecia<br />
+                <input type="checkbox" name="PartnerCompany" value="Priority" checked='@Model.Alignments.Contains("Priority")'>Priority<br />
+                <input type="checkbox" name="PartnerCompany" value="Steelcase" checked='@Model.Alignments.Contains("Steelcase")'>Steelcase<br />
+                <input type="checkbox" name="PartnerCompany" value="Trinity" checked='@Model.Alignments.Contains("Trinity")'>Trinity<br />
+                <input type="checkbox" name="PartnerCompany" value="Wakestream" checked='@Model.Alignments.Contains("Wakestream")'>Wakestream<br />
+                <input type="checkbox" name="PartnerCompany" value="Whirlpool" checked='@Model.Alignments.Contains("Whirlpool")'>Whirlpool<br />
             </td>
         </tr>
         <tr>
@@ -295,12 +289,46 @@ else
                                 <option value="@i">@i</option>
                             }
 
+
                         }
                     }
                 </select>
             </td>
         </tr>
         @*Buttons*@
+
+                    <input type="checkbox" id="landscape9" name="landscape9" value="Good Habits" />
+                    <label for="landscape9">Good Habits</label>
+                </td>
+            </tr>
+            // Checkbox Inputs: TechnologyAreas
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TechnologyAreas)
+                </td>
+                <td>
+                    <input type="checkbox" id="technologyArea1" name="technologyArea1" value="Software / AI" />
+                    <label for="technologyArea1">Software / AI</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea2" name="technologyArea2" value="Sensing" />
+                    <label for="technologyArea2">Sensing</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea3" name="technologyArea3" value="Robotics" />
+                    <label for="technologyArea3">Robotics</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea4" name="technologyArea4" value="Advanced Materials" />
+                    <label for="technologyArea4">Advanced Materials</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea5" name="technologyArea5" value="Products" />
+                    <label for="technologyArea5">Products</label>
+                    <br />
+                    <input type="checkbox" id="technologyArea6" name="technologyArea6" value="Business Process" />
+                    <label for="technologyArea6">Business Process</label>
+                    <br />
+                </td>
+            </tr>
+        }
+
         <tr>
             <td>
                 <input type="reset" value="Reset" />

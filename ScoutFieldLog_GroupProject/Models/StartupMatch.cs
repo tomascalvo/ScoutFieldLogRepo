@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ScoutFieldLog_GroupProject.Models
@@ -29,7 +31,7 @@ namespace ScoutFieldLog_GroupProject.Models
         public static string getKeywordString(string twolineSummary)
         {
             IEnumerable<string> kws = getKeywords(twolineSummary);
-            return convertListToString(kws, ",");
+            return convertListToString(kws, ", ");
         }
 
         public static string convertListToString(IEnumerable<string> kws, string separator)
@@ -60,7 +62,7 @@ namespace ScoutFieldLog_GroupProject.Models
             string[] words = twolineSummary.Split(" ");
             List<string> wordList = words.ToList<string>();
 
-            wordList = wordList.ConvertAll(d => d.ToLower().Trim());
+            wordList = wordList.ConvertAll(d => d.Trim());
 
             return wordList.Except(excludedKeywords); ;
         }
@@ -82,15 +84,17 @@ namespace ScoutFieldLog_GroupProject.Models
             return keywords.ToList();
         }
 
-        public static List<string> convertKeywordsToList(string keywordString)
+        public static List<string> convertKeywordsToUpperList(string keywordString)
         {
             if (keywordString == null) return null;
 
-            string[] keywords = keywordString.Split(" ");
-            return keywords.ToList();
+            string[] keywords = keywordString.Split(",");
+            List<string> wordList = keywords.ToList<string>();
+            wordList = wordList.ConvertAll(d => d.ToUpper().Trim());
+            return wordList;
         }
 
-        static void refreshCompanyCache()
+        public void refreshCompanyCache()
         {
             List<StartUpCompanies> sc = _dbContext.StartUpCompanies.ToList();
 
@@ -105,15 +109,20 @@ namespace ScoutFieldLog_GroupProject.Models
             List<StartUpCompanies> sc = _dbContext.StartUpCompanies.ToList();
             foreach (StartUpCompanies s in sc)
             {
+                if (s.TwoLineSummary == null)
+                {
+                    continue;
+                }
                 s.Keywords = getKeywordString(s.TwoLineSummary);
                 _dbContext.Update(s);
                 _dbContext.SaveChanges();
             }
         }
 
-        static List<RecommendedAlignment> getSimilarCompanies(string companyName)
+        public List<RecommendedAlignment> getSimilarCompanies(int companyId, string keywordString)
         {
-            List<string> companyKeywords = getCompanyKeywords(companyName);
+            List<string> companyKeywords = convertKeywordsToUpperList(keywordString);
+
             if (companyKeywords == null || companyKeywords.Count == 0)
             {
                 return null;
@@ -123,24 +132,36 @@ namespace ScoutFieldLog_GroupProject.Models
 
             for (int i = 0; i < existingCompanies.Count(); i++)
             {
-                if (existingCompanies[i].CompanyName != companyName)
+                if (existingCompanies[i].Id != companyId)
                 {
                     List<string> otherCompanyKeywords =
-                        convertKeywordsToList(existingCompanies[i].Keywords);
+                        convertKeywordsToUpperList(existingCompanies[i].Keywords);
+                    if (otherCompanyKeywords == null)
+                    {
+                        continue;
+                    }
                     IEnumerable<string> matches =
     companyKeywords.AsQueryable().Intersect(otherCompanyKeywords);
 
                     int matchCount = matches.Count();
                     if (matchCount > 0)
                     {
-                        string matchedWords = convertListToString(matches, ", ");
+                        string matchedWords = convertListToString(matches, ",");
 
                         RecommendedAlignment ra = new RecommendedAlignment();
+                        ra.Id = existingCompanies[i].Id.ToString();
                         ra.CompanyName = existingCompanies[i].CompanyName;
                         ra.KeywordsMatched = matchedWords;
-                        ra.PartnerAlignment = existingCompanies[i].Alignments;
-                        ra.TwoLineSummary = existingCompanies[i].TwoLineSummary;
+                        ra.Alignments = existingCompanies[i].Alignments;
+                        ra.TechnologyAreas = existingCompanies[i].TechnologyAreas;
 
+                        foreach (string s in matches)
+                        {
+                            existingCompanies[i].TwoLineSummary =
+                                Regex.Replace(existingCompanies[i].TwoLineSummary, s, "*" + s+ "*", RegexOptions.IgnoreCase);
+                        }
+                        
+                        ra.TwoLineSummary = existingCompanies[i].TwoLineSummary;
                         lra.Add(ra);
                     }
                 }
@@ -176,10 +197,11 @@ namespace ScoutFieldLog_GroupProject.Models
 
     public class RecommendedAlignment
     {
+        public string Id { get; set; }
         public string CompanyName { get; set; }
+        public string TechnologyAreas { get; set; }
         public string TwoLineSummary { get; set; }
         public string KeywordsMatched { get; set; }
-        public string PartnerAlignment { get; set; }
+        public string Alignments { get; set; }
     }
-
 }
