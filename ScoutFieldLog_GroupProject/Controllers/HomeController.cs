@@ -97,7 +97,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
                 //searchResults = searchResults.Add(twoLineSummaryMatches);
             }
-            return View("Index", searchResults);
+            return View(searchResults);
         }
 
         public IActionResult ListCompanies()

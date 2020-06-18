@@ -1,0 +1,84 @@
+﻿@model List<StartUpCompanies>
+@{
+    ViewData["Title"] = "StartupSearch";
+}
+
+<h1>StartupSearch</h1>
+
+@if (Model != null)
+{
+    // Simple Results List
+    @*<div>
+            @foreach (var startup in Model)
+            {
+                <p><a href="/Home/CompanyDetails/companyId=@startup.Id">@startup.CompanyName</a></p>
+            }
+        </div>*@
+    // Extended Results List
+    <div>
+        <form method="get">
+            <button type="submit" formaction="ScoutForm">Add New Startup</button>
+        </form>
+        @*<p>@Html.ActionLink("Create New", "CreateCompany")</p>*@
+        <table class="table">
+            <tr>
+                <th>
+                    Company Name
+                </th>
+                <th>
+                    Date Added
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Two-Line Summary
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var company in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => company.DateAssigned)
+                    </td>
+                    <td>
+                        @if (company.Image != null)
+                        {
+                            <img src="@company.Image" alt="Company Logo" width="300" />
+                        }
+                        else
+                        {
+                            <form action="EditCompany">
+                                <input type="hidden"
+                                       name="companyId"
+                                       value="@company.Id" />
+                                <input type="submit"
+                                       value="Add Image" />
+                            </form>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => company.TwoLineSummary)
+                    </td>
+                    <td>
+                        <form action="EditCompany">
+                            <input type="hidden"
+                                   name="companyId"
+                                   value="@company.Id" />
+                            <input type="submit"
+                                   value="Edit Company" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
