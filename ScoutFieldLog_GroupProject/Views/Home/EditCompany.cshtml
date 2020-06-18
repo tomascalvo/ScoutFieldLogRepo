@@ -21,7 +21,7 @@ else
 <h3>@Model.CompanyName</h3>
 <form method="POST">
 
-    @html.hiddenfor(model => model.id)
+    @Html.HiddenFor(model => model.Id)
 
     <table class="table">
         <tr>
@@ -107,7 +107,7 @@ else
                 @Html.DisplayNameFor(c => c.Raised)
             </td>
             <td>
-                <input type="text" id="Raised" name="Raised" placeholder="@Model.Raised" value="@Model.Raised" /
+                <input type="text" id="Raised" name="Raised" placeholder="@Model.Raised" value="@Model.Raised" />
             </td>
         </tr>
         <tr>
@@ -115,7 +115,7 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value="@Model.DateAssigned.Value" />
+                <input type="date" id="DateAssigned" name="DateAssigned" placeholder="@Model.DateAssigned" value="@Model.DateAssigned" />
             </td>
         </tr>
         <tr>
@@ -131,7 +131,7 @@ else
                 @Html.DisplayNameFor(c => c.DateReviewed)
             </td>
             <td>
-                <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value="@Model.DateReviewed.Value" />
+                <input type="date" id="DateReviewed" name="DateReviewed" placeholder="@Model.DateReviewed" value="@Model.DateReviewed" />
             </td>
         </tr>
         <tr>

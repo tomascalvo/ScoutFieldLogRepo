@@ -16,9 +16,9 @@
         </div>*@
     // Extended Results List
     <div>
-        <form method="get">
+        @*<form method="get">
             <button type="submit" formaction="ScoutForm">Add New Startup</button>
-        </form>
+        </form>*@
         @*<p>@Html.ActionLink("Create New", "CreateCompany")</p>*@
         <table class="table">
             <tr>
@@ -29,14 +29,15 @@
                     Date Added
                 </th>
                 <th>
-                    Source
-                </th>
-                <th>
                     Image
                 </th>
                 <th>
                     Two-Line Summary
                 </th>
+                @*Commented out source because it was labeling the edit company column*@
+                @*<th>
+                    Source
+                </th>*@
                 <th></th>
             </tr>
             @foreach (var company in Model)
