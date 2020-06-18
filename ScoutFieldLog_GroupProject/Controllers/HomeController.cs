@@ -73,7 +73,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var companies = _context.StartUpCompanies.ToList();
             return PartialView(companies);
         }
-        [Route("Home/ListStartUpProjects/companyName={companyName}")]
+        //[Route("Home/ListStartUpProjects/companyName={companyName}")]
+        [HttpGet]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
             SeamlessProjectList spl = await DAL.GetProjects();
