@@ -19,13 +19,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private StartupMatch startupMatch;
 
-        public HomeController(IConfiguration iconfig, ApplicationDbContext identityContext, ScoutFieldLogDbContext context, SignInManager<IdentityUser> signInManager)
+        public HomeController(IConfiguration iconfig, ApplicationDbContext identityContext, ScoutFieldLogDbContext context, StartupMatchDbContext smDBcontext, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             _identityContext = identityContext;
             _signInManager = signInManager;
             DAL = new SeamlessDAL(iconfig);
-            //startupMatch = new StartupMatch( _context );
+            startupMatch = new StartupMatch( smDBcontext );
         }
 
         [HttpPost]
@@ -123,13 +123,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
         {
             company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
-            
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
 
             _context.Update(company);
             _context.SaveChanges();
-            //startupMatch.refreshCompanyCache();
+            startupMatch.refreshCompanyCache();
             //ViewBag.message = "Company record updated.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
