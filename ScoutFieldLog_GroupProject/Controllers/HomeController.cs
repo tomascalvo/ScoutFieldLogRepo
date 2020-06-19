@@ -109,7 +109,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult CompanyDetails(int companyId)
         {
-            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            if(TempData["updateConfirmation"] != null)
+            {
+                ViewBag.Message = TempData["updateConfirmation"].ToString();
+            }
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
@@ -120,20 +123,26 @@ namespace ScoutFieldLog_GroupProject.Controllers
             {
                 company.Alignments = "";
             }
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return View(company);
         }
         [HttpPost]
 
-        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
+        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
+            // Checkbox logic
             company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            // Keywords assignment
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
 
             _context.Update(company);
             _context.SaveChanges();
             startupMatch.refreshCompanyCache();
-            //ViewBag.message = "Company record updated.";
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
