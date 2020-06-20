@@ -1,5 +1,4 @@
 ﻿@model StartUpCompanies
-@*Title*@
 @if (Model.Status == "Lead")
 {
     ViewBag.Title = "Edit Lead";
@@ -87,7 +86,7 @@ else
                 @Html.DisplayNameFor(c => c.TwoLineSummary)
             </td>
             <td>
-                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength=250, placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
+                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength="250", placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
             </td>
         </tr>
         <tr>
@@ -192,7 +191,7 @@ else
             </td>
             <td>
                 @{
-                    string[] themesArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
+                    string[] themesArray = new string[] { "Convenience & Productivity", "The Good Life", "Health Beyond the Hospital", "Robust Future", };
                     foreach (string theme in themesArray)
                     {
                         if (@Model.Themes != null)

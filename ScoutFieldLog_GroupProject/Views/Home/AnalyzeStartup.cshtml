@@ -1,0 +1,156 @@
+﻿@model ScoutFieldLog_GroupProject.ViewModels.StartupAnalyticModel
+@{
+    ViewData["Title"] = "Startup Analysis";
+}
+<h2>@ViewBag.Title</h2>
+@if (@Model == null)
+{
+    <p>No evaluation found.</p>
+}
+else
+{
+    // Message
+    @if (ViewBag.Message != null)
+    {
+        <h4>@ViewBag.Message</h4>
+    }
+    @if(Model.StartUpCo.CompanyName != null && Model.StartUpCo.CompanyName != "")
+    {
+        <h3>@Model.StartUpCo.CompanyName</h3>
+    }
+    else
+    {
+        <h3>@Model.StartUpCo.Id</h3>
+    }
+    <p>@Model.StartUpCo.TwoLineSummary</p>
+    <table class="table">
+        <tr>
+            <th>
+                Alignment Averages
+            </th>
+        </tr>
+        @{
+            var aList = Model.Alignments.ToList();
+            foreach (ScoutFieldLog_GroupProject.ViewModels.AlignmentAM alignment in aList)
+            {
+                <tr>
+                    <td>
+                        @alignment.Name: @alignment.ScoreAvgConnectors
+                    </td>
+                </tr>
+            }
+        }
+        <tr>
+            <th>
+                Theme Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                var tList = Model.Themes.ToList();
+                foreach (ScoutFieldLog_GroupProject.ViewModels.ThemeAM theme in tList)
+                {
+                    <td>
+                        @theme.Name: @theme.ScoreAvgConnectors
+                    </td>
+                }
+            }
+        </tr>
+        <tr>
+            <th>
+                Landscape Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                var lList = Model.Landscapes.ToList();
+                foreach (ScoutFieldLog_GroupProject.ViewModels.LandscapeAM landscape in lList)
+                {
+                    <td>
+                        @landscape.Name: @landscape.ScoreAvgConnectors
+                    </td>
+                }
+            }
+        </tr>
+        <tr>
+            <th>
+                Technology Area Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                var taList = Model.TechnologyAreas.ToList();
+                foreach (ScoutFieldLog_GroupProject.ViewModels.TechnologyAreaAM tArea in taList)
+                {
+                    <td>
+                        @tArea.Name: @tArea.ScoreAvgConnectors
+                    </td>
+                }
+            }
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Uniqueness)
+            </th>
+            <td>
+                @Html.DisplayFor(m => m.Uniqueness.ScoreAvgConnectors)
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.TeamStrength)
+            </th>
+            <td>
+                @Html.DisplayFor(m => m.TeamStrength.ScoreAvgConnectors)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.BusinessPotential)
+            </th>
+            <td>
+                @Html.DisplayFor(m => m.BusinessPotential.ScoreAvgConnectors)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Interest)
+            </th>
+            <td>
+                @Html.DisplayFor(m => m.Interest.ScoreAvgConnectors)
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div>
+        @Html.DisplayNameFor(m => m.Comments)
+        <br />
+        @{ 
+            var commentList = Model.Comments.ToList();
+            int counter = 0;
+            @foreach (ScoutFieldLog_GroupProject.ViewModels.Comment comment in commentList)
+            {
+                <div>
+                    Comment #@counter Author: User @comment.UserId
+                </div>
+                <div>
+                    @comment.Body
+                </div>
+                <br />
+                counter++;
+            }
+        }
+    </div>
+    <div>
+        <form action="CreateEvaluation">
+            <input type="hidden"
+                   name="companyId"
+                   value="@Model.StartUpCo.Id" />
+            <input type="submit"
+                   value="Evaluate this Company" />
+        </form>
+    </div>
+}

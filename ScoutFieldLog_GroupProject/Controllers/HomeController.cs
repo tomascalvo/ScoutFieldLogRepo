@@ -9,6 +9,7 @@ using ScoutFieldLog_GroupProject.Data;
 using ScoutFieldLog_GroupProject.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using ScoutFieldLog_GroupProject.ViewModels;
 
 namespace ScoutFieldLog_GroupProject.Controllers
 {
@@ -40,14 +41,14 @@ namespace ScoutFieldLog_GroupProject.Controllers
         {
             return View();
         }
-
+        // ConnectorView & Partial Views
         [Authorize]
         public IActionResult ConnectorView()
         {
             var allRecords = _context.StartUpCompanies.ToList();
             return View(allRecords);
         }
-        // ConnectorView Partial Views
+
         public IActionResult _LeadDetails(int companyId)
         {
             if(companyId == null)
@@ -58,7 +59,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);
         }
-
 
         public IActionResult _SimilarStartupsPartialView(int companyId)
 
@@ -73,6 +73,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 startupMatch.getSimilarCompanies(companyId, company.Keywords);
             return View(ra);
         }
+
+        // Company CRUD
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
@@ -82,8 +84,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             //List<SeamlessProject> projectList = results.ToList<SeamlessProject>();
             return View(projectList);
         }
-
-        // Company CRUD
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
@@ -170,6 +170,61 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return View();
         }
+
+        // Evaluation CRUD
+        // Create Evaluation
+        [HttpGet]
+        public IActionResult CreateEvaluation(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, List<AlignmentScore> alignmentScores, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            newEvaluation.StartUpCompaniesId = companyId;
+            foreach (AlignmentScore score in alignmentScores)
+            {
+                newEvaluation.AlignmentScore.Add(score);
+            }
+            newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ",");
+            newEvaluation.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
+            newEvaluation.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            _context.Add(newEvaluation);
+            _context.SaveChanges();
+            TempData["evaluationCreated"] = "Thank you for your evaluation.";
+            return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
+        }
+        // Review Evaluation
+        public IActionResult ReviewEvaluation(int evaluationId)
+        {
+            if (TempData["evaluationCreated"] != null)
+            {
+                ViewBag.Message = TempData["evaluationCreated"].ToString();
+            }
+            var evaluationToReview = _context.Evaluation.Find(evaluationId);
+            return View(evaluationToReview);
+        }
+        // Review & Search Evaluations
+        public IActionResult ReviewEvaluations()
+        {
+            var allEvaluations = _context.Evaluation.ToList();
+            return View(allEvaluations);
+        }
+        // Review Aggregate Evaluation Data
+        public IActionResult AnalyzeStartup(int companyId)
+        {
+            StartUpCompanies company = _context.StartUpCompanies.Find(companyId);
+            List<EvalCriterion> ecriteria = _context.EvalCriterion.ToList();
+            var evaluations = _context.Evaluation.Where(e => e.StartUpCompaniesId.Equals(companyId)).ToList();
+            List<AlignmentScore> alignmentScores = _context.AlignmentScore.Where(s => s.Evaluation.StartUpCompaniesId == companyId).ToList();
+            StartupAnalyticModel aModel = new StartupAnalyticModel(company, evaluations, ecriteria, alignmentScores);
+            return View(aModel);
+        }
+        // Update Evaluation
 
         public IActionResult Privacy()
         {

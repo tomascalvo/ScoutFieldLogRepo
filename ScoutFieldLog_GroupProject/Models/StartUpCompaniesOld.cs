@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
-    public partial class StartUpCompanies
+    public partial class StartUpCompaniesOld
     {
-        public StartUpCompanies()
-        {
-            Evaluation = new HashSet<Evaluation>();
-        }
-
         public int Id { get; set; }
         public string ScoutName { get; set; }
         public string CompanyName { get; set; }
@@ -32,7 +27,5 @@ namespace ScoutFieldLog_GroupProject.Models
         public int? Raised { get; set; }
         public string Status { get; set; }
         public string Keywords { get; set; }
-
-        public virtual ICollection<Evaluation> Evaluation { get; set; }
     }
 }

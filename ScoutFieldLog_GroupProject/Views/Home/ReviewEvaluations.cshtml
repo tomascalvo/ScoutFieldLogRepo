@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.Evaluation>
+@{
+    ViewData["Title"] = "Review Evaluations";
+}
+<h2>@ViewBag.Title</h2>
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+<h3>Evaluations</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(x => x.StartUpCompaniesId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.AuthorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.DateEvaluated.Value.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.AlignmentScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Themes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.Landscapes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.TechnologyAreas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.UniquenessScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.TeamScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.PotentialScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(x => x.InterestScore)
+        </th>
+    </tr>
+    @foreach (var evaluation in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(x => evaluation.StartUpCompaniesId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.AuthorId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.DateEvaluated)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.AlignmentScore)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.Themes)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.Landscapes)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.TechnologyAreas)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.UniquenessScore)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.TeamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.PotentialScore)
+            </td>
+            <td>
+                @Html.DisplayFor(x => evaluation.InterestScore)
+            </td>
+        </tr>
+    }
+</table>

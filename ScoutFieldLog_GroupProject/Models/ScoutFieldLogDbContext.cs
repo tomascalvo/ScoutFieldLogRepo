@@ -15,6 +15,7 @@ namespace ScoutFieldLog_GroupProject.Models
         {
         }
 
+        public virtual DbSet<AlignmentScore> AlignmentScore { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -22,20 +23,35 @@ namespace ScoutFieldLog_GroupProject.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<EvalCategory> EvalCategory { get; set; }
+        public virtual DbSet<EvalCriterion> EvalCriterion { get; set; }
+        public virtual DbSet<Evaluation> Evaluation { get; set; }
         public virtual DbSet<Keywords> Keywords { get; set; }
+        public virtual DbSet<PartnerCompany> PartnerCompany { get; set; }
         public virtual DbSet<StartUp> StartUp { get; set; }
         public virtual DbSet<StartUpCompanies> StartUpCompanies { get; set; }
+        public virtual DbSet<StartUpCompaniesOld> StartUpCompaniesOld { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=scoutfieldlogserver.database.windows.net;Database=ScoutFieldLogDb;MultipleActiveResultSets=true;User ID=ScoutFieldLogAdmin;Password=TinaTurner!;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("DefaultConnection");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AlignmentScore>(entity =>
+            {
+                entity.HasIndex(e => e.EvaluationId);
+
+                entity.HasOne(d => d.Evaluation)
+                    .WithMany(p => p.AlignmentScore)
+                    .HasForeignKey(d => d.EvaluationId);
+            });
+
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
                 entity.HasIndex(e => e.RoleId);
@@ -134,9 +150,56 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
+            modelBuilder.Entity<EvalCategory>(entity =>
+            {
+                entity.HasIndex(e => e.EvalCategoryName)
+                    .HasName("UQ__EvalCate__3B3B27E0996AE86F")
+                    .IsUnique();
+
+                entity.Property(e => e.EvalCategoryName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<EvalCriterion>(entity =>
+            {
+                entity.HasIndex(e => e.EvalCriterionName)
+                    .HasName("UQ__EvalCrit__3A8305A5DF391548")
+                    .IsUnique();
+
+                entity.Property(e => e.EvalCriterionName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.EvalCategory)
+                    .WithMany(p => p.EvalCriterion)
+                    .HasForeignKey(d => d.EvalCategoryId)
+                    .HasConstraintName("FK__EvalCrite__EvalC__1BC821DD");
+            });
+
+            modelBuilder.Entity<Evaluation>(entity =>
+            {
+                entity.HasIndex(e => e.StartUpCompaniesId);
+
+                entity.HasOne(d => d.StartUpCompanies)
+                    .WithMany(p => p.Evaluation)
+                    .HasForeignKey(d => d.StartUpCompaniesId);
+            });
+
             modelBuilder.Entity<Keywords>(entity =>
             {
                 entity.Property(e => e.Word).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PartnerCompany>(entity =>
+            {
+                entity.HasIndex(e => e.CompanyName)
+                    .HasName("UQ__PartnerC__9BCE05DC2E0E3F33")
+                    .IsUnique();
+
+                entity.Property(e => e.CompanyName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<StartUp>(entity =>
@@ -179,6 +242,43 @@ namespace ScoutFieldLog_GroupProject.Models
             });
 
             modelBuilder.Entity<StartUpCompanies>(entity =>
+            {
+                entity.Property(e => e.Alignments).HasMaxLength(100);
+
+                entity.Property(e => e.City).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyContactName).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyContactPhoneNumber).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyName).HasMaxLength(100);
+
+                entity.Property(e => e.CompanyWebsite).HasMaxLength(100);
+
+                entity.Property(e => e.Country).HasMaxLength(100);
+
+                entity.Property(e => e.DateAssigned).HasColumnType("date");
+
+                entity.Property(e => e.DateReviewed).HasColumnType("date");
+
+                entity.Property(e => e.Image).HasMaxLength(100);
+
+                entity.Property(e => e.Landscapes).HasMaxLength(100);
+
+                entity.Property(e => e.ScoutName).HasMaxLength(100);
+
+                entity.Property(e => e.StateProvince)
+                    .HasColumnName("State_Province")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+
+                entity.Property(e => e.TechnologyAreas).HasMaxLength(100);
+
+                entity.Property(e => e.Themes).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<StartUpCompaniesOld>(entity =>
             {
                 entity.Property(e => e.Alignments).HasMaxLength(100);
 
