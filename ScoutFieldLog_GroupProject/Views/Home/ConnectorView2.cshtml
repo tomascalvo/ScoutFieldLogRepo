@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
+@{
+    ViewBag.Title = "Connector View";
+}
+<h2>Connector View</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sidebarContent">
+                        @{
+                            Html.RenderPartial("_LeadsList2", Model);
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="recommendations" class="sidebarContent">Side Bar 2</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div id="mainContent" class="mainContent">Main Content Area</div>
+        </div>
+    </div>
+</div>
