@@ -1,0 +1,103 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.RecommendedAlignment>
+
+@{ 
+    int count = 0;
+}
+    <div class="container">
+
+        @foreach (var item in Model)
+        {
+            count++;
+
+            <div class="row">
+                <div class="col-md-12">
+                    Company Name:
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="" onclick='document.getElementById("companySelector").selectedIndex=document.getElementById("@item.Id").index;document.getElementById("@item.Id").click();return false;'>
+                        @item.CompanyName
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    Technology Areas:
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @if (item.TechnologyAreas != null)
+                    {
+                        @item.TechnologyAreas
+                    }
+                    else
+                    {
+                        <i>none</i>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    Keyword Matches:
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @item.KeywordsMatched
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    Two-Line Summary:
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @item.TwoLineSummary
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    Alignments:
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @if (item.Alignments != null)
+                    {
+                        @item.Alignments.Replace(",", ", ")
+                    }
+                    else
+                    {
+                        <i>none</i>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+        }
+
+        @if (count == 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <i>This startup matches no keywords.</i>
+                </div>
+            </div>
+        }
+    </div>

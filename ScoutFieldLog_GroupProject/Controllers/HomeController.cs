@@ -43,13 +43,20 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
         // ConnectorView & Partial Views
         [Authorize]
+        public IActionResult ConnectorView2()
+        {
+            var allRecords = _context.StartUpCompanies.ToList();
+            return View(allRecords);
+        }
+
+        [Authorize]
         public IActionResult ConnectorView()
         {
             var allRecords = _context.StartUpCompanies.ToList();
             return View(allRecords);
         }
 
-        public IActionResult _LeadDetails(int companyId)
+        public async Task<IActionResult> _LeadDetails(int companyId)
         {
             if(companyId == null)
             {
@@ -71,18 +78,29 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
             List<RecommendedAlignment> ra = 
                 startupMatch.getSimilarCompanies(companyId, company.Keywords);
+
             return View(ra);
         }
+        public async Task<IActionResult> SimilarStartupsPartialView(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = companyId;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.TwoLineSummary = company.TwoLineSummary;
+            ViewBag.Keywords = company.Keywords;
 
-        // Company CRUD
+            List<RecommendedAlignment> ra =
+                startupMatch.getSimilarCompanies(companyId, company.Keywords);
+
+            return PartialView(ra);
+        }
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
             SeamlessProjectList spl = await DAL.GetProjects();
             List<SeamlessProject> results = spl.records.ToList();
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
-            //List<SeamlessProject> projectList = results.ToList<SeamlessProject>();
-            return View(projectList);
+            return View();
         }
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
@@ -126,8 +144,20 @@ namespace ScoutFieldLog_GroupProject.Controllers
             TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return View(company);
         }
-        [HttpPost]
 
+        public IActionResult ViewCompanyPartial(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
+
+        public IActionResult EditCompanyPartial(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
+
+        [HttpPost]
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
             // Checkbox logic
@@ -144,6 +174,25 @@ namespace ScoutFieldLog_GroupProject.Controllers
             startupMatch.refreshCompanyCache();
             TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
+        }
+
+        [HttpPost]
+        public IActionResult EditCompanyPartial(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            // Checkbox logic
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            // Keywords assignment
+            company.Keywords =
+                StartupMatch.getKeywordString(company.TwoLineSummary);
+
+            _context.Update(company);
+            _context.SaveChanges();
+            startupMatch.refreshCompanyCache();
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
+            return RedirectToAction("EditCompanyPartial", new { companyId = company.Id });
         }
 
         [HttpGet]
