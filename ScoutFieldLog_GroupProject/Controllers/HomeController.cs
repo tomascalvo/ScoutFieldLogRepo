@@ -98,10 +98,9 @@ namespace ScoutFieldLog_GroupProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
-            //SeamlessProjectList spl = await DAL.GetProjects();
-            //List<SeamlessProject> results = spl.records.ToList();
-            //List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
-            //List<SeamlessProject> projectList = results.ToList<SeamlessProject>();
+            SeamlessProjectList spl = await DAL.GetProjects();
+            List<SeamlessProject> results = spl.records.ToList();
+            List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
             return View();
         }
 
