@@ -6,6 +6,11 @@
 }
 else
 {
+    // Message
+    @if (ViewBag.Message != null)
+    {
+        <h4>@ViewBag.Message</h4>
+    }
     // Page Title
     @if (Model.Status == "Lead")
     {
@@ -14,11 +19,6 @@ else
     else
     {
         <h2>Startup Details</h2>
-    }
-    // Message
-    @if (ViewBag.message != null)
-    {
-        @ViewBag.message
     }
     // Company Image
     @if (Model.Image != null)
@@ -80,7 +80,7 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                @if(@Model.DateAssigned != null)
+                @if (@Model.DateAssigned != null)
                 {
                     @Model.DateAssigned.Value.Date
                 }
@@ -169,5 +169,4 @@ else
         <input type="submit"
                value="Edit Company" />
     </form>
-    @Html.ActionLink("Search Startup Company Database", "Index")
 </div>

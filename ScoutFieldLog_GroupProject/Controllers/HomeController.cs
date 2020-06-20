@@ -98,11 +98,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
-            SeamlessProjectList spl = await DAL.GetProjects();
-            List<SeamlessProject> results = spl.records.ToList();
-            List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
+            //SeamlessProjectList spl = await DAL.GetProjects();
+            //List<SeamlessProject> results = spl.records.ToList();
+            //List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
             //List<SeamlessProject> projectList = results.ToList<SeamlessProject>();
-            return View(projectList);
+            return View();
         }
 
         // Company CRUD
@@ -117,9 +117,9 @@ namespace ScoutFieldLog_GroupProject.Controllers
             else
             {
                 searchResults = _context.StartUpCompanies.Where(x => x.CompanyName.Contains(searchString)).ToList();
-                // Search Parameters
-                var twoLineSummaryMatches = _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
-                //searchResults = searchResults.Add(twoLineSummaryMatches);
+                var twoLineSummaryMatches =
+                    _context.StartUpCompanies.Where(x => x.TwoLineSummary.Contains(searchString)).ToList();
+                searchResults.AddRange(twoLineSummaryMatches);
             }
             return View(searchResults);
         }
@@ -131,13 +131,21 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult CompanyDetails(int companyId)
         {
-            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+            if(TempData["updateConfirmation"] != null)
+            {
+                ViewBag.Message = TempData["updateConfirmation"].ToString();
+            }
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
+            if(company.Alignments == null)
+            {
+                company.Alignments = "";
+            }
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return View(company);
         }
 
@@ -156,14 +164,19 @@ namespace ScoutFieldLog_GroupProject.Controllers
         [HttpPost]
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
+            // Checkbox logic
             company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            // Keywords assignment
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
 
             _context.Update(company);
             _context.SaveChanges();
             startupMatch.refreshCompanyCache();
-            //ViewBag.message = "Company record updated.";
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 

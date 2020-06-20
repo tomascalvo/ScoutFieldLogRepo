@@ -69,6 +69,7 @@ namespace ScoutFieldLog_GroupProject
             {
                 endpoints.MapControllerRoute(
                     name: "default",
+                    //Question 1.
                     pattern: "{controller=Home}/{action=ConnectorView}/{id?}");
                 endpoints.MapRazorPages();
             });
