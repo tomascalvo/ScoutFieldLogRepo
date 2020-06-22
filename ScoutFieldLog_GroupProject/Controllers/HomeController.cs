@@ -110,11 +110,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             SeamlessProjectList spl = await DAL.GetProjects();
             List<SeamlessProject> results = spl.records.ToList();
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
-<<<<<<< HEAD
             return View(projectList);
-=======
-            return View();
->>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
         }
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
@@ -141,15 +137,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult CompanyDetails(int companyId)
         {
-<<<<<<< HEAD
-            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
-=======
             if(TempData["updateConfirmation"] != null)
             {
                 ViewBag.Message = TempData["updateConfirmation"].ToString();
             }
             var company = _context.StartUpCompanies.Find(companyId);
->>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
             return View(company);
         }
 
@@ -210,13 +202,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _context.Update(company);
             _context.SaveChanges();
             startupMatch.refreshCompanyCache();
-<<<<<<< HEAD
             ViewBag.message = "Company record updated.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
-=======
-            TempData["updateConfirmation"] = "The company record has been updated successfully.";
-            return RedirectToAction("EditCompanyPartial", new { companyId = company.Id });
->>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
         }
 
         [HttpGet]

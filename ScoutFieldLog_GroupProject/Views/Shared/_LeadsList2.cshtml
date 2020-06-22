@@ -33,6 +33,30 @@
         mainContent.innerHTML = updatePage;
     }
 
+    function loadEvaluationForm() {
+        let mainContent = document.getElementById("mainContent");
+        let ourRequest = new XMLHttpRequest();
+        ourRequest.open("GET", "/Home/CreateEvaluation?companyId=" + companyID, false);
+        ourRequest.onload = function () {
+            let mainContent = document.getElementById("mainContent");
+            viewPage = ourRequest.responseText;
+            mainContent.innerHTML = viewPage;
+        };
+        ourRequest.send();
+    }
+
+    function loadAnalyzeForm() {
+        let mainContent = document.getElementById("mainContent");
+        let ourRequest = new XMLHttpRequest();
+        ourRequest.open("GET", "/Home/AnalyzeStartup?companyId=" + companyID, false);
+        ourRequest.onload = function () {
+            let mainContent = document.getElementById("mainContent");
+            viewPage = ourRequest.responseText;
+            mainContent.innerHTML = viewPage;
+        };
+        ourRequest.send();
+    }
+
     function loadCompanyDetails(companyID) {
         let mainContent = document.getElementById("mainContent");
         let recommendations = document.getElementById("recommendations");
