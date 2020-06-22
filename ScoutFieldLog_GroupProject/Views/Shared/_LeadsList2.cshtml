@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
+
+<script>
+
+    let updatePage;
+    let viewPage;
+    let cID;
+
+    function ajaxSuccess() {
+        let mainContent = document.getElementById("saveStatus");
+        mainContent.innerHTML = "Save successful!";
+
+        console.log(this.responseText);
+        //alert("form saved successfully");
+        loadCompanyDetails(cID);
+    }
+
+    function submitUpdateForm() {
+        let oFormElement = document.updateCompany;
+        var oReq = new XMLHttpRequest();
+        oReq.onload = ajaxSuccess;
+        oReq.open("post", oFormElement.action);
+        oReq.send(new FormData(oFormElement));
+    }
+
+    function cancelUpdatePage() {
+        let mainContent = document.getElementById("mainContent");
+        mainContent.innerHTML = viewPage;
+    }
+
+    function loadUpdatePage() {
+        let mainContent = document.getElementById("mainContent");
+        mainContent.innerHTML = updatePage;
+    }
+
+    function loadCompanyDetails(companyID) {
+        let mainContent = document.getElementById("mainContent");
+        let recommendations = document.getElementById("recommendations");
+
+        cID = companyID;
+        let ourRequest = new XMLHttpRequest();
+        ourRequest.open("GET", "/Home/CompanyDetailsPartial?companyId=" + companyID, false);
+        //ourRequest.open("GET", "/Home/CompanyDetailsPartialNew?companyId=" + companyID, false);
+        ourRequest.onload = function () {
+            let mainContent = document.getElementById("mainContent");
+            viewPage = ourRequest.responseText;
+            mainContent.innerHTML = viewPage;
+        };
+        ourRequest.send();
+
+        let ourRequest2 = new XMLHttpRequest();
+        ourRequest2.open("GET", "/Home/SimilarStartupsPartialView?companyId=" + companyID, false);
+        ourRequest2.onload = function () {
+            let recommendations = document.getElementById("recommendations");
+            recommendations.innerHTML = ourRequest2.responseText;
+        };
+        ourRequest2.send();
+
+        let ourRequest3 = new XMLHttpRequest();
+        ourRequest3.open("GET", "/Home/EditCompanyPartial?companyId=" + companyID, true);
+        ourRequest3.onload = function () {
+            //let mainContent = document.getElementById("recommendations");
+            updatePage = ourRequest3.responseText;
+        };
+        ourRequest3.send();
+    }
+</script>
+<select id="companySelector" size="5">
+    @foreach (var company in Model)
+    {
+        <option id="@company.Id" onclick='loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
+    }
+</select>

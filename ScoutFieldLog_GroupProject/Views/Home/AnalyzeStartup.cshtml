@@ -1,0 +1,167 @@
+﻿@model Analysis
+@{
+    ViewData["Title"] = "Startup Analysis";
+}
+<h2>@ViewBag.Title</h2>
+@if (@Model == null)
+{
+    <p>No evaluation found.</p>
+}
+else
+{
+    // Message
+    @if (ViewBag.Message != null)
+    {
+        <h4>@ViewBag.Message</h4>
+    }
+    @if(ViewBag.CompanyName != null && ViewBag.CompanyName != "")
+    {
+        <h3>@ViewBag.CompanyName</h3>
+    }
+    else
+    {
+        <h3>@Model.StartUpCompaniesId</h3>
+    }
+    <p>@ViewBag.CompanySummary</p>
+    <table class="table">
+        <tr>
+            <th>
+                Alignment Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                foreach (AlignmentQuotient aq in @Model.AlignmentQuotients)
+                {
+                    <td>
+                        @aq.PartnerName
+                        <br>
+                        @aq.Quotient.ToString("0.00")
+                    </td>
+                }
+            }
+        </tr>
+        <tr>
+            <th>
+                Theme Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                foreach (ThemeQuotient tq in @Model.ThemeQuotients)
+                {
+                    <td>
+                        @tq.Name
+                        <br>
+                        @tq.Quotient.ToString("0.00")
+                    </td>
+                }
+            }
+        </tr>
+        <tr>
+            <th>
+                Landscape Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                foreach (LandscapeQuotient lq in @Model.LandscapeQuotients)
+                {
+                    <td>
+                        @lq.Name
+                        <br>
+                        @lq.Quotient.ToString("0.00")
+                    </td>
+                }
+            }
+        </tr>
+        <tr>
+            <th>
+                Technology Area Quotients
+            </th>
+        </tr>
+        <tr>
+            @{
+                foreach (TechnologyAreaQuotient q in @Model.TechnologyAreaQuotients)
+                {
+                    <td>
+                        @q.Name
+                        <br>
+                        @q.Quotient.ToString("0.00")
+                    </td>
+                }
+            }
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.UniquenessQuotient)
+            </th>
+            <td>
+                @Model.UniquenessQuotient.ToString("0.0")
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.TeamStrengthQuotient)
+            </th>
+            <td>
+                @Model.TeamStrengthQuotient.ToString("0.0")
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.BusinessPotentialQuotient)
+            </th>
+            <td>
+                @Model.BusinessPotentialQuotient.ToString("0.0")
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.InterestQuotient)
+            </th>
+            <td>
+                @Model.InterestQuotient.ToString("0.0")
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div>
+        @Html.DisplayNameFor(m => m.Comments)
+        <br />
+        @{ 
+            List<Comment> commentList = Model.Comments.ToList();
+            int counter = 0;
+            @foreach (Comment comment in commentList)
+            {
+                <div>
+                    Comment #@counter 
+                    <br />
+                    Author: @comment.AuthorName 
+                    <br />
+                </div>
+                <div>
+                    @comment.Content
+                </div>
+                <br />
+                counter++;
+            }
+        }
+    </div>
+    <div>
+        <form action="CreateEvaluation">
+            <input type="hidden"
+                   name="Company Id"
+                   value="@Model.StartUpCompaniesId" />
+            <input type="submit"
+                   value="Evaluate this Company" />
+        </form>
+        <form action="ReviewEvaluations">
+            <input type="submit"
+                   value="All Evaluations" />
+        </form>
+    </div>
+}

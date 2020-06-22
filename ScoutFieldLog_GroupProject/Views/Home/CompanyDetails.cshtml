@@ -6,20 +6,13 @@
 }
 else
 {
-    // Page Title
-    @if (Model.Status == "Lead")
-    {
-        <h2>Lead Details</h2>
-    }
-    else
-    {
-        <h2>Startup Details</h2>
-    }
     // Message
-    @if (ViewBag.message != null)
+    @if (ViewBag.Message != null)
     {
-        @ViewBag.message
+        <h4>@ViewBag.Message</h4>
     }
+    // Page Title
+    <h2>Startup Details</h2>
     // Company Image
     @if (Model.Image != null)
     {
@@ -80,7 +73,7 @@ else
                 @Html.DisplayNameFor(c => c.DateAssigned)
             </td>
             <td>
-                @if(@Model.DateAssigned != null)
+                @if (@Model.DateAssigned != null)
                 {
                     @Model.DateAssigned.Value.Date
                 }
@@ -160,7 +153,7 @@ else
         </tr>
     </table>
 }
-<div>
+<div id="buttons">
     @*@Html.ActionLink("Save", "PromoteLead", new { company = Model }) |*@
     <form action="EditCompany">
         <input type="hidden"
@@ -169,5 +162,18 @@ else
         <input type="submit"
                value="Edit Company" />
     </form>
-    @Html.ActionLink("Search Startup Company Database", "Index")
+    <form action="CreateEvaluation">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Evaluate" />
+    </form>
+    <form action="AnalyzeStartup">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Analyze" />
+    </form>
 </div>

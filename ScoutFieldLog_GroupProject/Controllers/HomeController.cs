@@ -42,14 +42,27 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        public IActionResult NoCompanyFound()
+        {
+            return View();
+        }
+
+        // ConnectorView & Partial Views
+        [Authorize]
+        public IActionResult ConnectorView2()
+        {
+            var allRecords = _context.StartUpCompanies.ToList();
+            return View(allRecords);
+        }
+
         [Authorize]
         public IActionResult ConnectorView()
         {
             var allRecords = _context.StartUpCompanies.ToList();
             return View(allRecords);
         }
-        // ConnectorView Partial Views
-        public IActionResult _LeadDetails(int companyId)
+
+        public async Task<IActionResult> _LeadDetails(int companyId)
         {
             if(companyId == null)
             {
@@ -57,9 +70,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 return PartialView(firstResult);
             }
             var company = _context.StartUpCompanies.Find(companyId);
+            if (company == null)
+            {
+                return NoCompanyFound();
+            }
             return PartialView(company);
         }
-
 
         public IActionResult _SimilarStartupsPartialView(int companyId)
 
@@ -72,7 +88,21 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
             List<RecommendedAlignment> ra = 
                 startupMatch.getSimilarCompanies(companyId, company.Keywords);
+
             return View(ra);
+        }
+        public async Task<IActionResult> SimilarStartupsPartialView(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = companyId;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.TwoLineSummary = company.TwoLineSummary;
+            ViewBag.Keywords = company.Keywords;
+
+            List<RecommendedAlignment> ra =
+                startupMatch.getSimilarCompanies(companyId, company.Keywords);
+
+            return PartialView(ra);
         }
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
@@ -80,10 +110,12 @@ namespace ScoutFieldLog_GroupProject.Controllers
             SeamlessProjectList spl = await DAL.GetProjects();
             List<SeamlessProject> results = spl.records.ToList();
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
+<<<<<<< HEAD
             return View(projectList);
+=======
+            return View();
+>>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
         }
-
-        // Company CRUD
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
@@ -109,9 +141,18 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult CompanyDetails(int companyId)
         {
+<<<<<<< HEAD
             var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
+=======
+            if(TempData["updateConfirmation"] != null)
+            {
+                ViewBag.Message = TempData["updateConfirmation"].ToString();
+            }
+            var company = _context.StartUpCompanies.Find(companyId);
+>>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
             return View(company);
         }
+
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
@@ -119,21 +160,63 @@ namespace ScoutFieldLog_GroupProject.Controllers
             {
                 company.Alignments = "";
             }
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
             return View(company);
         }
-        [HttpPost]
 
-        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany)
+        public IActionResult CompanyDetailsPartial(int companyId)
         {
-            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
+
+        public IActionResult EditCompanyPartial(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            return PartialView(company);
+        }
+
+        [HttpPost]
+        public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            // Checkbox logic
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ", ");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
+            // Keywords assignment
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
 
             _context.Update(company);
             _context.SaveChanges();
             startupMatch.refreshCompanyCache();
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
+            return RedirectToAction("CompanyDetails", new { companyId = company.Id });
+        }
+
+        [HttpPost]
+        public IActionResult EditCompanyPartial(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            // Checkbox logic
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            // Keywords assignment
+            company.Keywords =
+                StartupMatch.getKeywordString(company.TwoLineSummary);
+
+            _context.Update(company);
+            _context.SaveChanges();
+            startupMatch.refreshCompanyCache();
+<<<<<<< HEAD
             ViewBag.message = "Company record updated.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
+=======
+            TempData["updateConfirmation"] = "The company record has been updated successfully.";
+            return RedirectToAction("EditCompanyPartial", new { companyId = company.Id });
+>>>>>>> da7fa395e7dd074a70f3e1ac6ed2cb978828b528
         }
 
         [HttpGet]
@@ -167,6 +250,71 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return View();
         }
+
+        // Evaluation CRUD
+        // Create Evaluation
+        [HttpGet]
+        public IActionResult CreateEvaluation(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
+            ViewBag.partners = _context.PartnerCompany.ToList();
+            ViewBag.themes = _context.Theme.ToList();
+            ViewBag.landscapes = _context.Landscape.ToList();
+            ViewBag.technologyAreas = _context.TechnologyArea.ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, string[] selectedAlignments, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            newEvaluation.Alignments = StartupMatch.convertListToString(selectedAlignments, ", ");
+            newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            newEvaluation.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            newEvaluation.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
+            _context.Add(newEvaluation);
+            _context.SaveChanges();
+            TempData["evaluationCreated"] = "Thank you for your evaluation, " + User.Identity.Name + ".";
+            return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
+        }
+        //Review Evaluation
+        public IActionResult ReviewEvaluation(int evaluationId)
+        {
+            if (TempData["evaluationCreated"] != null)
+            {
+                ViewBag.Message = TempData["evaluationCreated"].ToString();
+            }
+            var evaluationToReview = _context.Evaluation.First(e => e.Id.Equals(evaluationId));
+            var company = _context.StartUpCompanies.First(c => c.Id.Equals(evaluationToReview.StartUpCompaniesId));
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
+            return View(evaluationToReview);
+        }
+        // Review & Search Evaluations
+        public IActionResult ReviewEvaluations()
+        {
+            var allEvaluations = _context.Evaluation.ToList();
+            return View(allEvaluations);
+        }
+        //Review Aggregate Evaluation Data
+       public IActionResult AnalyzeStartup(int companyId)
+        {
+            var startUpCo = _context.StartUpCompanies.First(s => s.Id.Equals(companyId));
+            ViewBag.CompanyId = startUpCo.Id;
+            ViewBag.CompanyName = startUpCo.CompanyName;
+            ViewBag.CompanySummary = startUpCo.TwoLineSummary;
+            var evaluations = _context.Evaluation.Where(e => e.StartUpCompaniesId.Equals(companyId)).ToList();
+            var partners = _context.PartnerCompany.ToList();
+            var themes = _context.Theme.ToList();
+            var landscapes = _context.Landscape.ToList();
+            var technologyAreas = _context.TechnologyArea.ToList();
+            Analysis analysis = new Analysis(evaluations, partners, themes, landscapes, technologyAreas);
+            return View(analysis);
+        }
+
+        // Update Evaluation
 
         public IActionResult Privacy()
         {

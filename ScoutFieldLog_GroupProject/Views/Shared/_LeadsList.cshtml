@@ -34,7 +34,16 @@
             </td>
             <td>
                 @*Link to Company Details View*@
-                @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
+                @{
+                    if (company.CompanyName != null)
+                    {
+                        @Html.ActionLink(company.CompanyName, "CompanyDetails", new { companyId = company.Id })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Company ID: " + company.Id, "CompanyDetails", new { companyId = company.Id })
+                    }
+                }
             </td>
             <td>
                 @if (company.Image != null)
@@ -58,20 +67,26 @@
                            value="View Details"
                            class="leadDetailsButton" />
                 </form>
-                <form action="/Home/_SimilarStartupsPartialView">
-                    <input type="hidden"
-                           name="companyId"
-                           value="@company.Id" />
-                    <input type="submit"
-                           value="Suggest Similar"
-                           class="suggestSimilarButton" />
-                </form>
                 <form action="/Home/EditCompany">
                     <input type="hidden"
                            name="companyId"
                            value="@company.Id" />
                     <input type="submit"
-                           value="Edit Company" />
+                           value="Edit Details" />
+                </form>
+                <form action="/Home/CreateEvaluation">
+                    <input type="hidden"
+                           name="companyId"
+                           value="@company.Id" />
+                    <input type="submit"
+                           value="Evaluate" />
+                </form>
+                <form action="/Home/AnalyzeStartup">
+                    <input type="hidden"
+                           name="companyId"
+                           value="@company.Id" />
+                    <input type="submit"
+                           value="Analyze" />
                 </form>
                 <form action="/Home/ListStartUpProjects" method="post">
                     <input type="hidden"
@@ -79,6 +94,14 @@
                            value="@company.CompanyName" />
                     <input type="submit"
                            value="List StartUp Projects" />
+                </form>
+                <form action="/Home/_SimilarStartupsPartialView">
+                    <input type="hidden"
+                           name="companyId"
+                           value="@company.Id" />
+                    <input type="submit"
+                           value="Suggest Similar"
+                           class="suggestSimilarButton" />
                 </form>
             </td>
         </tr>

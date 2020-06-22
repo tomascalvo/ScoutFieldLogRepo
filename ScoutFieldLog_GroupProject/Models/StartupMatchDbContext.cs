@@ -26,6 +26,10 @@ namespace ScoutFieldLog_GroupProject.Models
         public virtual DbSet<Keywords> Keywords { get; set; }
         public virtual DbSet<StartUp> StartUp { get; set; }
         public virtual DbSet<StartUpCompanies> StartUpCompanies { get; set; }
+        public virtual DbSet<Theme> Theme { get; set; }
+        public virtual DbSet<Landscape> Landscape { get; set; }
+        public virtual DbSet<TechnologyArea> TechnologyArea { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

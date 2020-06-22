@@ -1,0 +1,176 @@
+﻿@model StartUpCompanies
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3>Startup Details</h3>
+        <h3>@Model.CompanyName</h3> <button onclick="loadUpdatePage()">Update Company</button>
+    </div>
+    <div id="mainContent" class="card-body">
+
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TwoLineSummary)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.TwoLineSummary)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Keywords)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Keywords)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.TechnologyAreas)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.TechnologyAreas)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Alignments)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Alignments)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.CompanyWebsite)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.CompanyWebsite)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.CompanyContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.CompanyContactName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.CompanyContactPhoneNumber)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Status)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Raised)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Raised)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.DateAssigned)
+                </td>
+                <td>
+                    @if (@Model.DateAssigned != null)
+                    {
+                        @Model.DateAssigned.Value.ToString("MM/dd/yyyy")
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.ScoutName)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.ScoutName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.DateReviewed)
+                </td>
+                <td>
+                    @if (@Model.DateReviewed != null)
+                    {
+                        @Model.DateReviewed.Value.ToString("MM/dd/yyyy")
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.City)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.StateProvince)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.StateProvince)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Country
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Country)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Themes)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Themes)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Landscapes)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Landscapes)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Uniqueness)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Uniqueness)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(c => c.Team)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => c.Team)
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
