@@ -41,6 +41,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        public IActionResult NoCompanyFound()
+        {
+            return View();
+        }
+
         [Authorize]
         public IActionResult ConnectorView2()
         {
@@ -63,6 +68,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
                 return PartialView(firstResult);
             }
             var company = _context.StartUpCompanies.Find(companyId);
+            if (company == null)
+            {
+                return NoCompanyFound();
+            }
             return PartialView(company);
         }
 
@@ -137,6 +146,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return View(company);
         }
+
         public IActionResult EditCompany(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
@@ -148,7 +158,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(company);
         }
 
-        public IActionResult ViewCompanyPartial(int companyId)
+        public IActionResult CompanyDetailsPartial(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);

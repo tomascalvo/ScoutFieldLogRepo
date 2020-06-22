@@ -7,8 +7,11 @@
     let cID;
 
     function ajaxSuccess() {
+        let mainContent = document.getElementById("saveStatus");
+        mainContent.innerHTML = "Save successful!";
+
         console.log(this.responseText);
-        alert("form saved successfully");
+        //alert("form saved successfully");
         loadCompanyDetails(cID);
     }
 
@@ -34,12 +37,10 @@
         let mainContent = document.getElementById("mainContent");
         let recommendations = document.getElementById("recommendations");
 
-        mainContent.innerHTML = "Loading please wait...";
-        recommendations.innerHTML = "Loading please wait...";
         cID = companyID;
         let ourRequest = new XMLHttpRequest();
-        //ourRequest.open("GET", "/Home/CompanyDetailsPartial?companyId=" + companyID, false);
-        ourRequest.open("GET", "/Home/_LeadDetails?companyId=" + companyID, false);
+        ourRequest.open("GET", "/Home/CompanyDetailsPartial?companyId=" + companyID, false);
+        //ourRequest.open("GET", "/Home/CompanyDetailsPartialNew?companyId=" + companyID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
             viewPage = ourRequest.responseText;
@@ -65,24 +66,8 @@
     }
 </script>
 <select id="companySelector" size="5">
-@foreach (var company in Model)
-{
-    <option id="@company.Id" onclick='loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
-}
+    @foreach (var company in Model)
+    {
+        <option id="@company.Id" onclick='loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
+    }
 </select>
-
-    @**
-                        <form action="/Home/EditCompany" get>
-                   companyId=@company.Id
-
-                        <form action="/Home/CompanyDetails">
-                   companyId=@company.Id
-
-                        <form action="/Home/_SimilarStartupsPartialView">
-                   companyId=@company.Id
-
-        <form action="/Home/ListStartUpProjects" method="post">
-                   companyName=@company.CompanyName
-                @Html.ActionLink(@company.CompanyName, "CompanyDetails", new { companyid = company.Id })
-
-    *@
