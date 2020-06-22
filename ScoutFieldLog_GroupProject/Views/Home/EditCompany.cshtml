@@ -1,5 +1,4 @@
 ﻿@model StartUpCompanies
-@*Title*@
 @if (Model.Status == "Lead")
 {
     ViewBag.Title = "Edit Lead";
@@ -30,7 +29,6 @@ else
             </td>
             <td>
                 <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
-
             </td>
         </tr>
         <tr>
@@ -87,7 +85,7 @@ else
                 @Html.DisplayNameFor(c => c.TwoLineSummary)
             </td>
             <td>
-                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength=250, placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
+                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength="250", placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
             </td>
         </tr>
         <tr>
@@ -192,7 +190,7 @@ else
             </td>
             <td>
                 @{
-                    string[] themesArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
+                    string[] themesArray = new string[] { "Convenience & Productivity", "The Good Life", "Health Beyond the Hospital", "Robust Future", };
                     foreach (string theme in themesArray)
                     {
                         if (@Model.Themes != null)
@@ -215,7 +213,7 @@ else
             </td>
             <td>
                 @{
-                    string[] landscapesArray = new string[] { "Aging in Place", "Air Quality", "Automation and Robotics", "Clinic in a Box", "Good Habits", "Personalized Wellness", "Responsive Spaces", "Safe Shared Spaces", "Wireless Power" };
+                    string[] landscapesArray = new string[] { "Aging in Place", "Air Quality", "Automation & Robotics", "Clinic in a Box", "Good Habits", "Personalized Wellness", "Responsive Spaces", "Safe Shared Spaces", "Wireless Power" };
                     foreach (string landscape in landscapesArray)
                     {
                         if (@Model.Landscapes != null)
@@ -238,7 +236,7 @@ else
             </td>
             <td>
                 @{
-                    string[] technologyAreasArray = new string[] { "Advanced Materials", "Business Process", "Products", "Robotics", "Sensing", "Software / AI" };
+                    string[] technologyAreasArray = new string[] { "Advanced Materials", "Business Process", "Products", "Robotics", "Sensing", "Software & AI" };
                     foreach (string technologyArea in technologyAreasArray)
                     {
                         if (@Model.TechnologyAreas != null)

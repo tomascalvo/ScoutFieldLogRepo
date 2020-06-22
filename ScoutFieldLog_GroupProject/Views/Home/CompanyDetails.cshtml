@@ -12,14 +12,7 @@ else
         <h4>@ViewBag.Message</h4>
     }
     // Page Title
-    @if (Model.Status == "Lead")
-    {
-        <h2>Lead Details</h2>
-    }
-    else
-    {
-        <h2>Startup Details</h2>
-    }
+    <h2>Startup Details</h2>
     // Company Image
     @if (Model.Image != null)
     {
@@ -160,7 +153,7 @@ else
         </tr>
     </table>
 }
-<div>
+<div id="buttons">
     @*@Html.ActionLink("Save", "PromoteLead", new { company = Model }) |*@
     <form action="EditCompany">
         <input type="hidden"
@@ -168,5 +161,19 @@ else
                value="@Model.Id" />
         <input type="submit"
                value="Edit Company" />
+    </form>
+    <form action="CreateEvaluation">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Evaluate" />
+    </form>
+    <form action="AnalyzeStartup">
+        <input type="hidden"
+               name="companyId"
+               value="@Model.Id" />
+        <input type="submit"
+               value="Analyze" />
     </form>
 </div>

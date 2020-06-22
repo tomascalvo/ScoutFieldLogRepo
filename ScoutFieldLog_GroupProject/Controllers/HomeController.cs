@@ -46,6 +46,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View();
         }
 
+        // ConnectorView & Partial Views
         [Authorize]
         public IActionResult ConnectorView2()
         {
@@ -59,7 +60,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var allRecords = _context.StartUpCompanies.ToList();
             return View(allRecords);
         }
-        // ConnectorView Partial Views
+
         public async Task<IActionResult> _LeadDetails(int companyId)
         {
             if(companyId == null)
@@ -74,7 +75,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return PartialView(company);
         }
-
 
         public IActionResult _SimilarStartupsPartialView(int companyId)
 
@@ -103,7 +103,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
             return PartialView(ra);
         }
-
         [HttpPost]
         public async Task<IActionResult> ListStartUpProjects(string companyName)
         {
@@ -112,8 +111,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
             return View();
         }
-
-        // Company CRUD
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
         {
@@ -174,10 +171,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
             // Checkbox logic
-            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
-            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
-            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
-            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ", ");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
             // Keywords assignment
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
@@ -232,6 +229,71 @@ namespace ScoutFieldLog_GroupProject.Controllers
             }
             return View();
         }
+
+        // Evaluation CRUD
+        // Create Evaluation
+        [HttpGet]
+        public IActionResult CreateEvaluation(int companyId)
+        {
+            var company = _context.StartUpCompanies.Find(companyId);
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
+            ViewBag.partners = _context.PartnerCompany.ToList();
+            ViewBag.themes = _context.Theme.ToList();
+            ViewBag.landscapes = _context.Landscape.ToList();
+            ViewBag.technologyAreas = _context.TechnologyArea.ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, string[] selectedAlignments, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        {
+            newEvaluation.Alignments = StartupMatch.convertListToString(selectedAlignments, ", ");
+            newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            newEvaluation.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            newEvaluation.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
+            _context.Add(newEvaluation);
+            _context.SaveChanges();
+            TempData["evaluationCreated"] = "Thank you for your evaluation, " + User.Identity.Name + ".";
+            return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
+        }
+        //Review Evaluation
+        public IActionResult ReviewEvaluation(int evaluationId)
+        {
+            if (TempData["evaluationCreated"] != null)
+            {
+                ViewBag.Message = TempData["evaluationCreated"].ToString();
+            }
+            var evaluationToReview = _context.Evaluation.First(e => e.Id.Equals(evaluationId));
+            var company = _context.StartUpCompanies.First(c => c.Id.Equals(evaluationToReview.StartUpCompaniesId));
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
+            return View(evaluationToReview);
+        }
+        // Review & Search Evaluations
+        public IActionResult ReviewEvaluations()
+        {
+            var allEvaluations = _context.Evaluation.ToList();
+            return View(allEvaluations);
+        }
+        //Review Aggregate Evaluation Data
+       public IActionResult AnalyzeStartup(int companyId)
+        {
+            var startUpCo = _context.StartUpCompanies.First(s => s.Id.Equals(companyId));
+            ViewBag.CompanyId = startUpCo.Id;
+            ViewBag.CompanyName = startUpCo.CompanyName;
+            ViewBag.CompanySummary = startUpCo.TwoLineSummary;
+            var evaluations = _context.Evaluation.Where(e => e.StartUpCompaniesId.Equals(companyId)).ToList();
+            var partners = _context.PartnerCompany.ToList();
+            var themes = _context.Theme.ToList();
+            var landscapes = _context.Landscape.ToList();
+            var technologyAreas = _context.TechnologyArea.ToList();
+            Analysis analysis = new Analysis(evaluations, partners, themes, landscapes, technologyAreas);
+            return View(analysis);
+        }
+
+        // Update Evaluation
 
         public IActionResult Privacy()
         {

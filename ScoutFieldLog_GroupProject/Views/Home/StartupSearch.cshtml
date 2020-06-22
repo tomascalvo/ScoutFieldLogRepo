@@ -69,12 +69,19 @@
                         @Html.DisplayFor(x => company.TwoLineSummary)
                     </td>
                     <td>
+                        <form action="CreateEvaluation">
+                            <input type="hidden"
+                                   name="companyId"
+                                   value="@company.Id" />
+                            <input type="submit"
+                                   value="Evaluate" />
+                        </form>
                         <form action="EditCompany">
                             <input type="hidden"
                                    name="companyId"
                                    value="@company.Id" />
                             <input type="submit"
-                                   value="Edit Company" />
+                                   value="Edit Details" />
                         </form>
                     </td>
                 </tr>
