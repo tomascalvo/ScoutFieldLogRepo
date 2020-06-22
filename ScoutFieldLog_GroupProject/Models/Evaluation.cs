@@ -1,29 +1,42 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ScoutFieldLog_GroupProject.Models
 {
-    public partial class Evaluation
+    public class Evaluation
     {
-        public Evaluation()
-        {
-            AlignmentScore = new HashSet<AlignmentScore>();
-        }
-
         public int Id { get; set; }
+        [Display(Name = "Company Id")]
         public int StartUpCompaniesId { get; set; }
-        public int AuthorId { get; set; }
-        public DateTime? DateEvaluated { get; set; }
+        [Display(Name = "Startup")]
+        public string CompanyName { get; set; }
+        public string Author { get; set; }
+        public DateTime Posted { get; set; }
+        public string Alignments { get; set; }
         public string Themes { get; set; }
         public string Landscapes { get; set; }
+        [Display(Name = "Technology Areas")]
         public string TechnologyAreas { get; set; }
-        public int UniquenessScore { get; set; }
-        public int TeamScore { get; set; }
-        public int PotentialScore { get; set; }
-        public int InterestScore { get; set; }
+        public int Uniqueness { get; set; }
+        [Display(Name = "Team Strength")]
+        public int Team { get; set; }
+        [Display(Name = "Business Potential")]
+        public int Potential { get; set; }
+        [Display(Name = "Level of Interest")]
+        public int Interest { get; set; }
         public string Comment { get; set; }
-
-        public virtual StartUpCompanies StartUpCompanies { get; set; }
-        public virtual ICollection<AlignmentScore> AlignmentScore { get; set; }
+        public Evaluation()
+        {
+            Posted = DateTime.Now;
+        }
     }
 }

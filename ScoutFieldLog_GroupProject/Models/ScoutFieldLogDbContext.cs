@@ -15,7 +15,6 @@ namespace ScoutFieldLog_GroupProject.Models
         {
         }
 
-        public virtual DbSet<AlignmentScore> AlignmentScore { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -23,35 +22,26 @@ namespace ScoutFieldLog_GroupProject.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<EvalCategory> EvalCategory { get; set; }
-        public virtual DbSet<EvalCriterion> EvalCriterion { get; set; }
         public virtual DbSet<Evaluation> Evaluation { get; set; }
         public virtual DbSet<Keywords> Keywords { get; set; }
+        public virtual DbSet<Landscape> Landscape { get; set; }
         public virtual DbSet<PartnerCompany> PartnerCompany { get; set; }
         public virtual DbSet<StartUp> StartUp { get; set; }
         public virtual DbSet<StartUpCompanies> StartUpCompanies { get; set; }
         public virtual DbSet<StartUpCompaniesOld> StartUpCompaniesOld { get; set; }
+        public virtual DbSet<TechnologyArea> TechnologyArea { get; set; }
+        public virtual DbSet<Theme> Theme { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("DefaultConnection");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AlignmentScore>(entity =>
-            {
-                entity.HasIndex(e => e.EvaluationId);
-
-                entity.HasOne(d => d.Evaluation)
-                    .WithMany(p => p.AlignmentScore)
-                    .HasForeignKey(d => d.EvaluationId);
-            });
-
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
                 entity.HasIndex(e => e.RoleId);
@@ -150,45 +140,20 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity<EvalCategory>(entity =>
-            {
-                entity.HasIndex(e => e.EvalCategoryName)
-                    .HasName("UQ__EvalCate__3B3B27E0996AE86F")
-                    .IsUnique();
-
-                entity.Property(e => e.EvalCategoryName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<EvalCriterion>(entity =>
-            {
-                entity.HasIndex(e => e.EvalCriterionName)
-                    .HasName("UQ__EvalCrit__3A8305A5DF391548")
-                    .IsUnique();
-
-                entity.Property(e => e.EvalCriterionName)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.HasOne(d => d.EvalCategory)
-                    .WithMany(p => p.EvalCriterion)
-                    .HasForeignKey(d => d.EvalCategoryId)
-                    .HasConstraintName("FK__EvalCrite__EvalC__1BC821DD");
-            });
-
-            modelBuilder.Entity<Evaluation>(entity =>
-            {
-                entity.HasIndex(e => e.StartUpCompaniesId);
-
-                entity.HasOne(d => d.StartUpCompanies)
-                    .WithMany(p => p.Evaluation)
-                    .HasForeignKey(d => d.StartUpCompaniesId);
-            });
-
             modelBuilder.Entity<Keywords>(entity =>
             {
                 entity.Property(e => e.Word).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Landscape>(entity =>
+            {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UQ__Landscap__737584F64EE993CF")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<PartnerCompany>(entity =>
@@ -315,6 +280,28 @@ namespace ScoutFieldLog_GroupProject.Models
                 entity.Property(e => e.Themes).HasMaxLength(100);
 
                 entity.Property(e => e.TwoLineSummary).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TechnologyArea>(entity =>
+            {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UQ__Technolo__737584F62C4CE5B0")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Theme>(entity =>
+            {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UQ__Theme__737584F6C6E52742")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

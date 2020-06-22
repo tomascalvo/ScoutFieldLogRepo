@@ -10,8 +10,8 @@ using ScoutFieldLog_GroupProject.Models;
 namespace ScoutFieldLog_GroupProject.Migrations
 {
     [DbContext(typeof(ScoutFieldLogDbContext))]
-    [Migration("20200619145851_EvaluationMigration")]
-    partial class EvaluationMigration
+    [Migration("20200621235912_Evaluation5")]
+    partial class Evaluation5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,29 +20,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.AlignmentScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("EvaluationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PartnerCompanyId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EvaluationId");
-
-                    b.ToTable("AlignmentScore");
-                });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.AspNetRoleClaims", b =>
                 {
@@ -249,28 +226,31 @@ namespace ScoutFieldLog_GroupProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<string>("Alignments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateEvaluated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InterestScore")
+                    b.Property<int>("Interest")
                         .HasColumnType("int");
 
                     b.Property<string>("Landscapes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PotentialScore")
+                    b.Property<DateTime>("Posted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Potential")
                         .HasColumnType("int");
 
                     b.Property<int>("StartUpCompaniesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamScore")
+                    b.Property<int>("Team")
                         .HasColumnType("int");
 
                     b.Property<string>("TechnologyAreas")
@@ -279,12 +259,10 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.Property<string>("Themes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UniquenessScore")
+                    b.Property<int>("Uniqueness")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StartUpCompaniesId");
 
                     b.ToTable("Evaluation");
                 });
@@ -303,6 +281,48 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Keywords");
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Landscape", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("UQ__Landscap__737584F64EE993CF");
+
+                    b.ToTable("Landscape");
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.PartnerCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyName")
+                        .IsUnique()
+                        .HasName("UQ__PartnerC__9BCE05DC2E0E3F33");
+
+                    b.ToTable("PartnerCompany");
                 });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.StartUp", b =>
@@ -464,8 +484,7 @@ namespace ScoutFieldLog_GroupProject.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("TwoLineSummary")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Uniqueness")
                         .HasColumnType("int");
@@ -475,13 +494,137 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.ToTable("StartUpCompanies");
                 });
 
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.AlignmentScore", b =>
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.StartUpCompaniesOld", b =>
                 {
-                    b.HasOne("ScoutFieldLog_GroupProject.Models.Evaluation", null)
-                        .WithMany("AlignmentScores")
-                        .HasForeignKey("EvaluationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alignments")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("CompanyContactName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("CompanyContactPhoneNumber")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("CompanyWebsite")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("DateAssigned")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateReviewed")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Keywords")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Landscapes")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("Raised")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ScoutName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("StateProvince")
+                        .HasColumnName("State_Province")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("Team")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TechnologyAreas")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Themes")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("TwoLineSummary")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("Uniqueness")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StartUpCompaniesOld");
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.TechnologyArea", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("UQ__Technolo__737584F62C4CE5B0");
+
+                    b.ToTable("TechnologyArea");
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Theme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("UQ__Theme__737584F6C6E52742");
+
+                    b.ToTable("Theme");
                 });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.AspNetRoleClaims", b =>
@@ -531,15 +674,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.HasOne("ScoutFieldLog_GroupProject.Models.AspNetUsers", "User")
                         .WithMany("AspNetUserTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Evaluation", b =>
-                {
-                    b.HasOne("ScoutFieldLog_GroupProject.Models.StartUpCompanies", null)
-                        .WithMany("Evaluations")
-                        .HasForeignKey("StartUpCompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

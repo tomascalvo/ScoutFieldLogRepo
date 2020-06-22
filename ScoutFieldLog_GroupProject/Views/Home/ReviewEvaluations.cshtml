@@ -11,16 +11,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(x => x.StartUpCompaniesId)
+            @Html.DisplayNameFor(x => x.CompanyName)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.AuthorId)
+            @Html.DisplayNameFor(x => x.Author)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.DateEvaluated.Value.Date)
+            @Html.DisplayNameFor(x => x.Posted.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.AlignmentScore)
+            @Html.DisplayNameFor(x => x.Alignments)
         </th>
         <th>
             @Html.DisplayNameFor(x => x.Themes)
@@ -32,32 +32,32 @@
             @Html.DisplayNameFor(x => x.TechnologyAreas)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.UniquenessScore)
+            @Html.DisplayNameFor(x => x.Uniqueness)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.TeamScore)
+            @Html.DisplayNameFor(x => x.Team)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.PotentialScore)
+            @Html.DisplayNameFor(x => x.Potential)
         </th>
         <th>
-            @Html.DisplayNameFor(x => x.InterestScore)
+            @Html.DisplayNameFor(x => x.Interest)
         </th>
     </tr>
     @foreach (var evaluation in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(x => evaluation.StartUpCompaniesId)
+                @Html.DisplayFor(x => evaluation.CompanyName)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.AuthorId)
+                @Html.DisplayFor(x => evaluation.Author)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.DateEvaluated)
+                @Html.DisplayFor(x => evaluation.Posted)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.AlignmentScore)
+                @Html.DisplayFor(x => evaluation.Alignments)
             </td>
             <td>
                 @Html.DisplayFor(x => evaluation.Themes)
@@ -69,16 +69,24 @@
                 @Html.DisplayFor(x => evaluation.TechnologyAreas)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.UniquenessScore)
+                @Html.DisplayFor(x => evaluation.Uniqueness)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.TeamScore)
+                @Html.DisplayFor(x => evaluation.Team)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.PotentialScore)
+                @Html.DisplayFor(x => evaluation.Potential)
             </td>
             <td>
-                @Html.DisplayFor(x => evaluation.InterestScore)
+                @if (evaluation.Interest != null)
+                {
+                    @Html.DisplayFor(x => evaluation.Interest)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="11">
+                @Html.DisplayFor(x => evaluation.Comment)
             </td>
         </tr>
     }

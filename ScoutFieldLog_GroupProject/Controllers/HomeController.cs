@@ -9,7 +9,6 @@ using ScoutFieldLog_GroupProject.Data;
 using ScoutFieldLog_GroupProject.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
-using ScoutFieldLog_GroupProject.ViewModels;
 
 namespace ScoutFieldLog_GroupProject.Controllers
 {
@@ -161,10 +160,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult EditCompany(StartUpCompanies company, string[] PartnerCompany, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
             // Checkbox logic
-            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ",");
-            company.Themes = StartupMatch.convertListToString(selectedThemes, ",");
-            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
-            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            company.Alignments = StartupMatch.convertListToString(PartnerCompany, ", ");
+            company.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            company.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            company.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
             // Keywords assignment
             company.Keywords =
                 StartupMatch.getKeywordString(company.TwoLineSummary);
@@ -229,32 +228,36 @@ namespace ScoutFieldLog_GroupProject.Controllers
             ViewBag.CompanyId = company.Id;
             ViewBag.CompanyName = company.CompanyName;
             ViewBag.CompanySummary = company.TwoLineSummary;
+            ViewBag.partners = _context.PartnerCompany.ToList();
+            ViewBag.themes = _context.Theme.ToList();
+            ViewBag.landscapes = _context.Landscape.ToList();
+            ViewBag.technologyAreas = _context.TechnologyArea.ToList();
             return View();
         }
         [HttpPost]
-        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, List<AlignmentScore> alignmentScores, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, string[] selectedAlignments, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
         {
-            newEvaluation.StartUpCompaniesId = companyId;
-            foreach (AlignmentScore score in alignmentScores)
-            {
-                newEvaluation.AlignmentScore.Add(score);
-            }
-            newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ",");
-            newEvaluation.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ",");
-            newEvaluation.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ",");
+            newEvaluation.Alignments = StartupMatch.convertListToString(selectedAlignments, ", ");
+            newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
+            newEvaluation.Landscapes = StartupMatch.convertListToString(selectedLandscapes, ", ");
+            newEvaluation.TechnologyAreas = StartupMatch.convertListToString(selectedTechnologyAreas, ", ");
             _context.Add(newEvaluation);
             _context.SaveChanges();
-            TempData["evaluationCreated"] = "Thank you for your evaluation.";
+            TempData["evaluationCreated"] = "Thank you for your evaluation, " + User.Identity.Name + ".";
             return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
         }
-        // Review Evaluation
+        //Review Evaluation
         public IActionResult ReviewEvaluation(int evaluationId)
         {
             if (TempData["evaluationCreated"] != null)
             {
                 ViewBag.Message = TempData["evaluationCreated"].ToString();
             }
-            var evaluationToReview = _context.Evaluation.Find(evaluationId);
+            var evaluationToReview = _context.Evaluation.First(e => e.Id.Equals(evaluationId));
+            var company = _context.StartUpCompanies.First(c => c.Id.Equals(evaluationToReview.StartUpCompaniesId));
+            ViewBag.CompanyId = company.Id;
+            ViewBag.CompanyName = company.CompanyName;
+            ViewBag.CompanySummary = company.TwoLineSummary;
             return View(evaluationToReview);
         }
         // Review & Search Evaluations
@@ -263,16 +266,22 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var allEvaluations = _context.Evaluation.ToList();
             return View(allEvaluations);
         }
-        // Review Aggregate Evaluation Data
-        public IActionResult AnalyzeStartup(int companyId)
+        //Review Aggregate Evaluation Data
+       public IActionResult AnalyzeStartup(int companyId)
         {
-            StartUpCompanies company = _context.StartUpCompanies.Find(companyId);
-            List<EvalCriterion> ecriteria = _context.EvalCriterion.ToList();
+            var startUpCo = _context.StartUpCompanies.First(s => s.Id.Equals(companyId));
+            ViewBag.CompanyId = startUpCo.Id;
+            ViewBag.CompanyName = startUpCo.CompanyName;
+            ViewBag.CompanySummary = startUpCo.TwoLineSummary;
             var evaluations = _context.Evaluation.Where(e => e.StartUpCompaniesId.Equals(companyId)).ToList();
-            List<AlignmentScore> alignmentScores = _context.AlignmentScore.Where(s => s.Evaluation.StartUpCompaniesId == companyId).ToList();
-            StartupAnalyticModel aModel = new StartupAnalyticModel(company, evaluations, ecriteria, alignmentScores);
-            return View(aModel);
+            var partners = _context.PartnerCompany.ToList();
+            var themes = _context.Theme.ToList();
+            var landscapes = _context.Landscape.ToList();
+            var technologyAreas = _context.TechnologyArea.ToList();
+            Analysis analysis = new Analysis(evaluations, partners, themes, landscapes, technologyAreas);
+            return View(analysis);
         }
+
         // Update Evaluation
 
         public IActionResult Privacy()

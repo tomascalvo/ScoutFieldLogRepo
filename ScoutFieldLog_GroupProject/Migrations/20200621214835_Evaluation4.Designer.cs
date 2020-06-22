@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Migrations
 {
     [DbContext(typeof(ScoutFieldLogDbContext))]
-    partial class ScoutFieldLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200621214835_Evaluation4")]
+    partial class Evaluation4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,9 +235,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Interest")
                         .HasColumnType("int");
 
@@ -244,9 +243,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
 
                     b.Property<DateTime>("Posted")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Potential")
-                        .HasColumnType("int");
 
                     b.Property<int>("StartUpCompaniesId")
                         .HasColumnType("int");
@@ -265,7 +261,9 @@ namespace ScoutFieldLog_GroupProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Evaluation");
+                    b.HasIndex("StartUpCompaniesId");
+
+                    b.ToTable("Evaluations");
                 });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Keywords", b =>
@@ -282,27 +280,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Keywords");
-                });
-
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Landscape", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("UQ__Landscap__737584F64EE993CF");
-
-                    b.ToTable("Landscape");
                 });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.PartnerCompany", b =>
@@ -586,48 +563,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.ToTable("StartUpCompaniesOld");
                 });
 
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.TechnologyArea", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("UQ__Technolo__737584F62C4CE5B0");
-
-                    b.ToTable("TechnologyArea");
-                });
-
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Theme", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("UQ__Theme__737584F6C6E52742");
-
-                    b.ToTable("Theme");
-                });
-
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.AspNetRoleClaims", b =>
                 {
                     b.HasOne("ScoutFieldLog_GroupProject.Models.AspNetRoles", "Role")
@@ -675,6 +610,15 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.HasOne("ScoutFieldLog_GroupProject.Models.AspNetUsers", "User")
                         .WithMany("AspNetUserTokens")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Evaluation", b =>
+                {
+                    b.HasOne("ScoutFieldLog_GroupProject.Models.StartUpCompanies", null)
+                        .WithMany("Evaluation")
+                        .HasForeignKey("StartUpCompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScoutFieldLog_GroupProject.Models;
 
 namespace ScoutFieldLog_GroupProject.Migrations
 {
     [DbContext(typeof(ScoutFieldLogDbContext))]
-    partial class ScoutFieldLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200621234318_Evaluation")]
+    partial class Evaluation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,7 +219,7 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Evaluation", b =>
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Evaluations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,9 +235,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Interest")
                         .HasColumnType("int");
 
@@ -244,9 +243,6 @@ namespace ScoutFieldLog_GroupProject.Migrations
 
                     b.Property<DateTime>("Posted")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Potential")
-                        .HasColumnType("int");
 
                     b.Property<int>("StartUpCompaniesId")
                         .HasColumnType("int");
@@ -265,7 +261,9 @@ namespace ScoutFieldLog_GroupProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Evaluation");
+                    b.HasIndex("StartUpCompaniesId");
+
+                    b.ToTable("Evaluations");
                 });
 
             modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Keywords", b =>
@@ -675,6 +673,15 @@ namespace ScoutFieldLog_GroupProject.Migrations
                     b.HasOne("ScoutFieldLog_GroupProject.Models.AspNetUsers", "User")
                         .WithMany("AspNetUserTokens")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ScoutFieldLog_GroupProject.Models.Evaluations", b =>
+                {
+                    b.HasOne("ScoutFieldLog_GroupProject.Models.StartUpCompanies", "StartUpCompanies")
+                        .WithMany("Evaluations")
+                        .HasForeignKey("StartUpCompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

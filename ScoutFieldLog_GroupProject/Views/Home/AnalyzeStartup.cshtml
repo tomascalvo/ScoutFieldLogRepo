@@ -1,4 +1,4 @@
-﻿@model ScoutFieldLog_GroupProject.ViewModels.StartupAnalyticModel
+﻿@model Analysis
 @{
     ViewData["Title"] = "Startup Analysis";
 }
@@ -14,32 +14,33 @@ else
     {
         <h4>@ViewBag.Message</h4>
     }
-    @if(Model.StartUpCo.CompanyName != null && Model.StartUpCo.CompanyName != "")
+    @if(ViewBag.CompanyName != null && ViewBag.CompanyName != "")
     {
-        <h3>@Model.StartUpCo.CompanyName</h3>
+        <h3>@ViewBag.CompanyName</h3>
     }
     else
     {
-        <h3>@Model.StartUpCo.Id</h3>
+        <h3>@Model.StartUpCompaniesId</h3>
     }
-    <p>@Model.StartUpCo.TwoLineSummary</p>
+    <p>@ViewBag.CompanySummary</p>
     <table class="table">
         <tr>
             <th>
-                Alignment Averages
+                Alignment Quotients
             </th>
         </tr>
-        @{
-            var aList = Model.Alignments.ToList();
-            foreach (ScoutFieldLog_GroupProject.ViewModels.AlignmentAM alignment in aList)
-            {
-                <tr>
+        <tr>
+            @{
+                foreach (AlignmentQuotient aq in @Model.AlignmentQuotients)
+                {
                     <td>
-                        @alignment.Name: @alignment.ScoreAvgConnectors
+                        @aq.PartnerName
+                        <br>
+                        @aq.Quotient.ToString("0.00")
                     </td>
-                </tr>
+                }
             }
-        }
+        </tr>
         <tr>
             <th>
                 Theme Quotients
@@ -47,11 +48,12 @@ else
         </tr>
         <tr>
             @{
-                var tList = Model.Themes.ToList();
-                foreach (ScoutFieldLog_GroupProject.ViewModels.ThemeAM theme in tList)
+                foreach (ThemeQuotient tq in @Model.ThemeQuotients)
                 {
                     <td>
-                        @theme.Name: @theme.ScoreAvgConnectors
+                        @tq.Name
+                        <br>
+                        @tq.Quotient.ToString("0.00")
                     </td>
                 }
             }
@@ -63,11 +65,12 @@ else
         </tr>
         <tr>
             @{
-                var lList = Model.Landscapes.ToList();
-                foreach (ScoutFieldLog_GroupProject.ViewModels.LandscapeAM landscape in lList)
+                foreach (LandscapeQuotient lq in @Model.LandscapeQuotients)
                 {
                     <td>
-                        @landscape.Name: @landscape.ScoreAvgConnectors
+                        @lq.Name
+                        <br>
+                        @lq.Quotient.ToString("0.00")
                     </td>
                 }
             }
@@ -79,11 +82,12 @@ else
         </tr>
         <tr>
             @{
-                var taList = Model.TechnologyAreas.ToList();
-                foreach (ScoutFieldLog_GroupProject.ViewModels.TechnologyAreaAM tArea in taList)
+                foreach (TechnologyAreaQuotient q in @Model.TechnologyAreaQuotients)
                 {
                     <td>
-                        @tArea.Name: @tArea.ScoreAvgConnectors
+                        @q.Name
+                        <br>
+                        @q.Quotient.ToString("0.00")
                     </td>
                 }
             }
@@ -92,35 +96,35 @@ else
     <table>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.Uniqueness)
+                @Html.DisplayNameFor(m => m.UniquenessQuotient)
             </th>
             <td>
-                @Html.DisplayFor(m => m.Uniqueness.ScoreAvgConnectors)
+                @Model.UniquenessQuotient.ToString("0.0")
             </td>
         </tr>
         <tr>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.TeamStrength)
+                @Html.DisplayNameFor(m => m.TeamStrengthQuotient)
             </th>
             <td>
-                @Html.DisplayFor(m => m.TeamStrength.ScoreAvgConnectors)
+                @Model.TeamStrengthQuotient.ToString("0.0")
             </td>
         </tr>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.BusinessPotential)
+                @Html.DisplayNameFor(m => m.BusinessPotentialQuotient)
             </th>
             <td>
-                @Html.DisplayFor(m => m.BusinessPotential.ScoreAvgConnectors)
+                @Model.BusinessPotentialQuotient.ToString("0.0")
             </td>
         </tr>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.Interest)
+                @Html.DisplayNameFor(m => m.InterestQuotient)
             </th>
             <td>
-                @Html.DisplayFor(m => m.Interest.ScoreAvgConnectors)
+                @Model.InterestQuotient.ToString("0.0")
             </td>
         </tr>
     </table>
@@ -129,15 +133,18 @@ else
         @Html.DisplayNameFor(m => m.Comments)
         <br />
         @{ 
-            var commentList = Model.Comments.ToList();
+            List<Comment> commentList = Model.Comments.ToList();
             int counter = 0;
-            @foreach (ScoutFieldLog_GroupProject.ViewModels.Comment comment in commentList)
+            @foreach (Comment comment in commentList)
             {
                 <div>
-                    Comment #@counter Author: User @comment.UserId
+                    Comment #@counter 
+                    <br />
+                    Author: @comment.AuthorName 
+                    <br />
                 </div>
                 <div>
-                    @comment.Body
+                    @comment.Content
                 </div>
                 <br />
                 counter++;
@@ -147,10 +154,14 @@ else
     <div>
         <form action="CreateEvaluation">
             <input type="hidden"
-                   name="companyId"
-                   value="@Model.StartUpCo.Id" />
+                   name="Company Id"
+                   value="@Model.StartUpCompaniesId" />
             <input type="submit"
                    value="Evaluate this Company" />
+        </form>
+        <form action="ReviewEvaluations">
+            <input type="submit"
+                   value="All Evaluations" />
         </form>
     </div>
 }

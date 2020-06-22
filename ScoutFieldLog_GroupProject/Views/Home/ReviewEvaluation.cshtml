@@ -1,4 +1,9 @@
 ﻿@model Evaluation
+@*Message*@
+@if (ViewBag.Message != null)
+{
+    <h4>@ViewBag.Message</h4>
+}
 <h2>Review Evaluation</h2>
 @if (@Model == null)
 {
@@ -6,112 +11,111 @@
 }
 else
 {
-    // Message
-    @if (ViewBag.Message != null)
-    {
-        <h4>@ViewBag.Message</h4>
-    }
     // Company Image
-    <h3>Company Id: @Model.StartUpCompaniesId</h3>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(x => x.StartUpCompaniesId)
-            </th>
-            <td>
-                @Html.DisplayFor(x => x.StartUpCompaniesId)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.AuthorId)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.AuthorId)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.DateEvaluated.Value.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.DateEvaluated.Value.Date)
-            </td>
-        </tr>
-        @{ 
-            var alignmentScores = Model.AlignmentScore.ToList();
-        }
-        @foreach(AlignmentScore s in alignmentScores)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(x => s.PartnerCompanyId)
-                </td>
-                <td>
-                    @Html.DisplayFor(x => s.Score)
-                </td>
-            </tr>
-        }
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.Themes)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.Themes)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.Landscapes)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.Landscapes)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.TechnologyAreas)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.TechnologyAreas)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.UniquenessScore)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.UniquenessScore)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.TeamScore)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.TeamScore)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(x => x.PotentialScore)
-            </td>
-            <td>
-                @Html.DisplayFor(x => x.PotentialScore)
-            </td>
-        </tr>
+    @if(Model.CompanyName != null)
+    {
+        <h3>@Model.CompanyName</h3>
+    }
+    else
+    {
+        <h3>Company Id: @Model.StartUpCompaniesId</h3>
+    }
+<table class="table">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Author)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Author)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Posted)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Posted.Date)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Alignments)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Alignments)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Themes)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Themes)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Landscapes)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Landscapes)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.TechnologyAreas)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.TechnologyAreas)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Uniqueness)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Uniqueness)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Team)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Team)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Potential)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Potential)
+        </td>
+    </tr>
+    @if (User.HasClaim("Role", "Partner"))
+    {
         <tr>
             <td>
-                @Html.DisplayNameFor(x => x.InterestScore)
+                @Html.DisplayNameFor(x => x.Interest)
             </td>
             <td>
-                @Html.DisplayFor(x => x.InterestScore)
+                @Html.DisplayFor(x => x.Interest)
             </td>
         </tr>
-    </table>
+    }
+    <tr>
+        <td>
+            @Html.DisplayNameFor(x => x.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Comment)
+        </td>
+    </tr>
+</table>
 }
 <div id="buttons">
-    @*@Html.ActionLink("Save", "PromoteLead", new { company = Model }) |*@
+    @*@Html.ActionLink("Save", "PromoteLead", new { company = Model })*@
     <form action="AnalyzeStartup">
         <input type="hidden"
                name="companyId"
@@ -125,5 +129,9 @@ else
                value="@Model.StartUpCompaniesId" />
         <input type="submit"
                value="Company Details" />
+    </form>
+    <form action="ReviewEvaluations">
+        <input type="submit"
+               value="All Evaluations" />
     </form>
 </div>

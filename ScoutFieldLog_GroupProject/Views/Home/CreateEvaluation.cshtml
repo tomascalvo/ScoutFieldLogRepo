@@ -7,30 +7,31 @@
 {
     <p>@ViewBag.Message</p>
 }
-@* Company Name *@
 @if (ViewBag.CompanyName != null)
 {
     <h3>@ViewBag.CompanyName</h3>
 }
 else
 {
-    <h3>Company Id: @ViewBag.CompanyId</h3>
+    <h3>Company Id: @Model.StartUpCompaniesId</h3>
 }
 @if (ViewBag.TwoLineSummary != null)
 {
     <p>@ViewBag.TwoLineSummary</p>
 }
 <form method="POST">
-    @* Input company Id *@
-    <input type="hidden" name="companyId" value="@ViewBag.CompanyId" />
-    <input type="hidden" name="DateEvaluated" value='@DateTime.Today.ToString("MM/dd/yyyy")' />
+    @* Hidden Inputs *@
+    <input type="hidden" name="StartUpCompaniesId" value="@ViewBag.CompanyId" />
+    <input type="hidden" name="CompanyName" value="@ViewBag.CompanyName" />
+    <input type="hidden" name="Posted" value='@DateTime.Today.ToString("MM/dd/yyyy")' />
+    <input type="hidden" name="Author" value="@User.Identity.Name" />
     <div id="alignmentScores">
         <p>Alignments</p>
         @{
             string[] partnerCompaniesArray = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
             foreach (string p in partnerCompaniesArray)
             {
-                <input type="checkbox" name="AlignmentScore" value="@p" />@p
+                <input type="checkbox" name="selectedAlignments" value="@p" />@p
                 <br />
             }
         }
@@ -66,14 +67,14 @@ else
             string[] technologyAreasArray = new string[] { "Advanced Materials", "Business Process", "Products", "Robotics", "Sensing", "Software / AI" };
             foreach (string technologyArea in technologyAreasArray)
             {
-                <input type="checkbox" name="selectedTechnologyAreas" value="@technologyArea" />@technologyArea
+                <input type="checkbox" name="selectedTechnologyAreas" id="@technologyArea" value="@technologyArea" />@technologyArea
                 <br />
             }
         }
     </div>
-    <div id="uniquenessScore">
-        @Html.DisplayNameFor(e => e.UniquenessScore)
-        <select id="uniquenessScore" name="UniquenessScore">
+    <div id="Uniqueness">
+        @Html.DisplayNameFor(e => e.Uniqueness)
+        <select id="Uniqueness" name="Uniqueness">
             @{
                 for (int i = 0; i <= 5; i++)
                 {
@@ -82,9 +83,9 @@ else
             }
         </select>
     </div>
-    <div id="teamScore">
-        @Html.DisplayNameFor(e => e.TeamScore)
-        <select id="teamScore" name="TeamScore">
+    <div id="Team">
+        @Html.DisplayNameFor(e => e.Team)
+        <select id="Team" name="Team">
             @{
                 for (int i = 0; i <= 5; i++)
                 {
@@ -93,9 +94,9 @@ else
             }
         </select>
     </div>
-    <div id="potentialScore">
-        @Html.DisplayNameFor(e => e.PotentialScore)
-        <select id="potentialScore" name="PotentialScore">
+    <div id="Potential">
+        @Html.DisplayNameFor(e => e.Potential)
+        <select id="Potential" name="Potential">
             @{
                 for (int i = 0; i <= 5; i++)
                 {
@@ -104,6 +105,20 @@ else
             }
         </select>
     </div>
+    @if (User.HasClaim("Role", "Partner"))
+    {
+        <div id="Interest">
+            @Html.DisplayNameFor(e => e.Interest)
+            <select id="Interest" name="Interest">
+                @{
+                    for (int i = 0; i <= 5; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+            </select>
+        </div>
+    }
     <div id="comment">
         @Html.DisplayNameFor(c => c.Comment)
         <br />
