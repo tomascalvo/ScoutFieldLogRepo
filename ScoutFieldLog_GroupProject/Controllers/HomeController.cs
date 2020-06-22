@@ -10,6 +10,7 @@ using ScoutFieldLog_GroupProject.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace ScoutFieldLog_GroupProject.Controllers
 {
     public class HomeController : Controller
@@ -79,7 +80,6 @@ namespace ScoutFieldLog_GroupProject.Controllers
             SeamlessProjectList spl = await DAL.GetProjects();
             List<SeamlessProject> results = spl.records.ToList();
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
-            //List<SeamlessProject> projectList = results.ToList<SeamlessProject>();
             return View(projectList);
         }
 
@@ -109,8 +109,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult CompanyDetails(int companyId)
         {
-            //var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
-            var company = _context.StartUpCompanies.Find(companyId);
+            var company = _context.StartUpCompanies.SingleOrDefault(c => c.Id == companyId);
             return View(company);
         }
         public IActionResult EditCompany(int companyId)
@@ -133,19 +132,26 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _context.Update(company);
             _context.SaveChanges();
             startupMatch.refreshCompanyCache();
-            //ViewBag.message = "Company record updated.";
+            ViewBag.message = "Company record updated.";
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
         [HttpGet]
         public IActionResult ScoutForm()
-        {          
-            return View();
+        {
+            return PartialView();
         }
 
         [HttpPost]
         public async Task<IActionResult> ScoutForm(StartUpCompanies startup, string token)
         {
+            //startup.TwoLineSummary == "" || startup.TwoLineSummary == null
+            if (!ModelState.IsValid)
+            {
+                ViewBag.message = "Two Line Summary Not Completed";
+                return View();
+            }
+            
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB
                 startup.Keywords =

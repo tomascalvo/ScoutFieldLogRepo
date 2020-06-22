@@ -30,6 +30,10 @@ namespace ScoutFieldLog_GroupProject.Models
 
         public static string getKeywordString(string twolineSummary)
         {
+            if (twolineSummary == null)
+            {
+                return null;
+            }
             IEnumerable<string> kws = getKeywords(twolineSummary);
             return convertListToString(kws, ", ");
         }

@@ -3,13 +3,18 @@
 @{
     ViewData["Title"] = "ScoutForm";
 }
+    <head>
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/site.css" />
+        <link href="@Url.Content("~/css/ScoutFormStyleSheet.css")" rel="stylesheet" type="text/css" />
+    </head>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
-function onSubmit(token) {
-    document.scoutForm.token.value = token;
-    document.scoutForm.submit();
-}
+    function onSubmit(token) {
+        document.scoutForm.token.value = token;
+        document.scoutForm.submit();
+    }
 </script>
 
 <h1>ScoutForm</h1>
@@ -20,54 +25,54 @@ function onSubmit(token) {
     @ViewBag.message
 }
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="container">
+    <div class="col-lg-12">
         <form name="scoutForm" asp-action="ScoutForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             @*Scout Name*@
             <div class="form-group">
-                <label asp-for="ScoutName" class="control-label"></label>
+                <label id="ScoutName" asp-for="ScoutName" class="control-label"></label>
                 <input asp-for="ScoutName" class="form-control" />
                 <span asp-validation-for="ScoutName" class="text-danger"></span>
             </div>
 
             @*Company Name*@
             <div class="form-group">
-                <label asp-for="CompanyName" class="control-label"></label>
+                <label id="CompanyName" asp-for="CompanyName" class="control-label"></label>
                 <input required asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
 
             @*Company Website*@
             <div class="form-group">
-                <label asp-for="CompanyWebsite" class="control-label"></label>
+                <label id="CompanyWebsite" asp-for="CompanyWebsite" class="control-label"></label>
                 <input asp-for="CompanyWebsite" class="form-control" />
                 <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
             </div>
 
             @*TwoLineSummary*@
-        <div class="form-group">
-            <label asp-for="TwoLineSummary" class="control-label"></label>
-            <textarea required asp-for="TwoLineSummary" class="form-control" rows="4" cols="50">
+            <div class="form-group">
+                <label asp-for="TwoLineSummary" class="control-label"></label>
+                <textarea required asp-for="TwoLineSummary" class="form-control" rows="4" cols="50">
             </textarea>
-            <span asp-validation-for="TwoLineSummary" class="text-danger"></span>
-        </div>
+                <span asp-validation-for="TwoLineSummary" class="text-danger"></span>
+            </div>
 
             @*Technology Area*@
-        <div class="form-group">
-            <label asp-for="TechnologyAreas" class="control-label"></label><br>
-            @{
-                string[] technologyAreasArray = new string[] { "Software / AI", "Sensing", "Robotics", "Advanced Materials", "Products", "Business Process" };
-                int technologyAreasCounter = 1;
-                string technologyAreasCheckboxid = "TechnologyAreas" + technologyAreasCounter;
-                foreach (string technologyArea in technologyAreasArray)
-                {
-                    <input type="checkbox" id="@technologyArea" name="TechnologyAreas" value="@technologyArea">
-                    <label for="@technologyArea"> @technologyArea </label><br>
+            <div class="form-group">
+                <label id="TechLabel" asp-for="TechnologyAreas" class="control-label"></label><br>
+                @{
+                    string[] technologyAreasArray = new string[] { "Software / AI", "Sensing", "Robotics", "Advanced Materials", "Products", "Business Process" };
+                    int technologyAreasCounter = 1;
+                    string technologyAreasCheckboxid = "TechnologyAreas" + technologyAreasCounter;
+                    foreach (string technologyArea in technologyAreasArray)
+                    {
+                        <input type="checkbox" id="@technologyArea" name="TechnologyAreas" value="@technologyArea">
+                        <label for="@technologyArea"> @technologyArea </label><br>
+                    }
                 }
-            }
-        </div>
+            </div>
 
             @*Raised*@
             <div class="form-group">
@@ -101,21 +106,21 @@ function onSubmit(token) {
             </div>
 
             @*Themes*@
-        <div class="form-group">
-            <label asp-for="Themes" class="control-label"></label> <br />
-            @{
-                string[] themeArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
-                int themesCounter = 1;
-                string themesCheckboxid = "Themes" + themesCounter;
-                foreach (string theme in themeArray)
-                {
-                    <input type="checkbox" id="@themesCheckboxid" name="Themes" value="@theme" />
-                    <label for="@themesCheckboxid">@theme</label>
-                    <br />
-                    themesCounter++;
+            <div class="form-group">
+                <label asp-for="Themes" class="control-label"></label> <br />
+                @{
+                    string[] themeArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
+                    int themesCounter = 1;
+                    string themesCheckboxid = "Themes" + themesCounter;
+                    foreach (string theme in themeArray)
+                    {
+                        <input type="checkbox" id="@themesCheckboxid" name="Themes" value="@theme" />
+                        <label for="@themesCheckboxid">@theme</label>
+                        <br />
+                        themesCounter++;
+                    }
                 }
-            }
-        </div>
+            </div>
             @*Landscapes*@
             <div class="form-group">
                 <label asp-for="Landscapes" class="control-label"></label> <br />
@@ -134,22 +139,22 @@ function onSubmit(token) {
             </div>
 
             @*Alignments*@
-        <div class="form-group">
-            <label asp-for="Alignments" class="control-label"></label> <br />
-            @{
-                string[] partnerCompanies = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
-                int counter = 1;
-                string checkboxid = "Alignments" + counter;
-                foreach (string partnerCompany in partnerCompanies)
-                {
-                    <input type="checkbox" id="@checkboxid" name="Alignments" value="@partnerCompany" />
-                    <label for="@checkboxid">@partnerCompany</label>
-                    <br />
-                    counter++;
+            <div class="form-group">
+                <label asp-for="Alignments" class="control-label"></label> <br />
+                @{
+                    string[] partnerCompanies = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
+                    int counter = 1;
+                    string checkboxid = "Alignments" + counter;
+                    foreach (string partnerCompany in partnerCompanies)
+                    {
+                        <input type="checkbox" id="@checkboxid" name="Alignments" value="@partnerCompany" />
+                        <label for="@checkboxid">@partnerCompany</label>
+                        <br />
+                        counter++;
+                    }
+                    counter = 1;
                 }
-                counter = 1;
-            }
-        </div>
+            </div>
 
             @*City*@
             <div class="form-group">
@@ -421,19 +426,19 @@ function onSubmit(token) {
             </div>
 
             @*Date Assigned*@
-        @*<div class="form-group">*@
+            @*<div class="form-group">*@
             @*<input type="hidden" id="DateAssigned" name="DateAssigned"  value="@DateTime.Now" />*@
             @*<label asp-for="DateAssigned" class="control-label"></label>
-            <input asp-for="DateAssigned" class="form-control" value="@DateTime.Today" placeholder="@DateTime.Today" />
-            <span asp-validation-for="DateAssigned" class="text-danger"></span>*@
-        @*</div>*@
+                <input asp-for="DateAssigned" class="form-control" value="@DateTime.Today" placeholder="@DateTime.Today" />
+                <span asp-validation-for="DateAssigned" class="text-danger"></span>*@
+            @*</div>*@
 
             @*Date Reviewed*@
             @*<div class="form-group">
-                <label asp-for="DateReviewed" class="control-label"></label>
-                <input asp-for="DateReviewed" class="form-control" />
-                <span asp-validation-for="DateReviewed" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="DateReviewed" class="control-label"></label>
+                    <input asp-for="DateReviewed" class="form-control" />
+                    <span asp-validation-for="DateReviewed" class="text-danger"></span>
+                </div>*@
 
             @*Company Contact Name*@
             <div class="form-group">

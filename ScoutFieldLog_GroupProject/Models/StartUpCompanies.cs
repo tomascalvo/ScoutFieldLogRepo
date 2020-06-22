@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,13 +7,15 @@ namespace ScoutFieldLog_GroupProject.Models
 {
     public partial class StartUpCompanies
     {
-        //[Required(ErrorMessage = "The StartUpCompanies ID must be submitted.")]
         public int Id { get; set; }
+        [Required]
         public string ScoutName { get; set; }
+        [Required]
         public string CompanyName { get; set; }
         public string CompanyContactName { get; set; }
         public string CompanyContactPhoneNumber { get; set; }
         public string CompanyWebsite { get; set; }
+        [Required]
         public string TwoLineSummary { get; set; }
         public string TechnologyAreas { get; set; }
         public string Image { get; set; }
