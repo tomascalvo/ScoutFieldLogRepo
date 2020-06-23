@@ -5,7 +5,7 @@
 {
     <p>@ViewBag.Message</p>
 }
-<form method="POST">
+<form name="createEvaluationForm" method="POST">
     <h2>Create Evaluation</h2>
     @if (ViewBag.CompanyName != null)
     {
@@ -164,8 +164,8 @@
         </fieldset>
     </section>
     <p>
-        <input type="submit" value="Submit" />
-        <input type="reset" value="Reset" />
+        <input id="createEvaluationFormSubmit" type="submit" value="Submit" />
+        <input id="createEvaluationFormReset" type="reset" value="Reset" />
     </p>
 </form>
 

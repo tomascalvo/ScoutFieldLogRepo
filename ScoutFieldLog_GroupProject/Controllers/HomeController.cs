@@ -53,14 +53,14 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult ConnectorView2()
         {
             var allRecords = _context.StartUpCompanies.ToList();
-            return View(allRecords);
+            return View("ConnectorView", allRecords);
         }
 
         [Authorize]
         public IActionResult ConnectorView()
         {
             var allRecords = _context.StartUpCompanies.ToList();
-            return View(allRecords);
+            return View("ConnectorView2", allRecords);
         }
 
         public IActionResult _LeadDetails(int companyId)
@@ -101,12 +101,14 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return PartialView(ra);
         }
         [HttpPost]
-        public async Task<IActionResult> ListStartUpProjects(string companyName)
+        public async Task<IActionResult> ListStartUpProjects(string companyName, bool partial=false)
         {
             SeamlessProjectList spl = await DAL.GetProjects();
             List<SeamlessProject> results = spl.records.ToList();
             List<SeamlessProject> projectList = results.Where(x => x.fields.StartupEngaged == companyName).ToList<SeamlessProject>();
-            return View(projectList);
+            if (partial)
+                PartialView(projectList);
+            return PartialView(projectList);
         }
         [HttpPost]
         public IActionResult StartupSearch(string searchString)
@@ -243,7 +245,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
         // Evaluation CRUD
         // Create Evaluation
         [HttpGet]
-        public IActionResult CreateEvaluation(int companyId)
+        public IActionResult CreateEvaluation(int companyId, bool partial=false)
         {
             var company = _context.StartUpCompanies.Find(companyId);
             ViewBag.CompanyId = company.Id;
@@ -253,10 +255,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
             ViewBag.themes = _context.Theme.Select(t => t.Name).ToList();
             ViewBag.landscapes = _context.Landscape.Select(l => l.Name).ToList();
             ViewBag.technologyAreas = _context.TechnologyArea.Select(t => t.Name).ToList();
-            return View();
+            if (partial)
+                return PartialView();
+            else
+                return View();
         }
         [HttpPost]
-        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, string[] selectedAlignments, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas)
+        public IActionResult CreateEvaluation(Evaluation newEvaluation, int companyId, string[] selectedAlignments, string[] selectedThemes, string[] selectedLandscapes, string[] selectedTechnologyAreas, bool partial=false)
         {
             newEvaluation.Alignments = StartupMatch.convertListToString(selectedAlignments, ", ");
             newEvaluation.Themes = StartupMatch.convertListToString(selectedThemes, ", ");
@@ -265,10 +270,13 @@ namespace ScoutFieldLog_GroupProject.Controllers
             _context.Add(newEvaluation);
             _context.SaveChanges();
             TempData["evaluationCreated"] = "Thank you for your evaluation, " + User.Identity.Name + ".";
-            return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
+            
+            if (partial)
+                return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id, partial=true });
+            else return RedirectToAction("ReviewEvaluation", new { evaluationId = newEvaluation.Id });
         }
         //Review Evaluation
-        public IActionResult ReviewEvaluation(int evaluationId)
+        public IActionResult ReviewEvaluation(int evaluationId, bool partial=false)
         {
             if (TempData["evaluationCreated"] != null)
             {
@@ -279,16 +287,21 @@ namespace ScoutFieldLog_GroupProject.Controllers
             ViewBag.CompanyId = company.Id;
             ViewBag.CompanyName = company.CompanyName;
             ViewBag.CompanySummary = company.TwoLineSummary;
+
+            if (partial)
+                return PartialView(evaluationToReview);
             return View(evaluationToReview);
         }
         // Review & Search Evaluations
-        public IActionResult ReviewEvaluations()
+        public IActionResult ReviewEvaluations(bool partial=false)
         {
             var allEvaluations = _context.Evaluation.ToList();
+            if (partial)
+                return PartialView(allEvaluations);
             return View(allEvaluations);
         }
         //Review Aggregate Evaluation Data
-       public IActionResult AnalyzeStartup(int companyId)
+       public IActionResult AnalyzeStartup(int companyId, bool partial=false)
         {
             var startUpCo = _context.StartUpCompanies.First(s => s.Id.Equals(companyId));
             ViewBag.CompanyId = startUpCo.Id;
@@ -300,7 +313,11 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var landscapes = _context.Landscape.ToList();
             var technologyAreas = _context.TechnologyArea.ToList();
             Analysis analysis = new Analysis(evaluations, partners, themes, landscapes, technologyAreas);
-            return View(analysis);
+
+            if (partial)
+                return PartialView(analysis);
+            else
+                return View(analysis);
         }
 
         // Update Evaluation

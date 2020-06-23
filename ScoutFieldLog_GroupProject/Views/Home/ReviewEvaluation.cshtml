@@ -116,22 +116,22 @@ else
 }
 <div id="buttons">
     @*@Html.ActionLink("Save", "PromoteLead", new { company = Model })*@
-    <form action="AnalyzeStartup">
+    <form action="AnalyzeStartup" name="AnalyzeStartupForm">
         <input type="hidden"
                name="companyId"
                value="@Model.StartUpCompaniesId" />
-        <input type="submit"
+        <input type="submit" id="AnalyzeSubmit"
                value="Analyze" />
     </form>
-    <form action="CompanyDetails">
+    <form action="CompanyDetails" name="CompanyDetailsForm">
         <input type="hidden"
                name="companyId"
                value="@Model.StartUpCompaniesId" />
-        <input type="submit"
+        <input type="submit"  id="CompanyDetailsSubmit"
                value="Company Details" />
     </form>
-    <form action="ReviewEvaluations">
-        <input type="submit"
+    <form action="ReviewEvaluations" name="ReviewEvaluationsForm">
+        <input type="submit" id="ReviewEvaluationsSubmit"
                value="All Evaluations" />
     </form>
 </div>
