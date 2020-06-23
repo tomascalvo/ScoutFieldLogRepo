@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "ScoutForm";
 }
-    <head>
-        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/css/site.css" />
-        <link href="@Url.Content("~/css/ScoutFormStyleSheet.css")" rel="stylesheet" type="text/css" />
-    </head>
+<head>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link href="@Url.Content("~/css/ScoutFormStyleSheet.css")" rel="stylesheet" type="text/css" />
+</head>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
@@ -17,9 +17,9 @@
     }
 </script>
 
-<h1>ScoutForm</h1>
+<h1>ScoutForm</h1> <br />
 
-<h4>StartUp</h4>
+<h4>Add A New Start-Up Company</h4>
 @if (ViewBag.message != null)
 {
     @ViewBag.message
@@ -27,36 +27,46 @@
 <hr />
 <div class="container">
     <div class="col-lg-12">
-        <form name="scoutForm" asp-action="ScoutForm">
+        @*if theres no method attribute on the form tag, then the default method is HTTPGET*@
+        <form name="scoutForm" asp-action="ScoutForm" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div><br />
+
+            @*<div class="form-group">
+                <label class="control-label" for="username">Username</label> <span class="required">*</span>
+                <input type="text" id="username" name="data[username]" required="required" class="form-control">
+            </div>*@
 
             @*Scout Name*@
             <div class="form-group">
-                <label id="ScoutName" asp-for="ScoutName" class="control-label"></label>
+                <label asp-for="ScoutName" class="control-label"></label> <span class="required">*</span>
                 <input asp-for="ScoutName" class="form-control" />
                 <span asp-validation-for="ScoutName" class="text-danger"></span>
             </div>
 
             @*Company Name*@
             <div class="form-group">
-                <label id="CompanyName" asp-for="CompanyName" class="control-label"></label>
+                <label asp-for="CompanyName" class="control-label"></label> <span class="required">*</span>
                 <input required asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
 
-            @*Company Website*@
-            <div class="form-group">
-                <label id="CompanyWebsite" asp-for="CompanyWebsite" class="control-label"></label>
-                <input asp-for="CompanyWebsite" class="form-control" />
-                <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
-            </div>
-
             @*TwoLineSummary*@
             <div class="form-group">
-                <label asp-for="TwoLineSummary" class="control-label"></label>
+                <label asp-for="TwoLineSummary" class="control-label"></label> <span class="required">*</span>
                 <textarea required asp-for="TwoLineSummary" class="form-control" rows="4" cols="50">
             </textarea>
                 <span asp-validation-for="TwoLineSummary" class="text-danger"></span>
+            </div><br />
+
+            @*Company Website*@
+            <div class="form-group">
+                <label asp-for="CompanyWebsite" class="control-label"></label>
+                <input asp-for="CompanyWebsite" class="form-control" />
+                <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
             </div>
 
             @*Technology Area*@
@@ -103,7 +113,7 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-            </div>
+            </div><br />
 
             @*Themes*@
             <div class="form-group">
@@ -123,7 +133,7 @@
             </div>
             @*Landscapes*@
             <div class="form-group">
-                <label asp-for="Landscapes" class="control-label"></label> <br />
+                <label asp-for="Landscapes" class="control-label"></label>
                 <select id="Landscapes" name="Landscapes">
                     <option value="Please_Select_An_Option">Please Select An Option</option>
                     <option value="Personalized_Wellness">Personalized Wellness</option>
@@ -136,7 +146,7 @@
                     <option value="Wireless_Power">Wireless Power</option>
                     <option value="Good_Habits">Good Habits</option>
                 </select>
-            </div>
+            </div><br />
 
             @*Alignments*@
             <div class="form-group">
@@ -423,22 +433,22 @@
                     <option value="Zambia">Zambia</option>
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
-            </div>
+            </div><br />
 
             @*Date Assigned*@
             @*<div class="form-group">*@
             @*<input type="hidden" id="DateAssigned" name="DateAssigned"  value="@DateTime.Now" />*@
             @*<label asp-for="DateAssigned" class="control-label"></label>
-                <input asp-for="DateAssigned" class="form-control" value="@DateTime.Today" placeholder="@DateTime.Today" />
-                <span asp-validation-for="DateAssigned" class="text-danger"></span>*@
+        <input asp-for="DateAssigned" class="form-control" value="@DateTime.Today" placeholder="@DateTime.Today" />
+        <span asp-validation-for="DateAssigned" class="text-danger"></span>*@
             @*</div>*@
 
             @*Date Reviewed*@
             @*<div class="form-group">
-                    <label asp-for="DateReviewed" class="control-label"></label>
-                    <input asp-for="DateReviewed" class="form-control" />
-                    <span asp-validation-for="DateReviewed" class="text-danger"></span>
-                </div>*@
+            <label asp-for="DateReviewed" class="control-label"></label>
+            <input asp-for="DateReviewed" class="form-control" />
+            <span asp-validation-for="DateReviewed" class="text-danger"></span>
+        </div>*@
 
             @*Company Contact Name*@
             <div class="form-group">
@@ -453,7 +463,9 @@
                 <input asp-for="CompanyContactPhoneNumber" class="form-control" type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" />
                 <span asp-validation-for="CompanyContactPhoneNumber" class="text-danger"></span>
             </div>
-
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
             @*Status*@
             <div class="form-group">
                 <input type="hidden" id="Status" name="Status" value="Lead" />
@@ -463,12 +475,8 @@
                 <button class="g-recaptcha" data-sitekey="6LdZRqQZAAAAAAMeZscU9p_QkWA-pylAne2c07Q9" data-callback='onSubmit'>Create</button>
                 <input type="hidden" name="token" />
             </div>
-
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

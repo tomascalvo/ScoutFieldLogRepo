@@ -14,7 +14,7 @@ namespace ScoutFieldLog_GroupProject.Models
             : base(options)
         {
         }
-
+        //example of entity
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
