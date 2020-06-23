@@ -4,6 +4,7 @@
     let updatePage;
     let viewPage;
     let cID;
+    let companyName;
 
     function ajaxSuccess() {
         let mainContent = document.getElementById("saveStatus");
@@ -11,6 +12,43 @@
 
         console.log(this.responseText);
         loadCompanyDetails(cID);
+    }
+
+    function submitEvaluationForm() {
+        let mainContent = document.getElementById("mainContent");
+        let oFormElement = document.createEvaluationForm;
+        var oReq = new XMLHttpRequest();
+        oReq.onload = ajaxSuccess;
+        oReq.open("post", "/Home/CreateEvaluation");
+        oReq.onload = function () {
+            let mainContent = document.getElementById("mainContent");
+            let evalPage = oReq.responseText;
+            mainContent.innerHTML = evalPage;
+            let button = document.getElementById("AnalyzeSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                window.scrollTo(0, 0);
+                loadAnalyzeForm();
+                return false;
+            });
+            button = document.getElementById("CompanyDetailsSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                window.scrollTo(0, 0);
+                cancelUpdatePage();
+                return false;
+            });
+            button = document.getElementById("ReviewEvaluationsSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                window.scrollTo(0, 0);
+                loadReviewEvaluations();
+                return false;
+            });
+        };
+        let fd = new FormData(oFormElement);
+        fd.append("partial", true);
+        oReq.send( fd );
     }
 
     function submitUpdateForm() {
@@ -34,11 +72,17 @@
     function loadEvaluationForm() {
         let mainContent = document.getElementById("mainContent");
         let ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", "/Home/CreateEvaluation?companyId=" + cID, false);
+        ourRequest.open("GET", "/Home/CreateEvaluation?partial=true&companyId=" + cID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
-            viewPage = ourRequest.responseText;
-            mainContent.innerHTML = viewPage;
+            let evalPage = ourRequest.responseText;
+            mainContent.innerHTML = evalPage;
+            let button = document.getElementById("createEvaluationFormSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                submitEvaluationForm();
+                return false;
+            });
         };
         ourRequest.send();
     }
@@ -46,11 +90,38 @@
     function loadAnalyzeForm() {
         let mainContent = document.getElementById("mainContent");
         let ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", "/Home/AnalyzeStartup?companyId=" + cID, false);
+        ourRequest.open("GET", "/Home/AnalyzeStartup?partial=true&companyId=" + cID, false);
+        ourRequest.onload = function () {
+                let mainContent = document.getElementById("mainContent");
+                let analyzePage = ourRequest.responseText;
+                mainContent.innerHTML = analyzePage;
+        };
+        ourRequest.send();
+    }
+
+    function loadProjects() {
+        let mainContent = document.getElementById("mainContent");
+        let ourRequest = new XMLHttpRequest();
+        ourRequest.open("POST", "/Home/ListStartUpProjects", false);
+        let fd = new FormData();
+        fd.append("partial", true);
+        fd.append("companyName", companyName);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
-            viewPage = ourRequest.responseText;
-            mainContent.innerHTML = viewPage;
+            let projectsPage = ourRequest.responseText;
+            mainContent.innerHTML = projectsPage;
+        };
+        ourRequest.send( fd );
+    }
+
+    function loadReviewEvaluations() {
+        let mainContent = document.getElementById("mainContent");
+        let ourRequest = new XMLHttpRequest();
+        ourRequest.open("GET", "/Home/ReviewEvaluations?partial=true&companyId=" + cID, false);
+        ourRequest.onload = function () {
+            let mainContent = document.getElementById("mainContent");
+            let reviewPage = ourRequest.responseText;
+            mainContent.innerHTML = reviewPage;
         };
         ourRequest.send();
     }
@@ -62,7 +133,6 @@
         cID = companyID;
         let ourRequest = new XMLHttpRequest();
         ourRequest.open("GET", "/Home/CompanyDetailsPartial?companyId=" + companyID, false);
-        //ourRequest.open("GET", "/Home/CompanyDetailsPartialNew?companyId=" + companyID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
             viewPage = ourRequest.responseText;
@@ -81,7 +151,6 @@
         let ourRequest3 = new XMLHttpRequest();
         ourRequest3.open("GET", "/Home/EditCompanyPartial?companyId=" + companyID, true);
         ourRequest3.onload = function () {
-            //let mainContent = document.getElementById("recommendations");
             updatePage = ourRequest3.responseText;
         };
         ourRequest3.send();
@@ -90,6 +159,6 @@
 <select id="companySelector" size="5">
     @foreach (var company in Model)
     {
-        <option id="@company.Id" onclick='loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
+        <option id="@company.Id" onclick='companyName = "@company.CompanyName";loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
     }
 </select>
