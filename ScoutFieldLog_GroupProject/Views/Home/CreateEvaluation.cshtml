@@ -135,24 +135,25 @@
                     }
                 </select>
             </p>
-        @if (User.HasClaim("Role", "Partner"))
-        {
-            <p>
-                <label for="interest">
-                    <span>
-                        @Html.DisplayNameFor(e => e.Interest)
-                    </span>
-                </label>
-                <select id="interest" name="Interest">
-                    @{
-                        for (int i = 0; i <= 5; i++)
-                        {
-                            <option value="@i">@i</option>
+            @if (User.HasClaim("Role", "Partner"))
+            {
+                <p>
+                    <label for="interest">
+                        <span>
+                            @Html.DisplayNameFor(e => e.Interest)
+                        </span>
+                    </label>
+                    <select id="interest" name="Interest">
+                        @{
+                            for (int i = 0; i <= 5; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
                         }
-                    }
-                </select>
-            </p>
-        }
+                    </select>
+                </p>
+            }
+        </fieldset>
         <fieldset>
             <legend>
                 @Html.DisplayNameFor(c => c.Comment)

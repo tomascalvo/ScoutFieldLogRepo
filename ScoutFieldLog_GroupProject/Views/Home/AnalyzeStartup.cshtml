@@ -119,15 +119,15 @@ else
     <div>
         @Html.DisplayNameFor(m => m.Comments)
         <br />
-        @{ 
+        @{
             List<Comment> commentList = Model.Comments.ToList();
             int counter = 0;
             @foreach (Comment comment in commentList)
             {
                 <div>
-                    Comment #@counter 
+                    Comment #@counter
                     <br />
-                    Author: @comment.AuthorName 
+                    Author: @comment.AuthorName
                     <br />
                 </div>
                 <div>

@@ -66,9 +66,12 @@ namespace ScoutFieldLog_GroupProject.Models
             Comments = new List<Comment>();
             foreach (Evaluation evaluation in evaluations)
             {
-                string authorName = evaluation.Author.ToString();
-                string content = evaluation.Comment.ToString();
-                Comments.Add(new Comment(authorName, content));
+                if(evaluation.Author != null && evaluation.Comment != null)
+                {
+                    string authorName = evaluation.Author.ToString();
+                    string content = evaluation.Comment.ToString();
+                    Comments.Add(new Comment(authorName, content));
+                }
             }
             UniquenessQuotient = evaluations.Select(e => e.Uniqueness).Sum() / evaluationCount;
             TeamStrengthQuotient = evaluations.Select(e => e.Team).Sum() / evaluationCount;
