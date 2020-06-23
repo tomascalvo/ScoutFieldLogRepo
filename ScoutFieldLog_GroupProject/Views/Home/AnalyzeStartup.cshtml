@@ -1,19 +1,15 @@
 ﻿@model Analysis
-@{
-    ViewData["Title"] = "Startup Analysis";
+@if (ViewBag.Message != null)
+{
+    <h4>@ViewBag.Message</h4>
 }
-<h2>@ViewBag.Title</h2>
+<h2>Startup Analysis</h2>
 @if (@Model == null)
 {
     <p>No evaluation found.</p>
 }
 else
 {
-    // Message
-    @if (ViewBag.Message != null)
-    {
-        <h4>@ViewBag.Message</h4>
-    }
     @if(ViewBag.CompanyName != null && ViewBag.CompanyName != "")
     {
         <h3>@ViewBag.CompanyName</h3>
@@ -23,112 +19,103 @@ else
         <h3>@Model.StartUpCompaniesId</h3>
     }
     <p>@ViewBag.CompanySummary</p>
-    <table class="table">
-        <tr>
-            <th>
+    <div>
+        <div>
+            <h4>
                 Alignment Quotients
-            </th>
-        </tr>
-        <tr>
+            </h4>
             @{
                 foreach (AlignmentQuotient aq in @Model.AlignmentQuotients)
                 {
-                    <td>
+                    <p>
                         @aq.PartnerName
                         <br>
                         @aq.Quotient.ToString("0.00")
-                    </td>
+                    </p>
                 }
             }
-        </tr>
-        <tr>
-            <th>
+        </div>
+        <div>
+            <h4>
                 Theme Quotients
-            </th>
-        </tr>
-        <tr>
+            </h4>
             @{
                 foreach (ThemeQuotient tq in @Model.ThemeQuotients)
                 {
-                    <td>
+                    <p>
                         @tq.Name
                         <br>
                         @tq.Quotient.ToString("0.00")
-                    </td>
+                    </p>
                 }
             }
-        </tr>
-        <tr>
-            <th>
-                Landscape Quotients
-            </th>
-        </tr>
-        <tr>
+        </div>
+        <div>
+            <h4>Landscape Quotients</h4>
             @{
                 foreach (LandscapeQuotient lq in @Model.LandscapeQuotients)
                 {
-                    <td>
+                    <p>
                         @lq.Name
                         <br>
                         @lq.Quotient.ToString("0.00")
-                    </td>
+                    </p>
                 }
             }
-        </tr>
-        <tr>
-            <th>
+        </div>
+        <div>
+            <h4>
                 Technology Area Quotients
-            </th>
-        </tr>
-        <tr>
+            </h4>
             @{
                 foreach (TechnologyAreaQuotient q in @Model.TechnologyAreaQuotients)
                 {
-                    <td>
+                    <p>
                         @q.Name
                         <br>
                         @q.Quotient.ToString("0.00")
-                    </td>
+                    </p>
                 }
             }
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h4>
                 @Html.DisplayNameFor(m => m.UniquenessQuotient)
-            </th>
-            <td>
+            </h4>
+            <p>
                 @Model.UniquenessQuotient.ToString("0.0")
-            </td>
-        </tr>
-        <tr>
-        <tr>
-            <th>
+            </p>
+        </div>
+        <div>
+            <h4>
                 @Html.DisplayNameFor(m => m.TeamStrengthQuotient)
-            </th>
-            <td>
+            </h4>
+            <p>
                 @Model.TeamStrengthQuotient.ToString("0.0")
-            </td>
-        </tr>
-        <tr>
-            <th>
+            </p>
+        </div>
+        <div>
+            <h4>
                 @Html.DisplayNameFor(m => m.BusinessPotentialQuotient)
-            </th>
-            <td>
+            </h4>
+            <p>
                 @Model.BusinessPotentialQuotient.ToString("0.0")
-            </td>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(m => m.InterestQuotient)
-            </th>
-            <td>
-                @Model.InterestQuotient.ToString("0.0")
-            </td>
-        </tr>
-    </table>
-    <br />
+            </p>
+        </div>
+        @if(Model.InterestQuotient != null)
+        {
+            <div>
+                <h4>
+                    @Html.DisplayNameFor(m => m.InterestQuotient)
+                </h4>
+                <p>
+                    @Model.InterestQuotient.ToString("0.0")
+                </p>
+            </div>
+        }
+    </div>
     <div>
         @Html.DisplayNameFor(m => m.Comments)
         <br />

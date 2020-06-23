@@ -1,4 +1,16 @@
-﻿@model StartUpCompanies
+﻿@* Apply CSS with the <link> tag below: *@
+<link href="styles.css" rel="stylesheet" />
+@model StartUpCompanies
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+<h3>@Model.CompanyName</h3>
+<form method="POST">
+@if (Model.Image != null)
+{
+    <img src="@Model.Image" alt="Company Logo" width="500" />
+}
 @if (Model.Status == "Lead")
 {
     ViewBag.Title = "Edit Lead";
@@ -6,183 +18,142 @@
 }
 else
 {
-    ViewBag.Title = "Edit Startup";
     <h2>Edit Startup</h2>
 }
-@if (ViewBag.Message != null)
-{
-     <p>@ViewBag.Message</p>
-}
-@if (Model.Image != null)
-{
-    <img src="@Model.Image" alt="Company Logo" width="500" />
-}
-<h3>@Model.CompanyName</h3>
-<form method="POST">
-    @*Input StartUpCompany.Id*@
+    @* Hidden Inputs *@
     @Html.HiddenFor(model => model.Id)
-    <table class="table">
-        @*Contact Info*@
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.CompanyName)
-            </td>
-            <td>
+    <section>
+        <fieldset>
+            <legend>
+                Contact Information
+            </legend>
+            <p>
+                <label for="CompanyName">@Html.DisplayNameFor(c => c.CompanyName)</label>
                 <input type="text" id="CompanyName" name="CompanyName" placeholder="@Model.CompanyName" value="@Model.CompanyName" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.CompanyWebsite)
-            </td>
-            <td>
-                <input type="text" id="CompanyWebsite" name="CompanyWebsite" placeholder="@Model.CompanyWebsite" value="@Model.CompanyWebsite" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.CompanyContactName)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="CompanyWebsite">@Html.DisplayNameFor(c => c.CompanyWebsite)</label>
+                <input type="text" id="CompanyWebsite" name="CompanyWebsite" placeholder="@Model.CompanyWebsite" />
+            </p>
+            <p>
+                <label for="CompanyContactName">@Html.DisplayNameFor(c => c.CompanyContactName)</label>
                 <input type="text" id="CompanyContactName" name="CompanyContactName" placeholder="@Model.CompanyContactName" value="@Model.CompanyContactName" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="CompanyContactPhoneNumber">@Html.DisplayNameFor(c => c.CompanyContactPhoneNumber)</label>
                 <input type="number" id="CompanyContactPhoneNumber" name="CompanyContactPhoneNumber" placeholder="@Model.CompanyContactPhoneNumber" value="@Model.CompanyContactPhoneNumber" />
-            </td>
-        </tr>
-        @*Location*@
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.City)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="City">@Html.DisplayNameFor(c => c.City)</label>
                 <input type="text" id="City" name="City" placeholder="@Model.City" value="@Model.City" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.StateProvince)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="StateProvince">@Html.DisplayNameFor(c => c.StateProvince)</label>
                 <input type="text" id="StateProvince" name="StateProvince" placeholder="@Model.StateProvince" value="@Model.StateProvince" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.Country)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="Country">@Html.DisplayNameFor(c => c.Country)</label>
                 <input type="text" id="Country" name="Country" placeholder="@Model.Country" value="@Model.Country" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.TwoLineSummary)
-            </td>
-            <td>
-                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength="250", placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.Image)
-            </td>
-            <td>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>
+                About
+            </legend>
+            <p>
+                <label for="TwoLineSummary">@Html.DisplayNameFor(c => c.TwoLineSummary)</label>
+                <textarea rows=3 cols=50 name="TwoLineSummary" maxlength="250" , placeholder="@Model.TwoLineSummary" value="@Model.TwoLineSummary" wrap="hard">@Model.TwoLineSummary</textarea>
+            </p>
+            <p>
+                <label for="Image">@Html.DisplayNameFor(c => c.Image)</label>
                 <textarea rows=3 cols=50 name="Image" id="Image" maxlength=500, placeholder="@Model.Image" value="@Model.Image" wrap="hard">@Model.Image</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.Raised)
-            </td>
-            <td>
+            </p>
+            <p>
+                <label for="Raise">@Html.DisplayNameFor(c => c.Raised)</label>
                 <input type="text" id="Raised" name="Raised" placeholder="@Model.Raised" value="@Model.Raised" />
-            </td>
-        </tr>
-        @*Origin Info*@
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.ScoutName)
-            </td>
-            <td>
-                <input type="text" id="ScoutName" name="ScoutName" value="@Model.ScoutName" placeholder="@Model.ScoutName" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.DateAssigned)
-            </td>
-            <td>
-                @if (@Model.DateAssigned != null)
-                {
-                    <input type="text" id="DateAssigned" name="DateAssigned" placeholder='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' value='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' onfocus="(this.type='date')" onblur="(this.type='text')"/>
-                }
-                else
-                {
-                    <input type="date" id="DateAssigned" name="DateAssigned" />
-                }
-            </td>
-        </tr>
-        @*Evaluation Info*@
-        <tr>
-            <td>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Origin
+            </legend>
+        <p>
+            <label for="ScoutName">@Html.DisplayNameFor(c => c.ScoutName)</label>
+            <input type="text" id="ScoutName" name="ScoutName" value="@Model.ScoutName" placeholder="@Model.ScoutName" />
+        </p>
+        <p>
+            <label for="DateAssigned">@Html.DisplayNameFor(c => c.DateAssigned)</label>
+            @if (@Model.DateAssigned != null)
+            {
+                <input type="text" id="DateAssigned" name="DateAssigned" placeholder='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' value='@Model.DateAssigned.Value.ToString("MM/dd/yyyy")' onfocus="(this.type='date')" onblur="(this.type='text')" />
+            }
+            else
+            {
+                <input type="date" id="DateAssigned" name="DateAssigned" />
+            }
+        </p>
+        <p>
+            <label for="DateReviwed">@Html.DisplayNameFor(c => c.DateReviewed)</label>
+            @if (@Model.DateReviewed != null)
+            {
+                <input type="text" id="DateReviewed" name="DateReviewed" placeholder='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' value='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' onfocus="(this.type='date')" onblur="(this.type='text')" />
+            }
+            else
+            {
+                <input type="date" id="DateReviewed" name="DateReviewed" />
+            }
+        </p>
+        </fieldset>
+    </section>
+    <section>
+        <fieldset>
+            <legend>
                 @Html.DisplayNameFor(c => c.Status)
-            </td>
-            <td>
+            </legend>
+            <p>
                 <input type="radio" id="Lead" name="Status" value="Lead" checked />
                 <label for="Lead">Lead</label>
-                <br />
+            </p>
+            <p>
                 <input type="radio" id="UnderConsideration" name="Status" value="UnderConsideration" />
                 <label for="Startup">Under Consideration</label>
-                <br />
+            </p>
+            <p>
                 <input type="radio" id="Reviewed" name="Status" value="Reviewed" />
-                <label for="Startup">Reviewed</label>
-                <br />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(c => c.DateReviewed)
-            </td>
-            <td>
-                @if (@Model.DateReviewed != null)
-                {
-                    <input type="text" id="DateReviewed" name="DateReviewed" placeholder='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' value='@Model.DateReviewed.Value.ToString("MM/dd/yyyy")' onfocus="(this.type='date')" onblur="(this.type='text')"/>
-                }
-                else
-                {
-                    <input type="date" id="DateReviewed" name="DateReviewed" />
-                }
-            </td>
-        </tr>
-        @*Checkbox Inputs: Alignments*@
-        <tr>
-            <td>
+                <label for="Reviewed">Reviewed</label>
+            </p>
+        </fieldset>
+    </section>
+    <section>
+        <fieldset>
+            <legend>
                 @Html.DisplayNameFor(c => c.Alignments)
-            </td>
-            <td>
+            </legend>
+            <ul>
                 @{
-                    string[] partnerCompaniesArray = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
-                    foreach (string partnerCompany in partnerCompaniesArray)
+                    foreach (string partnerCompany in ViewBag.partners)
                     {
-                        if (Model.Alignments != null)
-                        {
-                            <input type="checkbox" name="PartnerCompany" value="@partnerCompany" checked="@Model.Alignments.Contains(@partnerCompany)" />@partnerCompany
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="PartnerCompany" value="@partnerCompany"/>@partnerCompany
-                        }
-                        <br />
+                        <li>
+                            @{ 
+                                if (Model.Alignments != null)
+                                {
+                                    <input type="checkbox" name="PartnerCompany" id="@partnerCompany" value="@partnerCompany" checked="@Model.Alignments.Contains(@partnerCompany)" />@partnerCompany
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="PartnerCompany" value="@partnerCompany" />@partnerCompany
+                                }
+                            }
+                            <label for="@partnerCompany">@partnerCompany</label>
+                        </li>
                     }
                 }
-            </td>
-        </tr>
+            </ul>
+        </fieldset>
+        <
+
+
+    </section>
         @*Checkbox Inputs: Themes*@
         <tr>
             <td>
@@ -245,7 +216,7 @@ else
                         }
                         else
                         {
-                            <input type="checkbox" name="selectedTechnologyAreas" value="@technologyArea"  />@technologyArea
+                            <input type="checkbox" name="selectedTechnologyAreas" value="@technologyArea" />@technologyArea
                         }
                         <br />
                     }
