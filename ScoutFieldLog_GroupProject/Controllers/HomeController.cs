@@ -62,13 +62,8 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(allRecords);
         }
 
-        public async Task<IActionResult> _LeadDetails(int companyId)
+        public IActionResult _LeadDetails(int companyId)
         {
-            if(companyId == null)
-            {
-                var firstResult = _context.StartUpCompanies.FirstOrDefault();
-                return PartialView(firstResult);
-            }
             var company = _context.StartUpCompanies.Find(companyId);
             if (company == null)
             {

@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
 
 <script>
-
     let updatePage;
     let viewPage;
     let cID;
@@ -11,7 +10,6 @@
         mainContent.innerHTML = "Save successful!";
 
         console.log(this.responseText);
-        //alert("form saved successfully");
         loadCompanyDetails(cID);
     }
 
@@ -36,7 +34,7 @@
     function loadEvaluationForm() {
         let mainContent = document.getElementById("mainContent");
         let ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", "/Home/CreateEvaluation?companyId=" + companyID, false);
+        ourRequest.open("GET", "/Home/CreateEvaluation?companyId=" + cID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
             viewPage = ourRequest.responseText;
@@ -48,7 +46,7 @@
     function loadAnalyzeForm() {
         let mainContent = document.getElementById("mainContent");
         let ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", "/Home/AnalyzeStartup?companyId=" + companyID, false);
+        ourRequest.open("GET", "/Home/AnalyzeStartup?companyId=" + cID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
             viewPage = ourRequest.responseText;
