@@ -52,14 +52,14 @@ namespace ScoutFieldLog_GroupProject.Controllers
         public IActionResult ConnectorView2()
         {
             var allRecords = _context.StartUpCompanies.ToList();
-            return View(allRecords);
+            return View("ConnectorView", allRecords);
         }
 
         [Authorize]
         public IActionResult ConnectorView()
         {
             var allRecords = _context.StartUpCompanies.ToList();
-            return View(allRecords);
+            return View("ConnectorView2", allRecords);
         }
 
         public IActionResult _LeadDetails(int companyId)
