@@ -35,7 +35,7 @@ namespace ScoutFieldLog_GroupProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=scoutfieldlogserver.database.windows.net;Database=ScoutFieldLogDb;MultipleActiveResultSets=true;User ID=ScoutFieldLogAdmin;Password=TinaTurner!;");
+                optionsBuilder.UseSqlServer("DefaultConnection");
             }
         }
 

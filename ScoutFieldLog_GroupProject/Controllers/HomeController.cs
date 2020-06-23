@@ -159,6 +159,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
 
         public IActionResult EditCompanyPartial(int companyId)
         {
+            ViewBag.partners = _context.PartnerCompany.Select(p => p.CompanyName).ToList();
+            ViewBag.themes = _context.Theme.Select(t => t.Name).ToList();
+            ViewBag.landscapes = _context.Landscape.Select(l => l.Name).ToList();
+            ViewBag.technologyAreas = _context.TechnologyArea.Select(t => t.Name).ToList();
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);
         }
@@ -242,10 +246,10 @@ namespace ScoutFieldLog_GroupProject.Controllers
             ViewBag.CompanyId = company.Id;
             ViewBag.CompanyName = company.CompanyName;
             ViewBag.CompanySummary = company.TwoLineSummary;
-            ViewBag.partners = _context.PartnerCompany.ToList();
-            ViewBag.themes = _context.Theme.ToList();
-            ViewBag.landscapes = _context.Landscape.ToList();
-            ViewBag.technologyAreas = _context.TechnologyArea.ToList();
+            ViewBag.partners = _context.PartnerCompany.Select(p => p.CompanyName).ToList();
+            ViewBag.themes = _context.Theme.Select(t => t.Name).ToList();
+            ViewBag.landscapes = _context.Landscape.Select(l => l.Name).ToList();
+            ViewBag.technologyAreas = _context.TechnologyArea.Select(t => t.Name).ToList();
             return View();
         }
         [HttpPost]

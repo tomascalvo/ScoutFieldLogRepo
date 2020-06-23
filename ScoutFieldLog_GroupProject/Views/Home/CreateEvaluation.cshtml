@@ -1,133 +1,172 @@
-﻿@model ScoutFieldLog_GroupProject.Models.Evaluation
-@{
-    ViewData["Title"] = "Create Evaluation";
-}
-<h2>@ViewBag.Title</h2>
+﻿@* Apply CSS with the <link> tag below: *@
+<link href="styles.css" rel="stylesheet" />
+@model ScoutFieldLog_GroupProject.Models.Evaluation
 @if (ViewBag.Message != null)
 {
     <p>@ViewBag.Message</p>
 }
-@if (ViewBag.CompanyName != null)
-{
-    <h3>@ViewBag.CompanyName</h3>
-}
-else
-{
-    <h3>Company Id: @Model.StartUpCompaniesId</h3>
-}
-@if (ViewBag.TwoLineSummary != null)
-{
-    <p>@ViewBag.TwoLineSummary</p>
-}
 <form method="POST">
+    <h2>Create Evaluation</h2>
+    @if (ViewBag.CompanyName != null)
+    {
+        <h3>@ViewBag.CompanyName</h3>
+    }
+    else
+    {
+        <h3>Company Id: @Model.StartUpCompaniesId</h3>
+    }
+    @if (ViewBag.TwoLineSummary != null)
+    {
+        <p>@ViewBag.TwoLineSummary</p>
+    }
     @* Hidden Inputs *@
     <input type="hidden" name="StartUpCompaniesId" value="@ViewBag.CompanyId" />
     <input type="hidden" name="CompanyName" value="@ViewBag.CompanyName" />
     <input type="hidden" name="Posted" value='@DateTime.Today.ToString("MM/dd/yyyy")' />
     <input type="hidden" name="Author" value="@User.Identity.Name" />
-    <div id="alignmentScores">
-        <p>Alignments</p>
-        @{
-            string[] partnerCompaniesArray = new string[] { "Amway", "Bissell", "Emergent", "Faurecia", "Priority", "Steelcase", "Trinity", "Wakestream", "Whirlpool" };
-            foreach (string p in partnerCompaniesArray)
-            {
-                <input type="checkbox" name="selectedAlignments" value="@p" />@p
-                <br />
-            }
-        }
-    </div>
-    <div id="themes">
-        @Html.DisplayNameFor(e => e.Themes)
-        <br />
-        @{
-            string[] themesArray = new string[] { "The Good Life", "Health Beyond the Hospital", "Robust Future", "Convenience & Productivity" };
-            foreach (string theme in themesArray)
-            {
-                <input type="checkbox" name="selectedThemes" value="@theme" />@theme
-                <br />
-            }
-        }
-    </div>
-    <div id="landscapes">
-        @Html.DisplayNameFor(e => e.Landscapes)
-        <br />
-        @{
-            string[] landscapesArray = new string[] { "Aging in Place", "Air Quality", "Automation and Robotics", "Clinic in a Box", "Good Habits", "Personalized Wellness", "Responsive Spaces", "Safe Shared Spaces", "Wireless Power" };
-            foreach (string landscape in landscapesArray)
-            {
-                <input type="checkbox" name="selectedLandscapes" value="@landscape" />@landscape
-                <br />
-            }
-        }
-    </div>
-    <div id="technologyAreas">
-        @Html.DisplayNameFor(e => e.TechnologyAreas)
-        <br />
-        @{
-            string[] technologyAreasArray = new string[] { "Advanced Materials", "Business Process", "Products", "Robotics", "Sensing", "Software / AI" };
-            foreach (string technologyArea in technologyAreasArray)
-            {
-                <input type="checkbox" name="selectedTechnologyAreas" id="@technologyArea" value="@technologyArea" />@technologyArea
-                <br />
-            }
-        }
-    </div>
-    <div id="Uniqueness">
-        @Html.DisplayNameFor(e => e.Uniqueness)
-        <select id="Uniqueness" name="Uniqueness">
-            @{
-                for (int i = 0; i <= 5; i++)
-                {
-                    <option value="@i">@i</option>
-                }
-            }
-        </select>
-    </div>
-    <div id="Team">
-        @Html.DisplayNameFor(e => e.Team)
-        <select id="Team" name="Team">
-            @{
-                for (int i = 0; i <= 5; i++)
-                {
-                    <option value="@i">@i</option>
-                }
-            }
-        </select>
-    </div>
-    <div id="Potential">
-        @Html.DisplayNameFor(e => e.Potential)
-        <select id="Potential" name="Potential">
-            @{
-                for (int i = 0; i <= 5; i++)
-                {
-                    <option value="@i">@i</option>
-                }
-            }
-        </select>
-    </div>
-    @if (User.HasClaim("Role", "Partner"))
-    {
-        <div id="Interest">
-            @Html.DisplayNameFor(e => e.Interest)
-            <select id="Interest" name="Interest">
+    <section>
+        <fieldset>
+            <legend>
+                @Html.DisplayNameFor(e => e.Alignments)
+            </legend>
+            <ul>
                 @{
-                    for (int i = 0; i <= 5; i++)
+                    foreach (string p in ViewBag.partners)
                     {
-                        <option value="@i">@i</option>
+                        <li>
+                            <input type="checkbox" name="selectedAlignments" id="@p" value="@p" />
+                            <label for="@p">@p</label>
+                        </li>
                     }
                 }
-            </select>
-        </div>
-    }
-    <div id="comment">
-        @Html.DisplayNameFor(c => c.Comment)
-        <br />
-        <textarea rows=10 cols=100 name="Comment" maxlength="1500" , placeholder="@Html.DisplayNameFor(c => c.Comment)" wrap="hard"></textarea>
-    </div>
-    <div id="buttons">
-        <input type="reset" value="Reset" />
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>
+                @Html.DisplayNameFor(e => e.Themes)
+            </legend>
+            <ul>
+                @{
+                    foreach (string theme in ViewBag.themes)
+                    {
+                        <li>
+                            <input type="checkbox" name="selectedThemes" id="@theme" value="@theme" />
+                            <label for="@theme">@theme</label>
+                        </li>
+                    }
+                }
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>
+                @Html.DisplayNameFor(e => e.Landscapes)
+            </legend>
+            <ul>
+                @{
+                    foreach (string landscape in ViewBag.landscapes)
+                    {
+                        <li>
+                            <input type="checkbox" name="selectedLandscapes" id="@landscape" value="@landscape" />
+                            <label for="@landscape">@landscape</label>
+                        </li>
+                    }
+                }
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>
+                @Html.DisplayNameFor(e => e.TechnologyAreas)
+            </legend>
+            <ul>
+                @{
+                    foreach (string technologyArea in ViewBag.technologyAreas)
+                    {
+                        <li>
+                            <input type="checkbox" name="selectedTechnologyAreas" id="@technologyArea" value="@technologyArea" />
+                            <label for="@technologyArea">@technologyArea</label>
+                        </li>
+                    }
+                }
+            </ul>
+        </fieldset>
+        <fieldset>
+            <p>
+                <label for="uniqueness">
+                    <span>
+                        @Html.DisplayNameFor(e => e.Uniqueness)
+                    </span>
+                </label>
+                <select id="uniqueness" name="Uniqueness">
+                    @{
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </p>
+            <p>
+                <label for="team">
+                    <span>
+                        @Html.DisplayNameFor(e => e.Team)
+                    </span>
+                </label>
+                <select id="team" name="Team">
+                    @{
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </p>
+            <p>
+                <label for="potential">
+                    <span>
+                        @Html.DisplayNameFor(e => e.Potential)
+                    </span>
+                </label>
+                <select id="potential" name="Potential">
+                    @{
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </p>
+            @if (User.HasClaim("Role", "Partner"))
+            {
+                <p>
+                    <label for="interest">
+                        <span>
+                            @Html.DisplayNameFor(e => e.Interest)
+                        </span>
+                    </label>
+                    <select id="interest" name="Interest">
+                        @{
+                            for (int i = 0; i <= 5; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </p>
+            }
+        </fieldset>
+        <fieldset>
+            <legend>
+                @Html.DisplayNameFor(c => c.Comment)
+            </legend>
+            <p>
+                <textarea rows=10 cols=100 name="Comment" maxlength="1500" , placeholder="@Html.DisplayNameFor(c => c.Comment)" wrap="hard"></textarea>
+            </p>
+        </fieldset>
+    </section>
+    <p>
         <input type="submit" value="Submit" />
-    </div>
+        <input type="reset" value="Reset" />
+    </p>
 </form>
 
 
