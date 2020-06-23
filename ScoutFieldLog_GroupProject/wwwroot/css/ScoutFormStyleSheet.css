@@ -1,19 +1,39 @@
 ﻿body {
-    font-weight: 100;
-    background-color: blanchedalmond;
-}
-#TechLabel{
-    font-weight: bold;
-}
-
-#ScoutName {
-    font-weight: bold;
+    font-weight: 400;
+    text-align: center;
+    background-color: honeydew;
 }
 
 .control-label {
-    font-weight: bold;
+    font-weight: 900;
+    color: black;
 }
 
+.form-control {
+    border: 1px solid var(--dark);
+}
 
+.required {
+    color: red;
+}
 
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
 
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+a {
+    color: red;
+}

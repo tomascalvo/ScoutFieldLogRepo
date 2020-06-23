@@ -37,6 +37,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
         public IActionResult Index()
         {
             return View();
@@ -156,7 +157,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);
         }
-
+        //retrieveing info from the database ****_context****
         public IActionResult EditCompanyPartial(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
@@ -201,6 +202,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return RedirectToAction("CompanyDetails", new { companyId = company.Id });
         }
 
+        //displays the scout form
         [HttpGet]
         public IActionResult ScoutForm()
         {
@@ -208,14 +210,15 @@ namespace ScoutFieldLog_GroupProject.Controllers
         }
 
         [HttpPost]
+        //string token used for recaptcha
         public async Task<IActionResult> ScoutForm(StartUpCompanies startup, string token)
         {
-            //startup.TwoLineSummary == "" || startup.TwoLineSummary == null
             if (!ModelState.IsValid)
             {
-                ViewBag.message = "Two Line Summary Not Completed";
+                ViewBag.message = "Certain required forms not completed";
                 return View();
             }
+            //server will have modelstate validation, client side will have html like min, max, input type.
             
             if (await DAL.Recaptcha(token)) {
                 startup.Status = "";//clear the token so we don't save to DB

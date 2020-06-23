@@ -13,6 +13,7 @@ namespace ScoutFieldLog_GroupProject.Models
     public class LeadSearchDAL
     {
         private readonly string APIKey;
+
         public LeadSearchDAL(IConfiguration Configuration)
         {
             APIKey = Configuration.GetSection("APIKeys")["StartupSearchAPIKey"];

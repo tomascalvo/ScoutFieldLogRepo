@@ -9,13 +9,14 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+//pulling from masterlist model, feedback, seamless project models.
 namespace ScoutFieldLog_GroupProject.Models
 {
     public class SeamlessDAL
     {
         private readonly string APIKey;
         private readonly string reCaptchaSecret;
+
         public SeamlessDAL(IConfiguration Configuration)
         {
             APIKey = Configuration.GetSection("APIKeys")["SeamlessAPIKey"];
@@ -49,8 +50,10 @@ namespace ScoutFieldLog_GroupProject.Models
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", APIKey);
             return client;
         }
+
         public async Task<SeamlessMasterList> GetMasterListJSON()
         {
+            //endpoint parsed api data
             string resource = $"/v0/appFo187B73tuYhyg/Master%20List";
             var client = GetClient();
             var response = await client.GetAsync(resource);
@@ -58,6 +61,7 @@ namespace ScoutFieldLog_GroupProject.Models
             SeamlessMasterList masterlistRoot = System.Text.Json.JsonSerializer.Deserialize<SeamlessMasterList>(seamlessMasterRootJSON);
             return masterlistRoot;
         }
+
         public async Task<SeamlessProjectList> GetProjects()
         {
             string resource = $"/v0/appFo187B73tuYhyg/Projects";
