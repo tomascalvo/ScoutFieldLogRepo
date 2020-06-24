@@ -1,154 +1,165 @@
 ﻿@model Analysis
-@if (ViewBag.Message != null)
-{
-    <h4>@ViewBag.Message</h4>
-}
-<h2>Startup Analysis</h2>
-@if (@Model == null)
-{
-    <p>No evaluation found.</p>
-}
-else
-{
-    @if(ViewBag.CompanyName != null && ViewBag.CompanyName != "")
-    {
-        <h3>@ViewBag.CompanyName</h3>
-    }
-    else
-    {
-        <h3>@Model.StartUpCompaniesId</h3>
-    }
-    <p>@ViewBag.CompanySummary</p>
-    <div>
-        <div>
-            <h4>
-                Alignment Quotients
-            </h4>
-            @{
-                foreach (AlignmentQuotient aq in @Model.AlignmentQuotients)
-                {
-                    <p>
-                        @aq.PartnerName
-                        <br>
-                        @aq.Quotient.ToString("0.00")
-                    </p>
-                }
-            }
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3>Startup Analysis</h3>
+            <button onclick="cancelUpdatePage()">Return To Company Details</button>
         </div>
-        <div>
-            <h4>
-                Theme Quotients
-            </h4>
-            @{
-                foreach (ThemeQuotient tq in @Model.ThemeQuotients)
-                {
-                    <p>
-                        @tq.Name
-                        <br>
-                        @tq.Quotient.ToString("0.00")
-                    </p>
-                }
-            }
-        </div>
-        <div>
-            <h4>Landscape Quotients</h4>
-            @{
-                foreach (LandscapeQuotient lq in @Model.LandscapeQuotients)
-                {
-                    <p>
-                        @lq.Name
-                        <br>
-                        @lq.Quotient.ToString("0.00")
-                    </p>
-                }
-            }
-        </div>
-        <div>
-            <h4>
-                Technology Area Quotients
-            </h4>
-            @{
-                foreach (TechnologyAreaQuotient q in @Model.TechnologyAreaQuotients)
-                {
-                    <p>
-                        @q.Name
-                        <br>
-                        @q.Quotient.ToString("0.00")
-                    </p>
-                }
-            }
-        </div>
-    </div>
-    <div>
-        <div>
-            <h4>
-                @Html.DisplayNameFor(m => m.UniquenessQuotient)
-            </h4>
-            <p>
-                @Model.UniquenessQuotient.ToString("0.0")
-            </p>
-        </div>
-        <div>
-            <h4>
-                @Html.DisplayNameFor(m => m.TeamStrengthQuotient)
-            </h4>
-            <p>
-                @Model.TeamStrengthQuotient.ToString("0.0")
-            </p>
-        </div>
-        <div>
-            <h4>
-                @Html.DisplayNameFor(m => m.BusinessPotentialQuotient)
-            </h4>
-            <p>
-                @Model.BusinessPotentialQuotient.ToString("0.0")
-            </p>
-        </div>
-        @if(Model.InterestQuotient != null)
-        {
-            <div>
-                <h4>
-                    @Html.DisplayNameFor(m => m.InterestQuotient)
-                </h4>
-                <p>
-                    @Model.InterestQuotient.ToString("0.0")
-                </p>
-            </div>
-        }
-    </div>
-    <div>
-        @Html.DisplayNameFor(m => m.Comments)
-        <br />
-        @{
-            List<Comment> commentList = Model.Comments.ToList();
-            int counter = 0;
-            @foreach (Comment comment in commentList)
+        <div id="mainContent" class="card-body">
+
+            @if (ViewBag.Message != null)
             {
-                <div>
-                    Comment #@counter
-                    <br />
-                    Author: @comment.AuthorName
-                    <br />
-                </div>
-                <div>
-                    @comment.Content
-                </div>
-                <br />
-                counter++;
+                <h4>@ViewBag.Message</h4>
             }
-        }
+            <h2>Startup Analysis</h2>
+            @if (@Model == null)
+            {
+                <p>No evaluation found.</p>
+            }
+            else
+            {
+                @if (ViewBag.CompanyName != null && ViewBag.CompanyName != "")
+                {
+                    <h3>@ViewBag.CompanyName</h3>
+                }
+                else
+                {
+                    <h3>@Model.StartUpCompaniesId</h3>
+                }
+                <p>@ViewBag.CompanySummary</p>
+                <div>
+                    <div>
+                        <h4>
+                            Alignment Quotients
+                        </h4>
+                        @{
+                            foreach (AlignmentQuotient aq in @Model.AlignmentQuotients)
+                            {
+                                <p>
+                                    @aq.PartnerName
+                                    <br>
+                                    @aq.Quotient.ToString("0.00")
+                                </p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h4>
+                            Theme Quotients
+                        </h4>
+                        @{
+                            foreach (ThemeQuotient tq in @Model.ThemeQuotients)
+                            {
+                                <p>
+                                    @tq.Name
+                                    <br>
+                                    @tq.Quotient.ToString("0.00")
+                                </p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h4>Landscape Quotients</h4>
+                        @{
+                            foreach (LandscapeQuotient lq in @Model.LandscapeQuotients)
+                            {
+                                <p>
+                                    @lq.Name
+                                    <br>
+                                    @lq.Quotient.ToString("0.00")
+                                </p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h4>
+                            Technology Area Quotients
+                        </h4>
+                        @{
+                            foreach (TechnologyAreaQuotient q in @Model.TechnologyAreaQuotients)
+                            {
+                                <p>
+                                    @q.Name
+                                    <br>
+                                    @q.Quotient.ToString("0.00")
+                                </p>
+                            }
+                        }
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h4>
+                            @Html.DisplayNameFor(m => m.UniquenessQuotient)
+                        </h4>
+                        <p>
+                            @Model.UniquenessQuotient.ToString("0.0")
+                        </p>
+                    </div>
+                    <div>
+                        <h4>
+                            @Html.DisplayNameFor(m => m.TeamStrengthQuotient)
+                        </h4>
+                        <p>
+                            @Model.TeamStrengthQuotient.ToString("0.0")
+                        </p>
+                    </div>
+                    <div>
+                        <h4>
+                            @Html.DisplayNameFor(m => m.BusinessPotentialQuotient)
+                        </h4>
+                        <p>
+                            @Model.BusinessPotentialQuotient.ToString("0.0")
+                        </p>
+                    </div>
+                    @if (Model.InterestQuotient != null)
+                    {
+                        <div>
+                            <h4>
+                                @Html.DisplayNameFor(m => m.InterestQuotient)
+                            </h4>
+                            <p>
+                                @Model.InterestQuotient.ToString("0.0")
+                            </p>
+                        </div>
+                    }
+                </div>
+                <div>
+                    @Html.DisplayNameFor(m => m.Comments)
+                    <br />
+                    @{
+                        List<Comment> commentList = Model.Comments.ToList();
+                        int counter = 0;
+                        @foreach (Comment comment in commentList)
+                        {
+                            <div>
+                                Comment #@counter
+                                <br />
+                                Author: @comment.AuthorName
+                                <br />
+                            </div>
+                            <div>
+                                @comment.Content
+                            </div>
+                            <br />
+                            counter++;
+                        }
+                    }
+                </div>
+                <div>
+                    <form action="CreateEvaluation">
+                        <input type="hidden"
+                               name="Company Id"
+                               value="@Model.StartUpCompaniesId" />
+                        <input type="submit"
+                               value="Evaluate this Company" />
+                    </form>
+                    <form action="ReviewEvaluations">
+                        <input type="submit"
+                               value="All Evaluations" />
+                    </form>
+                </div>
+            }
+
+        </div>
     </div>
-    <div>
-        <form action="CreateEvaluation">
-            <input type="hidden"
-                   name="Company Id"
-                   value="@Model.StartUpCompaniesId" />
-            <input type="submit"
-                   value="Evaluate this Company" />
-        </form>
-        <form action="ReviewEvaluations">
-            <input type="submit"
-                   value="All Evaluations" />
-        </form>
-    </div>
-}

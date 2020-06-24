@@ -1,17 +1,24 @@
 ﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.StartUpCompanies>
 
-<script>
-    let updatePage;
-    let viewPage;
-    let cID;
-    let companyName;
+    <script>
+    var updatePage;
+    var viewPage;
+    var cID;
+    var companyName;
+
+    function startLoading(companyId, cName) {
+        companyName = cName;
+        cID = companyId;
+        document.getElementById("loading").style='block';
+        document.getElementById("mainContent").style='none';
+        setTimeout(function(){ LoadStartupDetails(companyId); }, 500);
+    }
 
     function ajaxSuccess() {
         let mainContent = document.getElementById("saveStatus");
         mainContent.innerHTML = "Save successful!";
-
         console.log(this.responseText);
-        loadCompanyDetails(cID);
+        LoadStartupDetails(cID);
     }
 
     function submitEvaluationForm() {
@@ -48,7 +55,7 @@
         };
         let fd = new FormData(oFormElement);
         fd.append("partial", true);
-        oReq.send( fd );
+        oReq.send(fd);
     }
 
     function submitUpdateForm() {
@@ -92,9 +99,9 @@
         let ourRequest = new XMLHttpRequest();
         ourRequest.open("GET", "/Home/AnalyzeStartup?partial=true&companyId=" + cID, false);
         ourRequest.onload = function () {
-                let mainContent = document.getElementById("mainContent");
-                let analyzePage = ourRequest.responseText;
-                mainContent.innerHTML = analyzePage;
+            let mainContent = document.getElementById("mainContent");
+            let analyzePage = ourRequest.responseText;
+            mainContent.innerHTML = analyzePage;
         };
         ourRequest.send();
     }
@@ -111,7 +118,7 @@
             let projectsPage = ourRequest.responseText;
             mainContent.innerHTML = projectsPage;
         };
-        ourRequest.send( fd );
+        ourRequest.send(fd);
     }
 
     function loadReviewEvaluations() {
@@ -125,16 +132,26 @@
         };
         ourRequest.send();
     }
+    </script>
 
-    function loadCompanyDetails(companyID) {
-        let mainContent = document.getElementById("mainContent");
+<select id="companySelector" size="5">
+    @foreach (var company in Model)
+    {
+        <option id="@company.Id" onclick='startLoading("@company.Id","@company.CompanyName");'>@company.CompanyName</option>
+    }
+</select>
+
+<script>
+    function LoadStartupDetails(companyID) {
+
         let recommendations = document.getElementById("recommendations");
-
         cID = companyID;
         let ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", "/Home/CompanyDetailsPartial?companyId=" + companyID, false);
+        ourRequest.open("GET", "/Home/StartupDetails?companyId=" + companyID, false);
         ourRequest.onload = function () {
             let mainContent = document.getElementById("mainContent");
+            let loading = document.getElementById("loading");
+            loading.style.display = 'none';
             viewPage = ourRequest.responseText;
             mainContent.innerHTML = viewPage;
         };
@@ -156,9 +173,3 @@
         ourRequest3.send();
     }
 </script>
-<select id="companySelector" size="5">
-    @foreach (var company in Model)
-    {
-        <option id="@company.Id" onclick='companyName = "@company.CompanyName";loadCompanyDetails(@company.Id);'>@company.CompanyName</option>
-    }
-</select>

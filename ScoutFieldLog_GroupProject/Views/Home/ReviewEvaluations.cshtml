@@ -1,93 +1,99 @@
 ﻿@model IEnumerable<ScoutFieldLog_GroupProject.Models.Evaluation>
-@{
-    ViewData["Title"] = "Review Evaluations";
-}
-<h2>@ViewBag.Title</h2>
-@if (ViewBag.Message != null)
-{
-    <p>@ViewBag.Message</p>
-}
-<h3>Evaluations</h3>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(x => x.CompanyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Posted.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Alignments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Themes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Landscapes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.TechnologyAreas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Uniqueness)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Team)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Potential)
-        </th>
-        <th>
-            @Html.DisplayNameFor(x => x.Interest)
-        </th>
-    </tr>
-    @foreach (var evaluation in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(x => evaluation.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Posted)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Alignments)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Themes)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Landscapes)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.TechnologyAreas)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Uniqueness)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Team)
-            </td>
-            <td>
-                @Html.DisplayFor(x => evaluation.Potential)
-            </td>
-            <td>
-                @if (evaluation.Interest != null)
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3>Review Evaluations</h3>
+
+        <button onclick="cancelUpdatePage()">Return To Company Details</button>
+        @*Message*@
+        @if (ViewBag.Message != null)
+        {
+            <h4>@ViewBag.Message</h4>
+        }
+    </div>
+    <div id="mainContent" class="card-body">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(x => x.CompanyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Posted.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Alignments)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Themes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Landscapes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.TechnologyAreas)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Uniqueness)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Team)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Potential)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Interest)
+                    </th>
+                </tr>
+                @foreach (var evaluation in Model)
                 {
-                    @Html.DisplayFor(x => evaluation.Interest)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.CompanyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Posted)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Alignments)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Themes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Landscapes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.TechnologyAreas)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Uniqueness)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Team)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => evaluation.Potential)
+                        </td>
+                        <td>
+                            @if (evaluation.Interest != null)
+                            {
+                                @Html.DisplayFor(x => evaluation.Interest)
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="11">
+                            @Html.DisplayFor(x => evaluation.Comment)
+                        </td>
+                    </tr>
                 }
-            </td>
-        </tr>
-        <tr>
-            <td colspan="11">
-                @Html.DisplayFor(x => evaluation.Comment)
-            </td>
-        </tr>
-    }
-</table>
+            </table>
+</div>
+</div>

@@ -1,149 +1,110 @@
 ﻿@* Apply CSS with the <link> tag below: *@
 <link href="styles.css" rel="stylesheet" />
 @model ScoutFieldLog_GroupProject.Models.Evaluation
-@if (ViewBag.Message != null)
-{
-    <p>@ViewBag.Message</p>
-}
-<form name="createEvaluationForm" method="POST">
-    <h2>Create Evaluation</h2>
-    @if (ViewBag.CompanyName != null)
+
+<div class="card card-primary">
+<div class="card-header">
+    <h3>Create Evaluation</h3>
+    <button onclick="cancelUpdatePage()">Return To Company Details</button>
+</div>
+<div id="mainContent" class="card-body">
+
+    @if (ViewBag.Message != null)
     {
-        <h3>@ViewBag.CompanyName</h3>
+        <p>@ViewBag.Message</p>
     }
-    else
-    {
-        <h3>Company Id: @Model.StartUpCompaniesId</h3>
-    }
-    @if (ViewBag.TwoLineSummary != null)
-    {
-        <p>@ViewBag.TwoLineSummary</p>
-    }
-    @* Hidden Inputs *@
-    <input type="hidden" name="StartUpCompaniesId" value="@ViewBag.CompanyId" />
-    <input type="hidden" name="CompanyName" value="@ViewBag.CompanyName" />
-    <input type="hidden" name="Posted" value='@DateTime.Today.ToString("MM/dd/yyyy")' />
-    <input type="hidden" name="Author" value="@User.Identity.Name" />
-    <section>
-        <fieldset>
-            <legend>
-                @Html.DisplayNameFor(e => e.Alignments)
-            </legend>
-            <ul>
-                @{
-                    foreach (string p in ViewBag.partners)
-                    {
-                        <li>
-                            <input type="checkbox" name="selectedAlignments" id="@p" value="@p" />
-                            <label for="@p">@p</label>
-                        </li>
-                    }
-                }
-            </ul>
-        </fieldset>
-        <fieldset>
-            <legend>
-                @Html.DisplayNameFor(e => e.Themes)
-            </legend>
-            <ul>
-                @{
-                    foreach (string theme in ViewBag.themes)
-                    {
-                        <li>
-                            <input type="checkbox" name="selectedThemes" id="@theme" value="@theme" />
-                            <label for="@theme">@theme</label>
-                        </li>
-                    }
-                }
-            </ul>
-        </fieldset>
-        <fieldset>
-            <legend>
-                @Html.DisplayNameFor(e => e.Landscapes)
-            </legend>
-            <ul>
-                @{
-                    foreach (string landscape in ViewBag.landscapes)
-                    {
-                        <li>
-                            <input type="checkbox" name="selectedLandscapes" id="@landscape" value="@landscape" />
-                            <label for="@landscape">@landscape</label>
-                        </li>
-                    }
-                }
-            </ul>
-        </fieldset>
-        <fieldset>
-            <legend>
-                @Html.DisplayNameFor(e => e.TechnologyAreas)
-            </legend>
-            <ul>
-                @{
-                    foreach (string technologyArea in ViewBag.technologyAreas)
-                    {
-                        <li>
-                            <input type="checkbox" name="selectedTechnologyAreas" id="@technologyArea" value="@technologyArea" />
-                            <label for="@technologyArea">@technologyArea</label>
-                        </li>
-                    }
-                }
-            </ul>
-        </fieldset>
-        <fieldset>
-            <p>
-                <label for="uniqueness">
-                    <span>
-                        @Html.DisplayNameFor(e => e.Uniqueness)
-                    </span>
-                </label>
-                <select id="uniqueness" name="Uniqueness">
+    <form name="createEvaluationForm" method="POST">
+        <h2>Create Evaluation</h2>
+        @if (ViewBag.CompanyName != null)
+        {
+            <h3>@ViewBag.CompanyName</h3>
+        }
+        else
+        {
+            <h3>Company Id: @Model.StartUpCompaniesId</h3>
+        }
+        @if (ViewBag.TwoLineSummary != null)
+        {
+            <p>@ViewBag.TwoLineSummary</p>
+        }
+        @* Hidden Inputs *@
+        <input type="hidden" name="StartUpCompaniesId" value="@ViewBag.CompanyId" />
+        <input type="hidden" name="CompanyName" value="@ViewBag.CompanyName" />
+        <input type="hidden" name="Posted" value='@DateTime.Today.ToString("MM/dd/yyyy")' />
+        <input type="hidden" name="Author" value="@User.Identity.Name" />
+        <section>
+            <fieldset>
+                <legend>
+                    @Html.DisplayNameFor(e => e.Alignments)
+                </legend>
+                <ul>
                     @{
-                        for (int i = 0; i <= 5; i++)
+                        foreach (string p in ViewBag.partners)
                         {
-                            <option value="@i">@i</option>
+                            <li>
+                                <input type="checkbox" name="selectedAlignments" id="@p" value="@p" />
+                                <label for="@p">@p</label>
+                            </li>
                         }
                     }
-                </select>
-            </p>
-            <p>
-                <label for="team">
-                    <span>
-                        @Html.DisplayNameFor(e => e.Team)
-                    </span>
-                </label>
-                <select id="team" name="Team">
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @Html.DisplayNameFor(e => e.Themes)
+                </legend>
+                <ul>
                     @{
-                        for (int i = 0; i <= 5; i++)
+                        foreach (string theme in ViewBag.themes)
                         {
-                            <option value="@i">@i</option>
+                            <li>
+                                <input type="checkbox" name="selectedThemes" id="@theme" value="@theme" />
+                                <label for="@theme">@theme</label>
+                            </li>
                         }
                     }
-                </select>
-            </p>
-            <p>
-                <label for="potential">
-                    <span>
-                        @Html.DisplayNameFor(e => e.Potential)
-                    </span>
-                </label>
-                <select id="potential" name="Potential">
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @Html.DisplayNameFor(e => e.Landscapes)
+                </legend>
+                <ul>
                     @{
-                        for (int i = 0; i <= 5; i++)
+                        foreach (string landscape in ViewBag.landscapes)
                         {
-                            <option value="@i">@i</option>
+                            <li>
+                                <input type="checkbox" name="selectedLandscapes" id="@landscape" value="@landscape" />
+                                <label for="@landscape">@landscape</label>
+                            </li>
                         }
                     }
-                </select>
-            </p>
-            @if (User.HasClaim("Role", "Partner"))
-            {
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @Html.DisplayNameFor(e => e.TechnologyAreas)
+                </legend>
+                <ul>
+                    @{
+                        foreach (string technologyArea in ViewBag.technologyAreas)
+                        {
+                            <li>
+                                <input type="checkbox" name="selectedTechnologyAreas" id="@technologyArea" value="@technologyArea" />
+                                <label for="@technologyArea">@technologyArea</label>
+                            </li>
+                        }
+                    }
+                </ul>
+            </fieldset>
+            <fieldset>
                 <p>
-                    <label for="interest">
+                    <label for="uniqueness">
                         <span>
-                            @Html.DisplayNameFor(e => e.Interest)
+                            @Html.DisplayNameFor(e => e.Uniqueness)
                         </span>
                     </label>
-                    <select id="interest" name="Interest">
+                    <select id="uniqueness" name="Uniqueness">
                         @{
                             for (int i = 0; i <= 5; i++)
                             {
@@ -152,26 +113,67 @@
                         }
                     </select>
                 </p>
-            }
-        </fieldset>
-        <fieldset>
-            <legend>
-                @Html.DisplayNameFor(c => c.Comment)
-            </legend>
-            <p>
-                <textarea rows=10 cols=100 name="Comment" maxlength="1500" , placeholder="@Html.DisplayNameFor(c => c.Comment)" wrap="hard"></textarea>
-            </p>
-        </fieldset>
-    </section>
-    <p>
-        <input id="createEvaluationFormSubmit" type="submit" value="Submit" />
-        <input id="createEvaluationFormReset" type="reset" value="Reset" />
-    </p>
-</form>
-
-
-
-
-
-
-
+                <p>
+                    <label for="team">
+                        <span>
+                            @Html.DisplayNameFor(e => e.Team)
+                        </span>
+                    </label>
+                    <select id="team" name="Team">
+                        @{
+                            for (int i = 0; i <= 5; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </p>
+                <p>
+                    <label for="potential">
+                        <span>
+                            @Html.DisplayNameFor(e => e.Potential)
+                        </span>
+                    </label>
+                    <select id="potential" name="Potential">
+                        @{
+                            for (int i = 0; i <= 5; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </p>
+                @if (User.HasClaim("Role", "Partner"))
+                {
+                    <p>
+                        <label for="interest">
+                            <span>
+                                @Html.DisplayNameFor(e => e.Interest)
+                            </span>
+                        </label>
+                        <select id="interest" name="Interest">
+                            @{
+                                for (int i = 0; i <= 5; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select>
+                    </p>
+                }
+            </fieldset>
+            <fieldset>
+                <legend>
+                    @Html.DisplayNameFor(c => c.Comment)
+                </legend>
+                <p>
+                    <textarea rows=10 cols=100 name="Comment" maxlength="1500" , placeholder="@Html.DisplayNameFor(c => c.Comment)" wrap="hard"></textarea>
+                </p>
+            </fieldset>
+        </section>
+        <p>
+            <input id="createEvaluationFormSubmit" type="submit" value="Submit" />
+            <input id="createEvaluationFormReset" type="reset" value="Reset" />
+        </p>
+    </form>
+</div>

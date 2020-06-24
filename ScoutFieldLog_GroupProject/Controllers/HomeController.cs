@@ -154,7 +154,7 @@ namespace ScoutFieldLog_GroupProject.Controllers
             return View(company);
         }
 
-        public IActionResult CompanyDetailsPartial(int companyId)
+        public IActionResult StartupDetails(int companyId)
         {
             var company = _context.StartUpCompanies.Find(companyId);
             return PartialView(company);

@@ -12,7 +12,7 @@
                 <div class="col-md-12">
                     <div class="sidebarContent">
                         @{
-                            Html.RenderPartial("_LeadsList2", Model);
+                            Html.RenderPartial("SelectStartupList", Model);
                         }
                     </div>
                 </div>
@@ -24,7 +24,12 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div id="mainContent">Please select a company.</div>
+            <div id="loading" style="display: none">
+                <i><b>Loading... please wait</b></i>
+            </div>
+            <div id="mainContent" style="display: block">
+                <p>Please select a company.
+            </div>
         </div>
     </div>
 </div>

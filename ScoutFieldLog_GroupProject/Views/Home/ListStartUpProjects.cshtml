@@ -1,38 +1,46 @@
 ﻿@model List<SeamlessProject>
 
-<h1>StartUp Projects</h1>
-@if (Model != null)
-{
-<div>
+<div class="card card-primary">
+    <div class="card-header">
+        <h3>StartUp Projects</h3>
         <button onclick="cancelUpdatePage();">Return to company details</button> <br />
-        @if (Model.Count() == 0 )
-        {
-            <i>No projects found.</i>
-        }
-        @foreach (SeamlessProject project in Model)
+    </div>
+    <div id="mainContent" class="card-body">
+
+        @if (Model != null)
         {
             <div>
-                <h4>
-                    @project.fields.ProjectName <p> Startup Engaged : @project.fields.StartupEngaged</p>
-                </h4>
-                <p>Project Summary : @project.fields.ProjectSummary</p>
-                <p>Engagement Phase : @project.fields.EngagementPhase</p>
-                <p>Engagement Progress : @project.fields.EngagementProgress</p>
-                <p>Engagement Type : @project.fields.EngagementType</p>
-                <p>First Engagement End Date : @project.fields.FirstEngagementEndDate</p>
-                <p>Kickoff Date : @project.fields.KickoffDate</p>
-                <p>One Year Post Engagement Date : @project.fields.OneYearPostEngagementDate</p>
-                <p>One Year Post Engagement Maturity Score : @project.fields.OneYearPostEngagementMaturityScore</p>
-                <p>Ongoing Status : @project.fields.OngoingStatus</p>
-                <p>Parnters Interested in Secondary Engagement : @project.fields.ParntersInterestedinSecondaryEngagement</p>
-                <p>Partners Involved : @project.fields.PartnersInvolved</p>
-                <p>Post-Engagement Maturity Score : @project.fields.PostEngagementMaturityScore</p>
-                <p>Post-Engagement Seamless Investment : @project.fields.PostEngagementSeamlessInvestment</p>
-                <p>Project Lead : @project.fields.ProjectLead</p>
-                <p>Second Engagement Start Date : @project.fields.SecondEngagementStartDate</p>
-                <p>Status Schedule : @project.fields.StatusSchedule</p>
-                <p>Type of Engagement : @project.fields.TypeofEngagement</p>
+
+                @if (Model.Count() == 0)
+                {
+                    <i>No projects found.</i>
+                }
+                @foreach (SeamlessProject project in Model)
+                {
+                    <div>
+                        <h4>
+                            @project.fields.ProjectName <p> Startup Engaged : @project.fields.StartupEngaged</p>
+                        </h4>
+                        <p>Project Summary : @project.fields.ProjectSummary</p>
+                        <p>Engagement Phase : @project.fields.EngagementPhase</p>
+                        <p>Engagement Progress : @project.fields.EngagementProgress</p>
+                        <p>Engagement Type : @project.fields.EngagementType</p>
+                        <p>First Engagement End Date : @project.fields.FirstEngagementEndDate</p>
+                        <p>Kickoff Date : @project.fields.KickoffDate</p>
+                        <p>One Year Post Engagement Date : @project.fields.OneYearPostEngagementDate</p>
+                        <p>One Year Post Engagement Maturity Score : @project.fields.OneYearPostEngagementMaturityScore</p>
+                        <p>Ongoing Status : @project.fields.OngoingStatus</p>
+                        <p>Parnters Interested in Secondary Engagement : @project.fields.ParntersInterestedinSecondaryEngagement</p>
+                        <p>Partners Involved : @project.fields.PartnersInvolved</p>
+                        <p>Post-Engagement Maturity Score : @project.fields.PostEngagementMaturityScore</p>
+                        <p>Post-Engagement Seamless Investment : @project.fields.PostEngagementSeamlessInvestment</p>
+                        <p>Project Lead : @project.fields.ProjectLead</p>
+                        <p>Second Engagement Start Date : @project.fields.SecondEngagementStartDate</p>
+                        <p>Status Schedule : @project.fields.StatusSchedule</p>
+                        <p>Type of Engagement : @project.fields.TypeofEngagement</p>
+                    </div>
+                }
             </div>
         }
     </div>
-}
+</div>
