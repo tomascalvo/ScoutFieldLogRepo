@@ -102,6 +102,22 @@
             let mainContent = document.getElementById("mainContent");
             let analyzePage = ourRequest.responseText;
             mainContent.innerHTML = analyzePage;
+
+            let button = document.getElementById("CreateEvaluationSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                window.scrollTo(0, 0);
+                loadEvaluationForm();
+                return false;
+            });
+
+            button = document.getElementById("ReviewEvaluationsSubmit");
+            button.type = "button";
+            button.addEventListener("click", function () {
+                window.scrollTo(0, 0);
+                loadReviewEvaluations();
+                return false;
+            });
         };
         ourRequest.send();
     }
@@ -132,8 +148,9 @@
         };
         ourRequest.send();
     }
-    </script>
+</script>
 
+Startup Companies:<br />
 <select id="companySelector" size="5">
     @foreach (var company in Model)
     {
